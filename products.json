@@ -1,13 +1,5 @@
 [
   {
-    "id": 5,
-    "name": "Tez zaryadlovchi adapter 20W",
-    "category": "Zaryadlovchilar",
-    "models": [],
-    "price": 70000,
-    "emoji": "🔌"
-  },
-  {
     "id": 6,
     "name": "Type-C kabel 1 m",
     "category": "Kabellar",
