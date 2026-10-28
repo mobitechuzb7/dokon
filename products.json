@@ -1,16 +1,5 @@
 [
   {
-    "id": 7,
-    "name": "Lightning kabel 1 m",
-    "category": "Kabellar",
-    "models": [
-      "iPhone 14",
-      "iPhone 13"
-    ],
-    "price": 40000,
-    "emoji": "🔗"
-  },
-  {
     "id": 8,
     "name": "Simsiz quloqchin",
     "category": "Quloqchinlar",
