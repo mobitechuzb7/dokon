@@ -1,13 +1,5 @@
 [
   {
-    "id": 6,
-    "name": "Type-C kabel 1 m",
-    "category": "Kabellar",
-    "models": [],
-    "price": 25000,
-    "emoji": "🔗"
-  },
-  {
     "id": 7,
     "name": "Lightning kabel 1 m",
     "category": "Kabellar",
