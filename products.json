@@ -1,16 +1,5 @@
 [
   {
-    "id": 4,
-    "name": "Himoya oynasi 9H",
-    "category": "Himoya oynalari",
-    "models": [
-      "Samsung A54",
-      "Redmi Note 12"
-    ],
-    "price": 25000,
-    "emoji": "🛡️"
-  },
-  {
     "id": 5,
     "name": "Tez zaryadlovchi adapter 20W",
     "category": "Zaryadlovchilar",
