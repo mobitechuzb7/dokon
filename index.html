@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Telefon aksessuarlari</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:var(--tg-theme-bg-color,#ffffff);
+  --text:var(--tg-theme-text-color,#1b1b1b);
+  --hint:var(--tg-theme-hint-color,#707579);
+  --card:var(--tg-theme-secondary-bg-color,#f1f3f5);
+  --accent:var(--tg-theme-button-color,#2481cc);
+  --accent-text:var(--tg-theme-button-text-color,#ffffff);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:12px 12px 96px}
+button,input,select,textarea{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hidden{display:none!important}
+
+.top{position:sticky;top:0;background:var(--bg);padding-bottom:8px;z-index:5}
+.field{width:100%;background:var(--card);border:0;border-radius:12px;padding:12px 14px}
+.row{display:flex;gap:8px;margin-top:8px}
+.row select{flex:0 0 46%}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-top:8px;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:0;background:var(--card);border-radius:999px;padding:7px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-text)}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}}
+.item{background:var(--card);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.pic{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:52px;background:color-mix(in srgb,var(--hint) 12%,transparent)}
+.pic img{width:100%;height:100%;object-fit:cover}
+.info{padding:10px;display:flex;flex-direction:column;gap:4px;flex:1}
+.name{font-weight:600;line-height:1.25}
+.meta{color:var(--hint);font-size:13px}
+.price{font-weight:700;margin-top:auto;padding-top:4px}
+.add{border:0;border-radius:10px;background:var(--accent);color:var(--accent-text);padding:9px;cursor:pointer;margin-top:6px;width:100%}
+.step{display:flex;align-items:center;justify-content:space-between;margin-top:6px;background:var(--bg);border-radius:10px}
+.step button{border:0;background:none;width:44px;height:38px;font-size:20px;cursor:pointer}
+.empty{color:var(--hint);text-align:center;padding:40px 12px}
+
+.bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--accent);color:var(--accent-text);border:0;border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;cursor:pointer;font-weight:600}
+
+h1{font-size:20px;margin:4px 0 12px}
+.back{border:0;background:none;color:var(--accent);padding:6px 0;cursor:pointer}
+.line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--card)}
+.line .name{flex:1}
+.line .step{background:var(--card);margin:0}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:18px;padding:14px 0}
+form{display:flex;flex-direction:column;gap:8px}
+label{font-size:14px;color:var(--hint)}
+.err{color:#d93025;font-size:14px;min-height:20px}
+.send{border:0;border-radius:14px;background:var(--accent);color:var(--accent-text);padding:14px;font-weight:600;cursor:pointer}
+</style>
+</head>
+<body>
+
+<main id="shop">
+  <div class="top">
+    <input id="q" class="field" type="search" placeholder="Mahsulot qidirish" aria-label="Mahsulot qidirish">
+    <div class="row">
+      <select id="model" class="field" aria-label="Telefon modeli"></select>
+    </div>
+    <div id="cats" class="chips" role="group" aria-label="Turkum"></div>
+  </div>
+  <div id="list" class="grid"></div>
+  <p id="none" class="empty hidden">Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.</p>
+  <button id="bar" class="bar hidden"><span id="barCount"></span><span id="barTotal"></span></button>
+</main>
+
+<section id="cart" class="hidden">
+  <button class="back" id="back">Orqaga</button>
+  <h1>Savat</h1>
+  <div id="lines"></div>
+  <div class="total"><span>Jami</span><span id="cartTotal"></span></div>
+  <form id="form" novalidate>
+    <label for="cname">Ismingiz</label>
+    <input id="cname" class="field" autocomplete="name">
+    <label for="cphone">Telefon raqamingiz</label>
+    <input id="cphone" class="field" type="tel" inputmode="tel" placeholder="+998 90 123 45 67" autocomplete="tel">
+    <label for="ccomment">Manzil yoki izoh (ixtiyoriy)</label>
+    <textarea id="ccomment" class="field" rows="2"></textarea>
+    <div id="err" class="err" role="alert"></div>
+    <button type="submit" class="send">Buyurtma berish</button>
+  </form>
+</section>
+
+<script>
+const tg = window.Telegram && window.Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); }
+
+const ALL = "Hammasi";
+let products = [], cart = {}, state = { q: "", model: ALL, cat: ALL };
+const $ = id => document.getElementById(id);
+const money = n => n.toLocaleString("ru-RU") + " soʻm";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+
+fetch("products.json")
+  .then(r => r.json())
+  .then(d => { products = d; setup(); render(); })
+  .catch(() => { $("list").innerHTML = '<p class="empty">Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.</p>'; });
+
+function setup() {
+  const models = [...new Set(products.flatMap(p => p.models || []))].sort();
+  $("model").innerHTML = [ALL, ...models].map(m => `<option value="${esc(m)}">${m === ALL ? "Barcha modellar" : esc(m)}</option>`).join("");
+  const cats = [ALL, ...new Set(products.map(p => p.category))];
+  $("cats").innerHTML = cats.map(c => `<button type="button" class="chip" data-cat="${esc(c)}" aria-pressed="${c === ALL}">${esc(c)}</button>`).join("");
+}
+
+function visible() {
+  const q = state.q.trim().toLowerCase();
+  return products.filter(p =>
+    (state.model === ALL || !(p.models || []).length || p.models.includes(state.model)) &&
+    (state.cat === ALL || p.category === state.cat) &&
+    (!q || p.name.toLowerCase().includes(q) || (p.models || []).some(m => m.toLowerCase().includes(q)))
+  );
+}
+
+function stepper(id) {
+  return `<div class="step"><button type="button" data-dec="${id}" aria-label="Kamaytirish">−</button><span>${cart[id]}</span><button type="button" data-inc="${id}" aria-label="Koʻpaytirish">+</button></div>`;
+}
+
+function render() {
+  const list = visible();
+  $("none").classList.toggle("hidden", list.length > 0);
+  $("list").innerHTML = list.map(p => `
+    <article class="item">
+      <div class="pic">${p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy">` : esc(p.emoji || "📱")}</div>
+      <div class="info">
+        <div class="name">${esc(p.name)}</div>
+        <div class="meta">${(p.models || []).length ? esc(p.models.join(", ")) : "Barcha telefonlar uchun"}</div>
+        <div class="price">${money(p.price)}</div>
+        ${cart[p.id] ? stepper(p.id) : `<button type="button" class="add" data-inc="${p.id}">Qoʻshish</button>`}
+      </div>
+    </article>`).join("");
+  renderBar();
+}
+
+function totals() {
+  let count = 0, sum = 0;
+  for (const p of products) if (cart[p.id]) { count += cart[p.id]; sum += cart[p.id] * p.price; }
+  return { count, sum };
+}
+
+function renderBar() {
+  const { count, sum } = totals();
+  $("bar").classList.toggle("hidden", count === 0 || !$("cart").classList.contains("hidden"));
+  $("barCount").textContent = `Savat: ${count} ta`;
+  $("barTotal").textContent = money(sum);
+}
+
+function renderCart() {
+  const items = products.filter(p => cart[p.id]);
+  $("lines").innerHTML = items.length ? items.map(p => `
+    <div class="line">
+      <div class="name">${esc(p.name)}<div class="meta">${money(p.price)}</div></div>
+      ${stepper(p.id)}
+    </div>`).join("") : '<p class="empty">Savat boʻsh.</p>';
+  $("cartTotal").textContent = money(totals().sum);
+}
+
+function change(id, d) {
+  cart[id] = (cart[id] || 0) + d;
+  if (cart[id] <= 0) delete cart[id];
+  render();
+  if (!$("cart").classList.contains("hidden")) {
+    if (!totals().count) showShop(); else renderCart();
+  }
+}
+
+function showCart() { $("shop").classList.add("hidden"); $("cart").classList.remove("hidden"); renderCart(); window.scrollTo(0, 0); }
+function showShop() { $("cart").classList.add("hidden"); $("shop").classList.remove("hidden"); render(); }
+
+document.addEventListener("click", e => {
+  const inc = e.target.closest("[data-inc]"), dec = e.target.closest("[data-dec]"), cat = e.target.closest("[data-cat]");
+  if (inc) change(Number(inc.dataset.inc), 1);
+  else if (dec) change(Number(dec.dataset.dec), -1);
+  else if (cat) {
+    state.cat = cat.dataset.cat;
+    document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === cat));
+    render();
+  }
+});
+$("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+$("model").addEventListener("change", e => { state.model = e.target.value; render(); });
+$("bar").addEventListener("click", showCart);
+$("back").addEventListener("click", showShop);
+
+$("form").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("cname").value.trim(), phone = $("cphone").value.trim();
+  if (!name) return $("err").textContent = "Ismingizni yozing.";
+  if (phone.replace(/\D/g, "").length < 9) return $("err").textContent = "Telefon raqamni toʻliq yozing.";
+  const { count, sum } = totals();
+  if (!count) return $("err").textContent = "Savat boʻsh.";
+  $("err").textContent = "";
+  const order = {
+    name, phone, comment: $("ccomment").value.trim(), total: sum,
+    items: Object.entries(cart).map(([id, qty]) => ({ id: Number(id), qty }))
+  };
+  if (tg) tg.sendData(JSON.stringify(order));
+  else alert("Telegram tashqarisida buyurtma yuborilmaydi.\n" + JSON.stringify(order, null, 2));
+});
+</script>
+</body>
+</html>
