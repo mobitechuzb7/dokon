@@ -1,16 +1,5 @@
 [
   {
-    "id": 1,
-    "name": "Silikon gʻilof",
-    "category": "Gʻiloflar",
-    "models": [
-      "iPhone 14",
-      "iPhone 15"
-    ],
-    "price": 45000,
-    "emoji": "📱"
-  },
-  {
     "id": 2,
     "name": "Shaffof gʻilof",
     "category": "Gʻiloflar",
