@@ -1,10 +1,91 @@
 [
-  { "id": 1, "name": "Silikon gʻilof", "category": "Gʻiloflar", "models": ["iPhone 14", "iPhone 15"], "price": 45000, "emoji": "📱" },
-  { "id": 2, "name": "Shaffof gʻilof", "category": "Gʻiloflar", "models": ["Samsung A54", "Samsung A34"], "price": 35000, "emoji": "📱" },
-  { "id": 3, "name": "Himoya oynasi 9H", "category": "Himoya oynalari", "models": ["iPhone 14", "iPhone 15"], "price": 30000, "emoji": "🛡️" },
-  { "id": 4, "name": "Himoya oynasi 9H", "category": "Himoya oynalari", "models": ["Samsung A54", "Redmi Note 12"], "price": 25000, "emoji": "🛡️" },
-  { "id": 5, "name": "Tez zaryadlovchi adapter 20W", "category": "Zaryadlovchilar", "models": [], "price": 70000, "emoji": "🔌" },
-  { "id": 6, "name": "Type-C kabel 1 m", "category": "Kabellar", "models": [], "price": 25000, "emoji": "🔗" },
-  { "id": 7, "name": "Lightning kabel 1 m", "category": "Kabellar", "models": ["iPhone 14", "iPhone 13"], "price": 40000, "emoji": "🔗" },
-  { "id": 8, "name": "Simsiz quloqchin", "category": "Quloqchinlar", "models": [], "price": 120000, "emoji": "🎧" }
+  {
+    "id": 1,
+    "name": "Silikon gʻilof",
+    "category": "Gʻiloflar",
+    "models": [
+      "iPhone 14",
+      "iPhone 15"
+    ],
+    "price": 45000,
+    "emoji": "📱"
+  },
+  {
+    "id": 2,
+    "name": "Shaffof gʻilof",
+    "category": "Gʻiloflar",
+    "models": [
+      "Samsung A54",
+      "Samsung A34"
+    ],
+    "price": 35000,
+    "emoji": "📱"
+  },
+  {
+    "id": 3,
+    "name": "Himoya oynasi 9H",
+    "category": "Himoya oynalari",
+    "models": [
+      "iPhone 14",
+      "iPhone 15"
+    ],
+    "price": 30000,
+    "emoji": "🛡️"
+  },
+  {
+    "id": 4,
+    "name": "Himoya oynasi 9H",
+    "category": "Himoya oynalari",
+    "models": [
+      "Samsung A54",
+      "Redmi Note 12"
+    ],
+    "price": 25000,
+    "emoji": "🛡️"
+  },
+  {
+    "id": 5,
+    "name": "Tez zaryadlovchi adapter 20W",
+    "category": "Zaryadlovchilar",
+    "models": [],
+    "price": 70000,
+    "emoji": "🔌"
+  },
+  {
+    "id": 6,
+    "name": "Type-C kabel 1 m",
+    "category": "Kabellar",
+    "models": [],
+    "price": 25000,
+    "emoji": "🔗"
+  },
+  {
+    "id": 7,
+    "name": "Lightning kabel 1 m",
+    "category": "Kabellar",
+    "models": [
+      "iPhone 14",
+      "iPhone 13"
+    ],
+    "price": 40000,
+    "emoji": "🔗"
+  },
+  {
+    "id": 8,
+    "name": "Simsiz quloqchin",
+    "category": "Quloqchinlar",
+    "models": [],
+    "price": 120000,
+    "emoji": "🎧"
+  },
+  {
+    "id": 9,
+    "name": "Chexol Carbon Luxo",
+    "category": "Gʻiloflar",
+    "models": [
+      "Iphone 17 Pro Max"
+    ],
+    "price": 75000,
+    "img": "rasmlar/p9-1793194022.jpg"
+  }
 ]
