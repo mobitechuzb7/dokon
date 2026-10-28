@@ -1,16 +1,5 @@
 [
   {
-    "id": 2,
-    "name": "Shaffof gʻilof",
-    "category": "Gʻiloflar",
-    "models": [
-      "Samsung A54",
-      "Samsung A34"
-    ],
-    "price": 35000,
-    "emoji": "📱"
-  },
-  {
     "id": 3,
     "name": "Himoya oynasi 9H",
     "category": "Himoya oynalari",
