@@ -36,5 +36,33 @@
       }
     ],
     "img": "rasmlar/p10-1793251626.jpg"
+  },
+  {
+    "id": 11,
+    "name": {
+      "uz": "Power Bank LENYES PX143D 10000mAh 22.5W Black",
+      "ru": "Power Bank LENYES PX143D 10000mAh 22.5W Black",
+      "en": "Power Bank LENYES PX143D 10000mAh 22.5W Black"
+    },
+    "category": {
+      "uz": "Powerbank",
+      "ru": "Powerbank",
+      "en": "Powerbank"
+    },
+    "models": [],
+    "price": 545000,
+    "desc": {
+      "uz": "🔋 Lenyes Powerbank\n\n☑ Sig‘imi: 10 000 mAh\n⚡ Quvvati: 22,5 W\n🔌 Portlari: 1 ta Type-C, 1 ta USB\n🔗 O‘rnatilgan kabellar: 1 ta Type-C, 1 ta Lightning",
+      "ru": "🔋 Lenyes Powerbank\n\n☑ Ёмкость: 10 000 мА·ч\n⚡ Мощность: 22,5 Вт\n🔌 Порты: 1 × Type-C, 1 × USB\n🔗 Встроенные кабели: 1 × Type-C, 1 × Lightning",
+      "en": "🔋 Lenyes Power Bank\n\n☑ Capacity: 10,000 mAh\n⚡ Power Output: 22.5 W\n🔌 Ports: 1 × Type-C, 1 × USB\n🔗 Built-in Cables: 1 × Type-C, 1 × Lightning"
+    },
+    "colors": [
+      {
+        "uz": "Qora",
+        "ru": "Qora",
+        "en": "Qora"
+      }
+    ],
+    "img": "rasmlar/p11-1793252302.jpg"
   }
 ]
