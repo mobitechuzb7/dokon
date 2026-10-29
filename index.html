@@ -52,7 +52,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 h1{font-size:20px;margin:4px 0 12px}
 h2{font-size:15px;color:var(--hint);font-weight:600;margin:16px 0 6px}
-.back{border:0;background:none;color:var(--accent);padding:6px 0;cursor:pointer}
+.backbar{position:sticky;top:0;z-index:6;background:var(--bg);padding:2px 0 10px}
+.back{display:flex;align-items:center;gap:10px;width:100%;border:0;background:var(--card);color:var(--text);padding:13px 18px;border-radius:12px;font-weight:600;font-size:17px;cursor:pointer}
+.back::before{content:"←";font-size:22px;line-height:1;color:var(--accent)}
 .line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--card)}
 .line .name{flex:1}
 .line .step{background:var(--card);margin:0}
@@ -102,7 +104,7 @@ label{font-size:14px;color:var(--hint)}
 <section id="detail" class="hidden"></section>
 
 <section id="cart" class="hidden">
-  <button class="back" id="back" data-i="back"></button>
+  <div class="backbar"><button type="button" class="back" id="back" data-i="back"></button></div>
   <h1 data-i="cart"></h1>
   <div id="lines"></div>
   <div class="total"><span data-i="total"></span><span id="cartTotal"></span></div>
@@ -167,8 +169,23 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">"
 const tr = v => v && typeof v === "object" ? (v[lang] || v.uz || "") : (v || "");
 const ck = p => typeof p.category === "object" ? p.category.uz : p.category;
 const money = n => n.toLocaleString("ru-RU") + " " + t("cur");
-const HEX = { qora:"#111111", oq:"#ffffff", kok:"#2563eb", qizil:"#dc2626", yashil:"#16a34a", sariq:"#facc15", pushti:"#ec4899", kulrang:"#9ca3af", binafsha:"#9333ea", "toq sariq":"#f97316", jigarrang:"#7c4a21", zangori:"#14b8a6", moviy:"#38bdf8", havorang:"#7dd3fc", oltin:"#d4af37", kumush:"#c0c0c0", bej:"#d9c3a0" };
-const hexOf = n => HEX[String(n).toLowerCase().replace(/[ʻʼ'‘’`]/g, "")] || "";
+const COLORS = {
+  qora:["#111111","Чёрный","Black"], oq:["#ffffff","Белый","White"], kok:["#2563eb","Синий","Blue"],
+  qizil:["#dc2626","Красный","Red"], yashil:["#16a34a","Зелёный","Green"], sariq:["#facc15","Жёлтый","Yellow"],
+  pushti:["#ec4899","Розовый","Pink"], kulrang:["#9ca3af","Серый","Gray"], binafsha:["#9333ea","Фиолетовый","Purple"],
+  "toq sariq":["#f97316","Оранжевый","Orange"], jigarrang:["#7c4a21","Коричневый","Brown"],
+  zangori:["#14b8a6","Бирюзовый","Turquoise"], moviy:["#38bdf8","Голубой","Light blue"],
+  havorang:["#7dd3fc","Голубой","Sky blue"], oltin:["#d4af37","Золотой","Gold"], kumush:["#c0c0c0","Серебристый","Silver"],
+  bej:["#d9c3a0","Бежевый","Beige"], shaffof:["","Прозрачный","Transparent"],
+  "toq kok":["#1e3a8a","Тёмно-синий","Dark blue"], "och kok":["#93c5fd","Светло-синий","Light blue"],
+  grafit:["#3f3f46","Графитовый","Graphite"], titan:["#8d8f94","Титановый","Titanium"]
+};
+const nrm = s => String(s).toLowerCase().trim().replace(/[ʻʼ'‘’`]/g, "").replace(/\s+rang$/, "");
+const hexOf = n => (COLORS[nrm(n)] || [])[0] || "";
+function colorText(c) {
+  const u = typeof c === "object" ? c.uz : c, k = COLORS[nrm(u)];
+  return k ? (lang === "ru" ? k[1] : lang === "en" ? k[2] : u) : tr(c);
+}
 const cuz = c => typeof c === "object" ? c.uz : c;
 
 let products = [], byId = {}, cart = {}, view = "shop";
@@ -249,7 +266,7 @@ function renderBar() {
 
 function colorLabel(p, u) {
   const c = (p.colors || []).find(x => cuz(x) === u);
-  return c ? tr(c) : u;
+  return c ? colorText(c) : u;
 }
 
 function renderCart() {
@@ -271,7 +288,7 @@ function renderDetail() {
   const inCart = (!cs.length || det.color) && cart[key];
   const d = tr(p.desc);
   $("detail").innerHTML = `
-    <button type="button" class="back" id="dback">${esc(t("back"))}</button>
+    <div class="backbar"><button type="button" class="back" id="dback">${esc(t("back"))}</button></div>
     <div class="hero ${p.img ? "zoomable" : ""}" ${p.img ? `data-zoom="${esc(p.img)}"` : ""}>
       ${p.img ? `<img src="${esc(p.img)}" alt="${esc(tr(p.name))}"><b aria-hidden="true">⤢</b>` : esc(p.emoji || "📱")}
     </div>
@@ -282,7 +299,7 @@ function renderDetail() {
     <p class="desc">${(p.models || []).length ? esc(p.models.join(", ")) : esc(t("allPhones"))}</p>
     ${cs.length ? `<h2>${esc(t("color"))}</h2><div class="colors">${cs.map(c => {
       const u = cuz(c), h = hexOf(u);
-      return `<button type="button" class="pill" data-color="${esc(u)}" aria-pressed="${u === det.color}">${h ? `<i style="background:${h}"></i>` : ""}${esc(tr(c))}</button>`;
+      return `<button type="button" class="pill" data-color="${esc(u)}" aria-pressed="${u === det.color}">${h ? `<i style="background:${h}"></i>` : ""}${esc(colorText(c))}</button>`;
     }).join("")}</div>` : ""}
     <div id="derr" class="err" role="alert"></div>
     ${inCart ? stepper(key) : `<button type="button" class="send" data-addd="1">${esc(t("toCart"))}</button>`}`;
@@ -293,6 +310,7 @@ function showView(v) {
   $("shop").classList.toggle("hidden", v !== "shop");
   $("detail").classList.toggle("hidden", v !== "detail");
   $("cart").classList.toggle("hidden", v !== "cart");
+  if (tg && tg.BackButton) { if (v === "shop") tg.BackButton.hide(); else tg.BackButton.show(); }
   refresh();
   window.scrollTo(0, 0);
 }
@@ -369,6 +387,9 @@ $("form").addEventListener("submit", e => {
   else alert(t("outside") + "\n" + JSON.stringify(order, null, 2));
 });
 
+if (tg && tg.BackButton) tg.BackButton.onClick(() => {
+  if (!$("lb").classList.contains("hidden")) closeLb(); else showView("shop");
+});
 applyStatic();
 renderLangs();
 </script>
