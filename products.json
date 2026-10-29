@@ -10,34 +10,6 @@
     "img": "rasmlar/p9-1793194022.jpg"
   },
   {
-    "id": 10,
-    "name": {
-      "uz": "Power Bank",
-      "ru": "Power Bank",
-      "en": "Power Bank"
-    },
-    "category": {
-      "uz": "Powerbank",
-      "ru": "Powerbank",
-      "en": "Powerbank"
-    },
-    "models": [],
-    "price": 545000,
-    "desc": {
-      "uz": "Sig'imi 10.000mah type-c lightning simi bor korpus plasmas",
-      "ru": "Sig'imi 10.000mah type-c lightning simi bor korpus plasmas",
-      "en": "Sig'imi 10.000mah type-c lightning simi bor korpus plasmas"
-    },
-    "colors": [
-      {
-        "uz": "Qora",
-        "ru": "Qora",
-        "en": "Qora"
-      }
-    ],
-    "img": "rasmlar/p10-1793251626.jpg"
-  },
-  {
     "id": 11,
     "name": {
       "uz": "Power Bank LENYES PX143D 10000mAh 22.5W Black",
