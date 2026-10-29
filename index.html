@@ -86,10 +86,13 @@ label{font-size:13px;color:var(--mute);margin-top:4px}
 .pill{border:2px solid var(--line);background:var(--sf);border-radius:999px;padding:8px 15px;display:flex;align-items:center;gap:8px;font-weight:500}
 .pill[aria-pressed="true"]{border-color:var(--ink)}
 .pill i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(128,128,128,.5)}
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--sf);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:14px;box-shadow:0 -10px 30px rgba(0,0,0,.08)}
+.dock{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:20;background:var(--sf);border-radius:24px;padding:8px 8px 8px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 8px 32px rgba(0,0,0,.16)}
 .dp{font-size:19px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
-.dock .send{flex:1;width:auto}
+.dock .send{flex:1;width:auto;padding:15px 12px;border-radius:18px}
 .dock .step{flex:1}
+.dock .step button{height:50px}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+#detail{animation-name:fade}
 
 #nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:15;background:var(--sf);border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,.14);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}
 .nb{position:relative;border:0;background:none;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;font-size:11px;font-weight:600;border-radius:18px}
@@ -405,7 +408,7 @@ function renderDetail() {
       return `<button type="button" class="pill" data-color="${esc(u)}" aria-pressed="${u === det.color}">${h ? `<i style="background:${h}"></i>` : ""}${esc(colorText(c))}</button>`;
     }).join("")}</div>` : ""}
     <div id="derr" class="err" role="alert"></div>
-    <div style="height:70px"></div>
+    <div style="height:96px"></div>
     <div class="dock"><div class="dp">${money(p.price)}</div>${inCart ? stepper(key) : `<button type="button" class="send" data-addd="1">${esc(t("toCart"))}</button>`}</div>`;
 }
 function showView(v) {
