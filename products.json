@@ -1,7 +1,11 @@
 [
   {
     "id": 9,
-    "name": "Chexol Carbon Luxo",
+    "name": {
+      "uz": "Chexol Luxo carbon texture",
+      "ru": "Chexol Luxo carbon texture",
+      "en": "Chexol Luxo carbon texture"
+    },
     "category": "Gʻiloflar",
     "models": [
       "Iphone 17 Pro Max"
