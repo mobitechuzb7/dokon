@@ -114,6 +114,8 @@ button:active{transform:scale(.96)}
 .sk .pic{animation:sh 1.2s ease infinite}
 .alt{border:1px solid var(--line);background:var(--sf);color:var(--ink);border-radius:14px;padding:13px;font-weight:600;margin-top:4px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#toast{position:fixed;left:50%;bottom:calc(94px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--btn);color:var(--bt);padding:10px 18px;border-radius:999px;font-weight:600;z-index:30;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap}
+#toast.on{opacity:1}
 </style>
 </head>
 <body>
@@ -172,6 +174,8 @@ button:active{transform:scale(.96)}
   </form>
 </section>
 
+<div id="toast" role="status"></div>
+
 <nav id="nav" aria-label="Menu"></nav>
 
 <div id="lb" class="hidden">
@@ -195,21 +199,21 @@ const T = {
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
-    items:"{n} ta", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
+    items:"{n} ta", added:"Savatga qoʻshildi ✓", e5:"Savatda mahsulot juda koʻp. Ikki qismga boʻlib buyurtma bering.", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
   ru: { search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
-    items:"{n} шт.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
+    items:"{n} шт.", added:"Добавлено в корзину ✓", e5:"В корзине слишком много товаров. Оформите заказ в два приёма.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
   en: { search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
     empty:"Your cart is empty. Pick something on the home page.", cur:"UZS", desc:"Details", color:"Color", pickColor:"Please choose a color first.",
     toCart:"Add to cart", models:"Fits", loadErr:"Could not load products. Please reopen the app.", outside:"Orders cannot be sent outside Telegram.",
-    items:"{n} items", locBtn:"📍 Share my location", locOk:"Location received ✓", locErr:"Could not get your location. Allow access in Telegram settings or type your address.", e4:"Share your location or type your address.", profT:"My details", address:"Address", save:"Save", saved:"Saved", profHint:"Details are stored on this device and filled in at checkout." }
+    items:"{n} items", added:"Added to cart ✓", e5:"Too many items in the cart. Please order in two parts.", locBtn:"📍 Share my location", locOk:"Location received ✓", locErr:"Could not get your location. Allow access in Telegram settings or type your address.", e4:"Share your location or type your address.", profT:"My details", address:"Address", save:"Save", saved:"Saved", profHint:"Details are stored on this device and filled in at checkout." }
 };
 let lang = "";
 try { lang = localStorage.getItem("lang") || ""; } catch (e) {}
@@ -367,6 +371,8 @@ function renderCart() {
       <div class="nm">${esc(tr(p.name))}${e.color ? " · " + esc(colorLabel(p, e.color)) : ""}<div class="meta">${money(p.price)}</div></div>${stepper(key)}</div>`;
   }).join("") : '<p class="empty">' + esc(t("empty")) + "</p>";
   $("cartBox").classList.toggle("hidden", !items.length);
+  const viaBot = tg && !viaKeyboard();
+  [...$("form").children].forEach(el => { if (el.id !== "err" && el.type !== "submit") el.classList.toggle("hidden", !!viaBot); });
   $("cartTotal").textContent = money(totals().sum);
   $("locSt").className = "ok"; $("locSt").textContent = loc ? t("locOk") : "";
   fixImgs();
@@ -429,6 +435,25 @@ function change(key, d) {
     renderNav();
   } else refresh();
 }
+const BOT = "mobitechuzbbot";
+const viaKeyboard = () => !(tg.initDataUnsafe && tg.initDataUnsafe.query_id);
+let tt;
+function toast(m) {
+  const e = $("toast"); e.textContent = m; e.classList.add("on");
+  clearTimeout(tt); tt = setTimeout(() => e.classList.remove("on"), 1600);
+}
+function sendViaBot() {
+  const parts = Object.values(cart).filter(x => byId[x.id]).map(x => {
+    const p = byId[x.id], ci = x.color ? (p.colors || []).findIndex(c => cuz(c) === x.color) : -1;
+    return `${x.id}-${x.qty}-${ci < 0 ? "x" : ci}`;
+  });
+  const param = parts.join("_");
+  if (!parts.length) return $("err").textContent = t("e3");
+  if (param.length > 64) return $("err").textContent = t("e5");
+  $("err").textContent = "";
+  tg.openTelegramLink("https://t.me/" + BOT + "?start=" + param);
+  setTimeout(() => tg.close(), 400);
+}
 function askLoc() {
   const ok = v => { $("locSt").className = v ? "ok" : "err"; $("locSt").textContent = v ? t("locOk") : t("locErr"); };
   const web = () => {
@@ -468,7 +493,7 @@ document.addEventListener("click", e => {
   else if (g("[data-addd]")) {
     const p = byId[det.id];
     if ((p.colors || []).length && !det.color) $("derr").textContent = t("pickColor");
-    else change(det.id + "|" + det.color, 1);
+    else { change(det.id + "|" + det.color, 1); showView("shop"); toast(t("added")); }
   }
   else if (g("#locBtn")) askLoc();
   else if (g("#dback")) showView("shop");
@@ -499,6 +524,7 @@ $("pform").addEventListener("submit", e => {
 $("form").addEventListener("submit", e => {
   e.preventDefault();
   const name = $("cname").value.trim(), phone = $("cphone").value.trim();
+  if (tg && !viaKeyboard()) return sendViaBot();
   if (!name) return $("err").textContent = t("e1");
   if (phone.replace(/\D/g, "").length < 9) return $("err").textContent = t("e2");
   const { count, sum } = totals();
