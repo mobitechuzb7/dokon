@@ -102,6 +102,18 @@ label{font-size:13px;color:var(--mute);margin-top:4px}
 #lbimg{margin:auto;display:block;cursor:zoom-in}
 .lbtools{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:10px;display:flex;gap:8px;z-index:51}
 .lbtools button{width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:22px}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes sh{0%,100%{opacity:1}50%{opacity:.45}}
+main,section{animation:in .24s ease both}
+button{touch-action:manipulation;transition:transform .12s ease,background .2s,opacity .2s}
+button:active{transform:scale(.96)}
+.card,.tile{transition:transform .15s ease}
+.card:active,.tile:active{transform:scale(.985)}
+.pic img,.tp img,.lp img{opacity:0;transition:opacity .3s ease}
+.pic img.ld,.tp img.ld,.lp img.ld{opacity:1}
+.sk .pic{animation:sh 1.2s ease infinite}
+.alt{border:1px solid var(--line);background:var(--sf);color:var(--ink);border-radius:14px;padding:13px;font-weight:600;margin-top:4px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -114,7 +126,7 @@ label{font-size:13px;color:var(--mute);margin-top:4px}
     <div class="row"><select id="model" class="field" aria-label="model"></select></div>
     <div id="cats" class="chips" role="group"></div>
   </div>
-  <div id="newBox"><h2 class="st" data-i="newest"></h2><div id="newRow" class="hrow"></div></div>
+  <div id="newBox" class="hidden"><h2 class="st" data-i="newest"></h2><div id="newRow" class="hrow"></div></div>
   <h2 id="allT" class="st" data-i="allProd"></h2>
   <div id="list" class="grid"></div>
   <p id="none" class="empty hidden" data-i="none"></p>
@@ -134,6 +146,8 @@ label{font-size:13px;color:var(--mute);margin-top:4px}
       <input id="cname" class="field" autocomplete="name">
       <label for="cphone" data-i="yphone"></label>
       <input id="cphone" class="field" type="tel" inputmode="tel" placeholder="+998 90 123 45 67" autocomplete="tel">
+      <button type="button" id="locBtn" class="alt" data-i="locBtn"></button>
+      <div id="locSt" class="ok" role="status"></div>
       <label for="ccomment" data-i="comment"></label>
       <textarea id="ccomment" class="field" rows="2"></textarea>
       <div id="err" class="err" role="alert"></div>
@@ -181,21 +195,21 @@ const T = {
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
-    items:"{n} ta", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
+    items:"{n} ta", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
   ru: { search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
-    items:"{n} шт.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
+    items:"{n} шт.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
   en: { search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
     empty:"Your cart is empty. Pick something on the home page.", cur:"UZS", desc:"Details", color:"Color", pickColor:"Please choose a color first.",
     toCart:"Add to cart", models:"Fits", loadErr:"Could not load products. Please reopen the app.", outside:"Orders cannot be sent outside Telegram.",
-    items:"{n} items", profT:"My details", address:"Address", save:"Save", saved:"Saved", profHint:"Details are stored on this device and filled in at checkout." }
+    items:"{n} items", locBtn:"📍 Share my location", locOk:"Location received ✓", locErr:"Could not get your location. Allow access in Telegram settings or type your address.", e4:"Share your location or type your address.", profT:"My details", address:"Address", save:"Save", saved:"Saved", profHint:"Details are stored on this device and filled in at checkout." }
 };
 let lang = "";
 try { lang = localStorage.getItem("lang") || ""; } catch (e) {}
@@ -258,9 +272,18 @@ const ICON = {
 const NAV = [["shop","navHome"],["catsv","navCats"],["cart","navCart"],["profile","navProf"]];
 const VIEWS = ["shop", "catsv", "detail", "cart", "profile"];
 
-let products = [], byId = {}, cart = {}, view = "shop";
+let products = [], byId = {}, cart = {}, view = "shop", loc = null;
 let st = { q: "", model: ALL, cat: ALL }, det = { id: 0, color: "" };
 
+$("list").innerHTML = Array(6).fill('<div class="card sk"><div class="pic"></div><div class="cn">&nbsp;</div></div>').join("");
+let catImg = {};
+fetch("categories.json?t=" + Date.now(), { cache: "no-store" })
+  .then(r => r.ok ? r.json() : {})
+  .then(d => { Object.entries(d).forEach(([k, v]) => catImg[nrm(k)] = v); if (view === "catsv") renderCats(); })
+  .catch(() => {});
+function fixImgs() {
+  document.querySelectorAll(".pic img:not(.ld),.tp img:not(.ld),.lp img:not(.ld)").forEach(i => { if (i.complete) i.classList.add("ld"); });
+}
 fetch("products.json?t=" + Date.now(), { cache: "no-store" })
   .then(r => r.json())
   .then(d => { products = d; products.forEach(p => byId[p.id] = p); renderFilters(); refresh(); })
@@ -300,7 +323,8 @@ function visible() {
 function stepper(key) {
   return `<div class="step"><button type="button" data-dec="${esc(key)}" aria-label="−">−</button><span>${cart[key].qty}</span><button type="button" data-inc="${esc(key)}" aria-label="+">+</button></div>`;
 }
-const thumb = p => p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy">` : esc(p.emoji || "📱");
+const imgTag = src => `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" onload="this.classList.add('ld')">`;
+const thumb = p => p.img ? imgTag(p.img) : esc(p.emoji || "📱");
 function card(p) {
   const hasC = (p.colors || []).length, key = p.id + "|";
   const btn = hasC ? `<button type="button" class="plus" data-open="${p.id}" aria-label="${esc(t("choose"))}">+</button>`
@@ -317,12 +341,14 @@ function render() {
   $("newRow").innerHTML = fresh.map(card).join("");
   $("none").classList.toggle("hidden", list.length > 0);
   $("list").innerHTML = list.map(card).join("");
+  fixImgs();
 }
 function renderCats() {
   const g = {};
   products.forEach(p => { const k = ck(p); (g[k] = g[k] || { p, n: 0 }).n++; });
   $("catGrid").innerHTML = Object.entries(g).map(([k, { p, n }]) =>
-    `<button type="button" class="tile" data-gocat="${esc(k)}"><span class="tp">${thumb(p)}</span><b>${esc(catText(p))}</b><small>${esc(t("items").replace("{n}", n))}</small></button>`).join("");
+    `<button type="button" class="tile" data-gocat="${esc(k)}"><span class="tp">${catImg[nrm(k)] ? imgTag(catImg[nrm(k)]) : thumb(p)}</span><b>${esc(catText(p))}</b><small>${esc(t("items").replace("{n}", n))}</small></button>`).join("");
+  fixImgs();
 }
 function totals() {
   let count = 0, sum = 0;
@@ -342,6 +368,8 @@ function renderCart() {
   }).join("") : '<p class="empty">' + esc(t("empty")) + "</p>";
   $("cartBox").classList.toggle("hidden", !items.length);
   $("cartTotal").textContent = money(totals().sum);
+  $("locSt").className = "ok"; $("locSt").textContent = loc ? t("locOk") : "";
+  fixImgs();
   if (!$("cname").value) $("cname").value = prof.name;
   if (!$("cphone").value) $("cphone").value = prof.phone;
   if (!$("ccomment").value) $("ccomment").value = prof.address;
@@ -396,7 +424,22 @@ function change(key, d) {
   const e = cart[key] || (cart[key] = { id: Number(id), color: c.join("|"), qty: 0 });
   e.qty += d;
   if (e.qty <= 0) delete cart[key];
-  refresh();
+  if (view === "shop") {
+    document.querySelectorAll(`.plus[data-inc="${key}"]`).forEach(b => b.textContent = cart[key] ? cart[key].qty : "+");
+    renderNav();
+  } else refresh();
+}
+function askLoc() {
+  const ok = v => { $("locSt").className = v ? "ok" : "err"; $("locSt").textContent = v ? t("locOk") : t("locErr"); };
+  const web = () => {
+    if (!navigator.geolocation) return ok(false);
+    navigator.geolocation.getCurrentPosition(
+      p => { loc = { lat: p.coords.latitude, lon: p.coords.longitude }; ok(true); },
+      () => ok(false), { enableHighAccuracy: true, timeout: 12000 });
+  };
+  const lm = tg && tg.LocationManager;
+  if (!lm) return web();
+  lm.init(() => lm.getLocation(d => { if (d) { loc = { lat: d.latitude, lon: d.longitude }; ok(true); } else web(); }));
 }
 function setLang(l) {
   lang = l;
@@ -427,6 +470,7 @@ document.addEventListener("click", e => {
     if ((p.colors || []).length && !det.color) $("derr").textContent = t("pickColor");
     else change(det.id + "|" + det.color, 1);
   }
+  else if (g("#locBtn")) askLoc();
   else if (g("#dback")) showView("shop");
   else if ((m = g("[data-tab]"))) showView(m.dataset.tab);
   else if ((m = g("[data-gocat]"))) {
@@ -440,7 +484,8 @@ document.addEventListener("click", e => {
   else if (g("#lbimg")) zoomTo(zl === 1 ? 2.5 : 1);
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeLb(); });
-$("q").addEventListener("input", e => { st.q = e.target.value; render(); });
+let qt;
+$("q").addEventListener("input", e => { st.q = e.target.value; clearTimeout(qt); qt = setTimeout(render, 150); });
 $("model").addEventListener("change", e => { st.model = e.target.value; render(); });
 
 $("pform").addEventListener("submit", e => {
@@ -458,9 +503,10 @@ $("form").addEventListener("submit", e => {
   if (phone.replace(/\D/g, "").length < 9) return $("err").textContent = t("e2");
   const { count, sum } = totals();
   if (!count) return $("err").textContent = t("e3");
+  if (!loc && !$("ccomment").value.trim()) return $("err").textContent = t("e4");
   $("err").textContent = "";
   const order = {
-    name, phone, comment: $("ccomment").value.trim(), total: sum,
+    name, phone, comment: $("ccomment").value.trim(), location: loc, total: sum,
     items: Object.values(cart).map(x => ({ id: x.id, color: x.color, qty: x.qty }))
   };
   if (tg) tg.sendData(JSON.stringify(order));
