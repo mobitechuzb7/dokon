@@ -174,7 +174,7 @@ const cuz = c => typeof c === "object" ? c.uz : c;
 let products = [], byId = {}, cart = {}, view = "shop";
 let st = { q: "", model: ALL, cat: ALL }, det = { id: 0, color: "" };
 
-fetch("products.json")
+fetch("products.json?t=" + Date.now(), { cache: "no-store" })
   .then(r => r.json())
   .then(d => { products = d; products.forEach(p => byId[p.id] = p); renderFilters(); render(); })
   .catch(() => { $("list").innerHTML = '<p class="empty">' + esc(t("loadErr")) + "</p>"; });
