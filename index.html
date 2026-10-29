@@ -119,6 +119,10 @@ button:active{transform:scale(.96)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 #toast{position:fixed;left:50%;bottom:calc(94px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--btn);color:var(--bt);padding:10px 18px;border-radius:999px;font-weight:600;z-index:30;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap}
 #toast.on{opacity:1}
+#banners{margin:2px -14px 4px;padding:0 14px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+#banners::-webkit-scrollbar{display:none}
+.bn{flex:0 0 88%;scroll-snap-align:center;border:0;padding:0;border-radius:22px;overflow:hidden;aspect-ratio:2/1;background:var(--sf)}
+.bn img{width:100%;height:100%;object-fit:cover}
 </style>
 </head>
 <body>
@@ -131,6 +135,7 @@ button:active{transform:scale(.96)}
     <div class="row"><select id="model" class="field" aria-label="model"></select></div>
     <div id="cats" class="chips" role="group"></div>
   </div>
+  <div id="banners" class="hidden"></div>
   <div id="newBox" class="hidden"><h2 class="st" data-i="newest"></h2><div id="newRow" class="hrow"></div></div>
   <h2 id="allT" class="st" data-i="allProd"></h2>
   <div id="list" class="grid"></div>
@@ -288,6 +293,15 @@ fetch("categories.json?t=" + Date.now(), { cache: "no-store" })
   .then(r => r.ok ? r.json() : {})
   .then(d => { Object.entries(d).forEach(([k, v]) => catImg[nrm(k)] = v); if (view === "catsv") renderCats(); })
   .catch(() => {});
+let banners = [];
+fetch("banners.json?t=" + Date.now(), { cache: "no-store" })
+  .then(r => r.ok ? r.json() : [])
+  .then(d => { banners = Array.isArray(d) ? d : []; renderBanners(); })
+  .catch(() => {});
+function renderBanners() {
+  $("banners").innerHTML = banners.map((b, i) => `<button type="button" class="bn" data-bn="${i}"><img src="${esc(b.img)}" alt="" loading="lazy" decoding="async"></button>`).join("");
+  $("banners").classList.toggle("hidden", !banners.length || !!(st.q.trim() || st.model !== ALL || st.cat !== ALL));
+}
 function fixImgs() {
   document.querySelectorAll(".pic img:not(.ld),.tp img:not(.ld),.lp img:not(.ld)").forEach(i => { if (i.complete) i.classList.add("ld"); });
 }
@@ -344,6 +358,7 @@ function render() {
   const list = visible(), filt = st.q.trim() || st.model !== ALL || st.cat !== ALL;
   const fresh = filt ? [] : [...products].sort((a, b) => b.id - a.id).slice(0, 6);
   $("newBox").classList.toggle("hidden", !fresh.length);
+  $("banners").classList.toggle("hidden", !banners.length || !!filt);
   $("allT").classList.toggle("hidden", !!filt);
   $("newRow").innerHTML = fresh.map(card).join("");
   $("none").classList.toggle("hidden", list.length > 0);
@@ -497,6 +512,11 @@ document.addEventListener("click", e => {
     const p = byId[det.id];
     if ((p.colors || []).length && !det.color) $("derr").textContent = t("pickColor");
     else { change(det.id + "|" + det.color, 1); showView("shop"); toast(t("added")); }
+  }
+  else if ((m = g("[data-bn]"))) {
+    const b = banners[Number(m.dataset.bn)] || {};
+    if (b.id && byId[b.id]) { det = { id: Number(b.id), color: "" }; showView("detail"); }
+    else if (b.cat) { st = { q: "", model: ALL, cat: b.cat }; $("q").value = ""; renderFilters(); showView("shop"); }
   }
   else if (g("#locBtn")) askLoc();
   else if (g("#dback")) showView("shop");
