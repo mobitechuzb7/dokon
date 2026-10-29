@@ -186,6 +186,24 @@ function colorText(c) {
   const u = typeof c === "object" ? c.uz : c, k = COLORS[nrm(u)];
   return k ? (lang === "ru" ? k[1] : lang === "en" ? k[2] : u) : tr(c);
 }
+const CATS = {
+  giloflar:["Чехлы","Cases"], gilof:["Чехлы","Cases"], chexol:["Чехлы","Cases"], chexollar:["Чехлы","Cases"],
+  quloqchin:["Наушники","Headphones"], quloqchinlar:["Наушники","Headphones"], naushniklar:["Наушники","Headphones"],
+  zaryadka:["Зарядные устройства","Chargers"], zaryadkalar:["Зарядные устройства","Chargers"],
+  adapter:["Адаптеры","Adapters"], adapterlar:["Адаптеры","Adapters"],
+  kabel:["Кабели","Cables"], kabellar:["Кабели","Cables"], simlar:["Кабели","Cables"],
+  oyna:["Защитные стёкла","Screen protectors"], oynalar:["Защитные стёкла","Screen protectors"],
+  "himoya oynalari":["Защитные стёкла","Screen protectors"], "himoya oynasi":["Защитные стёкла","Screen protectors"],
+  "power bank":["Повербанки","Power banks"], powerbank:["Повербанки","Power banks"], powerbanklar:["Повербанки","Power banks"],
+  soat:["Часы","Watches"], soatlar:["Часы","Watches"], "smart soatlar":["Смарт-часы","Smart watches"],
+  ushlagich:["Держатели","Holders"], ushlagichlar:["Держатели","Holders"],
+  karnay:["Колонки","Speakers"], karnaylar:["Колонки","Speakers"], kolonkalar:["Колонки","Speakers"],
+  aksessuarlar:["Аксессуары","Accessories"], boshqa:["Другое","Other"]
+};
+function catText(p) {
+  const u = ck(p), k = CATS[nrm(u)];
+  return k ? (lang === "ru" ? k[0] : lang === "en" ? k[1] : u) : tr(p.category);
+}
 const cuz = c => typeof c === "object" ? c.uz : c;
 
 let products = [], byId = {}, cart = {}, view = "shop";
@@ -213,7 +231,7 @@ function renderFilters() {
   $("model").innerHTML = `<option value="${ALL}">${esc(t("allModels"))}</option>` + models.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join("");
   $("model").value = st.model;
   const seen = {};
-  products.forEach(p => { if (!seen[ck(p)]) seen[ck(p)] = tr(p.category); });
+  products.forEach(p => { if (!seen[ck(p)]) seen[ck(p)] = catText(p); });
   $("cats").innerHTML = [[ALL, t("all")], ...Object.entries(seen)].map(([k, l]) =>
     `<button type="button" class="chip" data-cat="${esc(k)}" aria-pressed="${k === st.cat}">${esc(l)}</button>`).join("");
 }
