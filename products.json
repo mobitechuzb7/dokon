@@ -11,7 +11,8 @@
       "Iphone 17 Pro Max"
     ],
     "price": 75000,
-    "img": "rasmlar/p9-1793194022.jpg"
+    "img": "rasmlar/p9-1793194022.jpg",
+    "sold_out": true
   },
   {
     "id": 11,
