@@ -239,6 +239,10 @@ let lang = "";
 try { lang = localStorage.getItem("lang") || ""; } catch (e) {}
 const tgu = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
 if (!T[lang]) { const lc = ((tgu && tgu.language_code) || "").slice(0, 2); lang = T[lc] ? lc : "uz"; }
+// Bot mijoz tanlagan tilni va "maʼlumotlar saqlangan" belgisini manzil orqali yuboradi
+const QS = new URLSearchParams(location.search);
+if (T[QS.get("lang")]) { lang = QS.get("lang"); try { localStorage.setItem("lang", lang); } catch (e) {} }
+const REG = QS.get("reg") === "1";
 let prof = { name: "", phone: "", address: "" };
 try { Object.assign(prof, JSON.parse(localStorage.getItem("prof") || "{}")); } catch (e) {}
 if (!prof.name && tgu) prof.name = [tgu.first_name, tgu.last_name].filter(Boolean).join(" ");
@@ -410,6 +414,11 @@ function renderCart() {
   $("cartBox").classList.toggle("hidden", !items.length);
   const viaBot = tg && !viaKeyboard();
   [...$("form").children].forEach(el => { if (el.id !== "err" && el.type !== "submit") el.classList.toggle("hidden", !!viaBot); });
+  if (REG && !viaBot) {
+    [...$("form").children].forEach(el => {
+      if (["cname", "cphone", "locBtn", "locSt"].includes(el.id) || ["cname", "cphone"].includes(el.htmlFor)) el.classList.add("hidden");
+    });
+  }
   $("cartTotal").textContent = money(totals().sum);
   $("locSt").className = "ok"; $("locSt").textContent = loc ? t("locOk") : "";
   fixImgs();
@@ -568,14 +577,14 @@ $("form").addEventListener("submit", e => {
   e.preventDefault();
   const name = $("cname").value.trim(), phone = $("cphone").value.trim();
   if (tg && !viaKeyboard()) return sendViaBot();
-  if (!name) return $("err").textContent = t("e1");
-  if (phone.replace(/\D/g, "").length < 9) return $("err").textContent = t("e2");
+  if (!REG && !name) return $("err").textContent = t("e1");
+  if (!REG && phone.replace(/\D/g, "").length < 9) return $("err").textContent = t("e2");
   const { count, sum } = totals();
   if (!count) return $("err").textContent = t("e3");
-  if (!loc && !$("ccomment").value.trim()) return $("err").textContent = t("e4");
+  if (!REG && !loc && !$("ccomment").value.trim()) return $("err").textContent = t("e4");
   $("err").textContent = "";
   const order = {
-    name, phone, comment: $("ccomment").value.trim(), location: loc, total: sum,
+    name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum,
     items: Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => ({ id: x.id, color: x.color, qty: x.qty }))
   };
   if (tg) tg.sendData(JSON.stringify(order));
