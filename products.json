@@ -27,7 +27,7 @@
       "en": "Powerbank"
     },
     "models": [],
-    "price": 545000,
+    "price": 463200,
     "desc": {
       "uz": "🔋 Lenyes Powerbank\n\n☑ Sig‘imi: 10 000 mAh\n⚡ Quvvati: 22,5 W\n🔌 Portlari: 1 ta Type-C, 1 ta USB\n🔗 O‘rnatilgan kabellar: 1 ta Type-C, 1 ta Lightning",
       "ru": "🔋 Lenyes Powerbank\n\n☑ Ёмкость: 10 000 мА·ч\n⚡ Мощность: 22,5 Вт\n🔌 Порты: 1 × Type-C, 1 × USB\n🔗 Встроенные кабели: 1 × Type-C, 1 × Lightning",
@@ -40,6 +40,8 @@
         "en": "Qora"
       }
     ],
-    "img": "rasmlar/p11-1793252302.jpg"
+    "img": "rasmlar/p11-1793252302.jpg",
+    "old_price": 545000,
+    "discount": 15
   }
 ]
