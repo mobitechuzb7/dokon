@@ -10,8 +10,10 @@
     "models": [
       "Iphone 17 Pro Max"
     ],
-    "price": 75000,
-    "img": "rasmlar/p9-1793194022.jpg"
+    "price": 67500,
+    "img": "rasmlar/p9-1793194022.jpg",
+    "old_price": 75000,
+    "discount": 10
   },
   {
     "id": 11,
