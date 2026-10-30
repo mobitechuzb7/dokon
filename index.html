@@ -94,7 +94,7 @@ label{font-size:13px;color:var(--mute);margin-top:4px}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 #detail{animation-name:fade}
 
-#nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:15;background:var(--sf);border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,.14);display:grid;grid-template-columns:repeat(4,1fr);padding:6px}
+#nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:15;background:var(--sf);border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,.14);display:grid;grid-template-columns:repeat(5,1fr);padding:6px}
 .nb{position:relative;border:0;background:none;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0;font-size:11px;font-weight:600;border-radius:18px}
 .nb svg{width:24px;height:24px}
 .nb[aria-pressed="true"]{color:var(--ink);background:var(--bg)}
@@ -136,6 +136,13 @@ button:active{transform:scale(.96)}
 .dp.dc{color:var(--ac)}
 .send[disabled]{opacity:.45;cursor:not-allowed}
 #gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:28px;text-align:center}
+.fav{position:absolute;top:8px;right:8px;z-index:4;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.fav.on{color:#ff4d4d}
+.hero .fav{top:12px;right:12px;width:40px;height:40px;font-size:22px}
+#opts h2{margin:12px 0 8px}
+#opts .colors{margin-bottom:4px}
+#nav .nb{font-size:10px}
+#nav .nb span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #gate .gbox{max-width:340px}
 #gate .gic{font-size:46px;margin-bottom:12px}
 #gate p{margin:0 0 18px;font-size:16px}
@@ -162,6 +169,8 @@ button:active{transform:scale(.96)}
 
 <section id="catsv" class="hidden"><h1 data-i="navCats"></h1><div id="catGrid" class="grid"></div></section>
 
+<section id="favs" class="hidden"><h1 data-i="favT"></h1><div id="favGrid" class="grid"></div><p id="favNone" class="empty hidden" data-i="favEmpty"></p></section>
+
 <section id="detail" class="hidden"></section>
 
 <section id="cart" class="hidden">
@@ -170,6 +179,11 @@ button:active{transform:scale(.96)}
   <div id="cartBox">
     <div class="total"><span data-i="total"></span><span id="cartTotal"></span></div>
     <form id="form" novalidate>
+      <div id="opts">
+        <h2 data-i="dlvT"></h2>
+        <div id="dlvOpts" class="colors"></div>
+        <div id="payBox" class="hidden"><h2 data-i="payT"></h2><div id="payOpts" class="colors"></div><p id="payNote" class="hint"></p></div>
+      </div>
       <label for="cname" data-i="yname"></label>
       <input id="cname" class="field" autocomplete="name">
       <label for="cphone" data-i="yphone"></label>
@@ -219,21 +233,21 @@ if (tg) { tg.ready(); tg.expand(); }
 
 const ALL = "*";
 const T = {
-  uz: { gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
+  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
     allPhones:"Barcha telefonlar uchun", choose:"Rangni tanlash", back:"Orqaga", navHome:"Asosiy", navCats:"Kategoriya", navCart:"Savat", navProf:"Profil",
     newest:"Yangi mahsulotlar", allProd:"Barcha mahsulotlar", cart:"Savat", total:"Jami", yname:"Ismingiz", yphone:"Telefon raqamingiz",
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
     items:"{n} ta", added:"Savatga qoʻshildi ✓", e5:"Savatda mahsulot juda koʻp. Ikki qismga boʻlib buyurtma bering.", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
-  ru: { gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
+  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
     items:"{n} шт.", added:"Добавлено в корзину ✓", e5:"В корзине слишком много товаров. Оформите заказ в два приёма.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
-  en: { gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
+  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
@@ -300,14 +314,18 @@ function catText(p) {
 const ICON = {
   shop:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
   catsv:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+  favs:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
   cart:'<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>',
   profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>'
 };
-const NAV = [["shop","navHome"],["catsv","navCats"],["cart","navCart"],["profile","navProf"]];
-const VIEWS = ["shop", "catsv", "detail", "cart", "profile"];
+const NAV = [["shop","navHome"],["catsv","navCats"],["favs","favT"],["cart","navCart"],["profile","navProf"]];
+const VIEWS = ["shop", "catsv", "favs", "detail", "cart", "profile"];
 
 let products = [], byId = {}, cart = {}, view = "shop", loc = null;
 let st = { q: "", model: ALL, cat: ALL }, det = { id: 0, color: "" };
+let prev = "shop";
+let dlv = "", pay = "", favOnly = false, favs = [], notified = [];
+try { favs = JSON.parse(localStorage.getItem("favs") || "[]"); notified = JSON.parse(localStorage.getItem("notified") || "[]"); } catch (e) {}
 
 $("list").innerHTML = Array(6).fill('<div class="card sk"><div class="pic"></div><div class="cn">&nbsp;</div></div>').join("");
 let catImg = {};
@@ -352,13 +370,14 @@ function renderFilters() {
   const seen = {};
   products.forEach(p => { if (!seen[ck(p)]) seen[ck(p)] = catText(p); });
   $("cats").innerHTML = [[ALL, t("all")], ...Object.entries(seen)].map(([k, l]) =>
-    `<button type="button" class="chip" data-cat="${esc(k)}" aria-pressed="${k === st.cat}">${esc(l)}</button>`).join("");
+    `<button type="button" class="chip" data-cat="${esc(k)}" aria-pressed="${k === st.cat && !(k === ALL && favOnly)}">${esc(l)}</button>`).join("");
 }
 function visible() {
   const q = st.q.trim().toLowerCase();
   return products.filter(p => {
     const names = (typeof p.name === "object" ? Object.values(p.name) : [p.name]).join(" ").toLowerCase();
-    return (st.model === ALL || !(p.models || []).length || p.models.includes(st.model)) &&
+    return (!favOnly || favs.includes(p.id)) &&
+      (st.model === ALL || !(p.models || []).length || p.models.includes(st.model)) &&
       (st.cat === ALL || ck(p) === st.cat) &&
       (!q || names.includes(q) || (p.models || []).some(m => m.toLowerCase().includes(q)));
   });
@@ -374,24 +393,32 @@ const priceHtml = p => pct(p)
   : `<b>${money(p.price)}</b>`;
 const badges = p => (pct(p) ? `<span class="badge">-${pct(p)}%</span>` : "")
   + (p.sold_out ? `<div class="sold">${esc(t("soldOut"))}</div>` : "");
+const favBtn = p => { const on = favs.includes(p.id); return `<button type="button" class="fav${on ? " on" : ""}" data-fav="${p.id}" aria-label="${esc(t("favT"))}" aria-pressed="${on}">${on ? "♥" : "♡"}</button>`; };
 function card(p) {
   const hasC = (p.colors || []).length, key = p.id + "|";
   const btn = p.sold_out ? `<button type="button" class="plus off" data-open="${p.id}" aria-label="${esc(t("soldOut"))}">+</button>`
     : hasC ? `<button type="button" class="plus" data-open="${p.id}" aria-label="${esc(t("choose"))}">+</button>`
     : `<button type="button" class="plus" data-inc="${key}" aria-label="+">${cart[key] ? cart[key].qty : "+"}</button>`;
-  return `<article class="card"><div class="pic" data-open="${p.id}">${thumb(p)}${badges(p)}</div>
+  return `<article class="card"><div class="pic" data-open="${p.id}">${thumb(p)}${badges(p)}${favBtn(p)}</div>
     <div class="cn" data-open="${p.id}">${esc(tr(p.name))}</div>
     <div class="cr">${priceHtml(p)}${btn}</div></article>`;
 }
 function render() {
-  const list = visible(), filt = st.q.trim() || st.model !== ALL || st.cat !== ALL;
+  const list = visible(), filt = st.q.trim() || st.model !== ALL || st.cat !== ALL || favOnly;
   const fresh = filt ? [] : [...products].sort((a, b) => b.id - a.id).slice(0, 6);
   $("newBox").classList.toggle("hidden", !fresh.length);
   $("banners").classList.toggle("hidden", !banners.length || !!filt);
   $("allT").classList.toggle("hidden", !!filt);
   $("newRow").innerHTML = fresh.map(card).join("");
   $("none").classList.toggle("hidden", list.length > 0);
+  $("none").textContent = favOnly ? t("favEmpty") : t("none");
   $("list").innerHTML = list.map(card).join("");
+  fixImgs();
+}
+function renderFavs() {
+  const list = products.filter(p => favs.includes(p.id));
+  $("favGrid").innerHTML = list.map(card).join("");
+  $("favNone").classList.toggle("hidden", list.length > 0);
   fixImgs();
 }
 function renderCats() {
@@ -419,7 +446,8 @@ function renderCart() {
   }).join("") : '<p class="empty">' + esc(t("empty")) + "</p>";
   $("cartBox").classList.toggle("hidden", !items.length);
   const viaBot = tg && !viaKeyboard();
-  [...$("form").children].forEach(el => { if (el.id !== "err" && el.type !== "submit") el.classList.toggle("hidden", !!viaBot); });
+  [...$("form").children].forEach(el => { if (el.id !== "err" && el.id !== "opts" && el.type !== "submit") el.classList.toggle("hidden", !!viaBot); });
+  renderOpts();
   if (REG && !viaBot) {
     [...$("form").children].forEach(el => {
       if (["cname", "cphone", "locBtn", "locSt"].includes(el.id) || ["cname", "cphone"].includes(el.htmlFor)) el.classList.add("hidden");
@@ -447,7 +475,7 @@ function renderDetail() {
     <div class="backbar"><button type="button" class="back" id="dback">${esc(t("back"))}</button></div>
     <div class="hero ${p.img ? "zoomable" : ""}" ${p.img ? `data-zoom="${esc(p.img)}"` : ""}>
       ${p.img ? `<img src="${esc(p.img)}" alt="${esc(tr(p.name))}"><b aria-hidden="true">⤢</b>` : esc(p.emoji || "📱")}
-      ${badges(p)}
+      ${badges(p)}${favBtn(p)}
     </div>
     <h1 style="margin-top:16px">${esc(tr(p.name))}</h1>
     ${d ? `<h2>${esc(t("desc"))}</h2><p class="desc">${esc(d)}</p>` : ""}
@@ -459,9 +487,10 @@ function renderDetail() {
     }).join("")}</div>` : ""}
     <div id="derr" class="err" role="alert"></div>
     <div style="height:96px"></div>
-    <div class="dock"><div class="dp${pct(p) ? " dc" : ""}">${pct(p) ? `<s>${money(p.old_price)}</s>` : ""}${money(p.price)}</div>${p.sold_out ? `<button type="button" class="send" disabled>${esc(t("soldOut"))}</button>` : inCart ? stepper(key) : `<button type="button" class="send" data-addd="1">${esc(t("toCart"))}</button>`}</div>`;
+    <div class="dock"><div class="dp${pct(p) ? " dc" : ""}">${pct(p) ? `<s>${money(p.old_price)}</s>` : ""}${money(p.price)}</div>${p.sold_out ? `<button type="button" class="send" data-notify="1"${notified.includes(p.id) ? " disabled" : ""}>${esc(notified.includes(p.id) ? t("notified") : t("notify"))}</button>` : inCart ? stepper(key) : `<button type="button" class="send" data-addd="1">${esc(t("toCart"))}</button>`}</div>`;
 }
 function showView(v) {
+  if (v === "detail" && view !== "detail") prev = view;
   view = v;
   VIEWS.forEach(x => $(x).classList.toggle("hidden", x !== v));
   $("head").classList.toggle("hidden", v === "detail");
@@ -474,6 +503,7 @@ function refresh() {
   renderNav();
   if (view === "shop") render();
   else if (view === "catsv") renderCats();
+  else if (view === "favs") renderFavs();
   else if (view === "cart") renderCart();
   else if (view === "profile") renderProfile();
   else renderDetail();
@@ -495,13 +525,41 @@ function toast(m) {
   const e = $("toast"); e.textContent = m; e.classList.add("on");
   clearTimeout(tt); tt = setTimeout(() => e.classList.remove("on"), 1600);
 }
+function toggleFav(id) {
+  const i = favs.indexOf(id);
+  if (i < 0) favs.push(id); else favs.splice(i, 1);
+  try { localStorage.setItem("favs", JSON.stringify(favs)); } catch (e) {}
+  const on = favs.includes(id);
+  document.querySelectorAll(`[data-fav="${id}"]`).forEach(b => { b.textContent = on ? "♥" : "♡"; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+  if (view === "shop" && favOnly) render();
+  if (view === "favs") renderFavs();
+}
+function notifyMe(id) {
+  if (notified.includes(id)) return;
+  notified.push(id);
+  try { localStorage.setItem("notified", JSON.stringify(notified)); } catch (e) {}
+  if (!tg) { toast(t("notified")); renderDetail(); return; }
+  if (viaKeyboard()) tg.sendData(JSON.stringify({ action: "notify", id }));
+  else { tg.openTelegramLink("https://t.me/" + BOT + "?start=n-" + id); setTimeout(() => tg.close(), 400); }
+}
+function renderOpts() {
+  $("dlvOpts").innerHTML = [["pickup", "dlvPick"], ["yandex", "dlvYandex"]].map(([k, l]) =>
+    `<button type="button" class="pill" data-dlv="${k}" aria-pressed="${dlv === k}">${esc(t(l))}</button>`).join("");
+  $("payBox").classList.toggle("hidden", !dlv);
+  const opts = dlv === "yandex" ? [["card", "payCard"]] : [["cash", "payCash"], ["card", "payCard"]];
+  if (dlv === "yandex") pay = "card";
+  else if (pay && !opts.some(o => o[0] === pay)) pay = "";
+  $("payOpts").innerHTML = opts.map(([k, l]) =>
+    `<button type="button" class="pill" data-pay="${k}" aria-pressed="${pay === k}">${esc(t(l))}</button>`).join("");
+  $("payNote").textContent = dlv === "yandex" ? t("payYandexNote") : "";
+}
 function sendViaBot() {
   const parts = Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => {
     const p = byId[x.id], ci = x.color ? (p.colors || []).findIndex(c => cuz(c) === x.color) : -1;
     return `${x.id}-${x.qty}-${ci < 0 ? "x" : ci}`;
   });
-  const param = parts.join("_");
   if (!parts.length) return $("err").textContent = t("e3");
+  const param = parts.join("_") + "_o" + (dlv === "yandex" ? "y" : "p") + (pay === "card" ? "k" : "c");
   if (param.length > 64) return $("err").textContent = t("e5");
   $("err").textContent = "";
   tg.openTelegramLink("https://t.me/" + BOT + "?start=" + param);
@@ -538,10 +596,15 @@ function closeLb() { $("lb").classList.add("hidden"); }
 document.addEventListener("click", e => {
   const g = s => e.target.closest(s);
   let m;
+  if ((m = g("[data-fav]"))) { toggleFav(Number(m.dataset.fav)); return; }
   if ((m = g("[data-inc]"))) change(m.dataset.inc, 1);
   else if ((m = g("[data-dec]"))) change(m.dataset.dec, -1);
   else if ((m = g("[data-open]"))) { det = { id: Number(m.dataset.open), color: "" }; showView("detail"); }
   else if ((m = g("[data-zoom]"))) openLb(m.dataset.zoom);
+  else if ((m = g("[data-dlv]"))) { dlv = m.dataset.dlv; renderOpts(); }
+  else if ((m = g("[data-pay]"))) { pay = m.dataset.pay; renderOpts(); }
+  else if (g("[data-notify]")) notifyMe(det.id);
+  else if (g("[data-favchip]")) { favOnly = !favOnly; if (favOnly) st.cat = ALL; renderFilters(); render(); }
   else if ((m = g("[data-color]"))) { det.color = m.dataset.color; renderDetail(); }
   else if (g("[data-addd]")) {
     const p = byId[det.id];
@@ -554,13 +617,13 @@ document.addEventListener("click", e => {
     else if (b.cat) { st = { q: "", model: ALL, cat: b.cat }; $("q").value = ""; renderFilters(); showView("shop"); }
   }
   else if (g("#locBtn")) askLoc();
-  else if (g("#dback")) showView("shop");
+  else if (g("#dback")) showView(prev);
   else if ((m = g("[data-tab]"))) showView(m.dataset.tab);
   else if ((m = g("[data-gocat]"))) {
     st = { q: "", model: ALL, cat: m.dataset.gocat }; $("q").value = "";
     renderFilters(); showView("shop");
   }
-  else if ((m = g("[data-cat]"))) { st.cat = m.dataset.cat; renderFilters(); render(); }
+  else if ((m = g("[data-cat]"))) { st.cat = m.dataset.cat; if (st.cat === ALL) favOnly = false; renderFilters(); render(); }
   else if ((m = g("[data-lang]"))) setLang(m.dataset.lang);
   else if ((m = g("[data-z]"))) zoomTo(zl + Number(m.dataset.z));
   else if (g("#lbx")) closeLb();
@@ -582,6 +645,8 @@ $("pform").addEventListener("submit", e => {
 $("form").addEventListener("submit", e => {
   e.preventDefault();
   const name = $("cname").value.trim(), phone = $("cphone").value.trim();
+  if (!dlv) return $("err").textContent = t("e6");
+  if (!pay) return $("err").textContent = t("e7");
   if (tg && !viaKeyboard()) return sendViaBot();
   if (!REG && !name) return $("err").textContent = t("e1");
   if (!REG && phone.replace(/\D/g, "").length < 9) return $("err").textContent = t("e2");
@@ -590,7 +655,7 @@ $("form").addEventListener("submit", e => {
   if (!REG && !loc && !$("ccomment").value.trim()) return $("err").textContent = t("e4");
   $("err").textContent = "";
   const order = {
-    name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum,
+    name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum, delivery: dlv, pay,
     items: Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => ({ id: x.id, color: x.color, qty: x.qty }))
   };
   if (tg) tg.sendData(JSON.stringify(order));
@@ -598,7 +663,7 @@ $("form").addEventListener("submit", e => {
 });
 
 if (tg && tg.BackButton) tg.BackButton.onClick(() => {
-  if (!$("lb").classList.contains("hidden")) closeLb(); else showView("shop");
+  if (!$("lb").classList.contains("hidden")) closeLb(); else showView(prev);
 });
 applyStatic();
 renderLangs();
