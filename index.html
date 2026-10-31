@@ -325,7 +325,11 @@ const ICON = {
 const NAV = [["shop","navHome"],["catsv","navCats"],["favs","favT"],["cart","navCart"],["profile","navProf"]];
 const VIEWS = ["shop", "catsv", "favs", "detail", "cart", "profile"];
 
-let products = [], byId = {}, cart = {}, view = "shop", loc = null;
+function loadCart() {
+  try { const c = JSON.parse(localStorage.getItem("cart") || "{}"); return c && typeof c === "object" && !Array.isArray(c) ? c : {}; } catch (e) { return {}; }
+}
+function saveCart() { try { localStorage.setItem("cart", JSON.stringify(cart)); } catch (e) {} }
+let products = [], byId = {}, cart = loadCart(), view = "shop", loc = null;
 let st = { q: "", model: ALL, cat: ALL }, det = { id: 0, color: "" };
 let prev = "shop";
 let dlv = "", pay = "", favOnly = false, favs = [], notified = [];
@@ -518,6 +522,7 @@ function change(key, d) {
   const e = cart[key] || (cart[key] = { id: Number(id), color: c.join("|"), qty: 0 });
   e.qty += d;
   if (e.qty <= 0) delete cart[key];
+  saveCart();
   syncNow();
   if (view === "shop") {
     document.querySelectorAll(`.plus[data-inc="${key}"]`).forEach(b => b.textContent = cart[key] ? cart[key].qty : "+");
@@ -532,17 +537,35 @@ function toast(m) {
   clearTimeout(tt); tt = setTimeout(() => e.classList.remove("on"), 1600);
 }
 const SYNC_URL = "https://mobitech-sync.r-nizomiddinov063.workers.dev";  // Cloudflare Worker manzili (savat/sevimlilar statistikasi uchun), masalan: "https://mobitech-sync.ismingiz.workers.dev"
-let syncT;
+let syncT, pend = null;
+function syncSend(onlyFavs) {
+  if (!SYNC_URL || !tg || !tg.initData) return;
+  const body = { initData: tg.initData, f: favs };
+  if (!onlyFavs) body.c = Object.values(cart).filter(x => byId[x.id]).map(x => [x.id, x.qty]);
+  try {
+    fetch(SYNC_URL.replace(/\/$/, "") + "/sync", { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(body), keepalive: true }).catch(() => {});
+  } catch (e) {}
+}
 function syncNow(onlyFavs) {
   if (!SYNC_URL || !tg || !tg.initData) return;
+  pend = (onlyFavs && pend !== "all") ? "f" : "all";
   clearTimeout(syncT);
-  syncT = setTimeout(() => {
-    const body = { initData: tg.initData, f: favs };
-    if (!onlyFavs) body.c = Object.values(cart).filter(x => byId[x.id]).map(x => [x.id, x.qty]);
-    try {
-      fetch(SYNC_URL.replace(/\/$/, "") + "/sync", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), keepalive: true }).catch(() => {});
-    } catch (e) {}
-  }, 2500);
+  syncT = setTimeout(() => { const p = pend; pend = null; syncSend(p === "f"); }, 800);
+}
+function syncFlush() {
+  if (!pend) return;
+  clearTimeout(syncT);
+  const p = pend; pend = null;
+  syncSend(p === "f");
+}
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") syncFlush(); });
+window.addEventListener("pagehide", syncFlush);
+function clearCart() {
+  cart = {};
+  saveCart();
+  pend = null;
+  clearTimeout(syncT);
+  syncSend(false);
 }
 function toggleFav(id) {
   const i = favs.indexOf(id);
@@ -583,6 +606,7 @@ function sendViaBot() {
   const param = parts.join("_") + "_o" + (dlv === "yandex" ? "y" : "p") + (pay === "card" ? "k" : "c");
   if (param.length > 64) return $("err").textContent = t("e5");
   $("err").textContent = "";
+  clearCart();
   tg.openTelegramLink("https://t.me/" + BOT + "?start=" + param);
   setTimeout(() => tg.close(), 400);
 }
@@ -680,7 +704,7 @@ $("form").addEventListener("submit", e => {
     name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum, delivery: dlv, pay,
     items: Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => ({ id: x.id, color: x.color, qty: x.qty }))
   };
-  if (tg) tg.sendData(JSON.stringify(order));
+  if (tg) { clearCart(); tg.sendData(JSON.stringify(order)); }
   else alert(t("outside") + "\n" + JSON.stringify(order, null, 2));
 });
 
