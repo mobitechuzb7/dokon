@@ -135,6 +135,9 @@ button:active{transform:scale(.96)}
 .dp s{display:block;color:var(--mute);font-size:12px;font-weight:500;letter-spacing:0}
 .dp.dc{color:var(--ac)}
 .send[disabled]{opacity:.45;cursor:not-allowed}
+.nbtn{position:absolute;left:6px;right:6px;bottom:6px;z-index:5;border:0;border-radius:999px;padding:8px 6px;background:#fff;color:#111;font-size:12px;font-weight:700;line-height:1.15;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.28)}
+.nbtn[disabled]{background:rgba(255,255,255,.6);color:#111;cursor:default}
+.ynote{margin:8px 0 12px;padding:10px 12px;border-radius:12px;background:var(--sf);color:var(--ac);font-size:13px;font-weight:600;line-height:1.35}
 #gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:28px;text-align:center}
 .fav{position:absolute;top:8px;right:8px;z-index:4;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .fav.on{color:#ff4d4d}
@@ -178,6 +181,7 @@ button:active{transform:scale(.96)}
   <div id="lines"></div>
   <div id="cartBox">
     <div class="total"><span data-i="total"></span><span id="cartTotal"></span></div>
+    <p id="yNote" class="ynote hidden" data-i="yandexFee"></p>
     <form id="form" novalidate>
       <div id="opts">
         <h2 data-i="dlvT"></h2>
@@ -233,21 +237,21 @@ if (tg) { tg.ready(); tg.expand(); }
 
 const ALL = "*";
 const T = {
-  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
+  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
     allPhones:"Barcha telefonlar uchun", choose:"Rangni tanlash", back:"Orqaga", navHome:"Asosiy", navCats:"Kategoriya", navCart:"Savat", navProf:"Profil",
     newest:"Yangi mahsulotlar", allProd:"Barcha mahsulotlar", cart:"Savat", total:"Jami", yname:"Ismingiz", yphone:"Telefon raqamingiz",
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
     items:"{n} ta", added:"Savatga qoʻshildi ✓", e5:"Savatda mahsulot juda koʻp. Ikki qismga boʻlib buyurtma bering.", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
-  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
+  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
     items:"{n} шт.", added:"Добавлено в корзину ✓", e5:"В корзине слишком много товаров. Оформите заказ в два приёма.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
-  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
+  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
@@ -394,12 +398,13 @@ const priceHtml = p => pct(p)
 const badges = p => (pct(p) ? `<span class="badge">-${pct(p)}%</span>` : "")
   + (p.sold_out ? `<div class="sold">${esc(t("soldOut"))}</div>` : "");
 const favBtn = p => { const on = favs.includes(p.id); return `<button type="button" class="fav${on ? " on" : ""}" data-fav="${p.id}" aria-label="${esc(t("favT"))}" aria-pressed="${on}">${on ? "♥" : "♡"}</button>`; };
+const nBtn = p => { const done = notified.includes(p.id); return `<button type="button" class="nbtn" data-ncard="${p.id}"${done ? " disabled" : ""}>${esc(done ? t("notified") : t("notifyShort"))}</button>`; };
 function card(p) {
   const hasC = (p.colors || []).length, key = p.id + "|";
   const btn = p.sold_out ? `<button type="button" class="plus off" data-open="${p.id}" aria-label="${esc(t("soldOut"))}">+</button>`
     : hasC ? `<button type="button" class="plus" data-open="${p.id}" aria-label="${esc(t("choose"))}">+</button>`
     : `<button type="button" class="plus" data-inc="${key}" aria-label="+">${cart[key] ? cart[key].qty : "+"}</button>`;
-  return `<article class="card"><div class="pic" data-open="${p.id}">${thumb(p)}${badges(p)}${favBtn(p)}</div>
+  return `<article class="card"><div class="pic" data-open="${p.id}">${thumb(p)}${badges(p)}${favBtn(p)}${p.sold_out ? nBtn(p) : ""}</div>
     <div class="cn" data-open="${p.id}">${esc(tr(p.name))}</div>
     <div class="cr">${priceHtml(p)}${btn}</div></article>`;
 }
@@ -513,6 +518,7 @@ function change(key, d) {
   const e = cart[key] || (cart[key] = { id: Number(id), color: c.join("|"), qty: 0 });
   e.qty += d;
   if (e.qty <= 0) delete cart[key];
+  syncNow();
   if (view === "shop") {
     document.querySelectorAll(`.plus[data-inc="${key}"]`).forEach(b => b.textContent = cart[key] ? cart[key].qty : "+");
     renderNav();
@@ -525,6 +531,19 @@ function toast(m) {
   const e = $("toast"); e.textContent = m; e.classList.add("on");
   clearTimeout(tt); tt = setTimeout(() => e.classList.remove("on"), 1600);
 }
+const SYNC_URL = "https://mobitech-sync.r-nizomiddinov063.workers.dev";  // Cloudflare Worker manzili (savat/sevimlilar statistikasi uchun), masalan: "https://mobitech-sync.ismingiz.workers.dev"
+let syncT;
+function syncNow(onlyFavs) {
+  if (!SYNC_URL || !tg || !tg.initData) return;
+  clearTimeout(syncT);
+  syncT = setTimeout(() => {
+    const body = { initData: tg.initData, f: favs };
+    if (!onlyFavs) body.c = Object.values(cart).filter(x => byId[x.id]).map(x => [x.id, x.qty]);
+    try {
+      fetch(SYNC_URL.replace(/\/$/, "") + "/sync", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), keepalive: true }).catch(() => {});
+    } catch (e) {}
+  }, 2500);
+}
 function toggleFav(id) {
   const i = favs.indexOf(id);
   if (i < 0) favs.push(id); else favs.splice(i, 1);
@@ -533,12 +552,13 @@ function toggleFav(id) {
   document.querySelectorAll(`[data-fav="${id}"]`).forEach(b => { b.textContent = on ? "♥" : "♡"; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
   if (view === "shop" && favOnly) render();
   if (view === "favs") renderFavs();
+  syncNow();
 }
 function notifyMe(id) {
   if (notified.includes(id)) return;
   notified.push(id);
   try { localStorage.setItem("notified", JSON.stringify(notified)); } catch (e) {}
-  if (!tg) { toast(t("notified")); renderDetail(); return; }
+  if (!tg) { toast(t("notified")); refresh(); return; }
   if (viaKeyboard()) tg.sendData(JSON.stringify({ action: "notify", id }));
   else { tg.openTelegramLink("https://t.me/" + BOT + "?start=n-" + id); setTimeout(() => tg.close(), 400); }
 }
@@ -552,6 +572,7 @@ function renderOpts() {
   $("payOpts").innerHTML = opts.map(([k, l]) =>
     `<button type="button" class="pill" data-pay="${k}" aria-pressed="${pay === k}">${esc(t(l))}</button>`).join("");
   $("payNote").textContent = dlv === "yandex" ? t("payYandexNote") : "";
+  $("yNote").classList.toggle("hidden", dlv !== "yandex");
 }
 function sendViaBot() {
   const parts = Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => {
@@ -597,6 +618,7 @@ document.addEventListener("click", e => {
   const g = s => e.target.closest(s);
   let m;
   if ((m = g("[data-fav]"))) { toggleFav(Number(m.dataset.fav)); return; }
+  if ((m = g("[data-ncard]"))) { notifyMe(Number(m.dataset.ncard)); return; }
   if ((m = g("[data-inc]"))) change(m.dataset.inc, 1);
   else if ((m = g("[data-dec]"))) change(m.dataset.dec, -1);
   else if ((m = g("[data-open]"))) { det = { id: Number(m.dataset.open), color: "" }; showView("detail"); }
@@ -668,6 +690,7 @@ if (tg && tg.BackButton) tg.BackButton.onClick(() => {
 applyStatic();
 renderLangs();
 renderNav();
+if (favs.length) syncNow(true);
 // Telefon raqami botda saqlanmagan boʻlsa, doʻkon ochilmaydi
 if (!REG) {
   $("gateTxt").textContent = t("gate"); $("gateBtn").textContent = t("gateBtn");
