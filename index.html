@@ -553,14 +553,14 @@ function renderDetail() {
     </div>
     ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((s, i) => `<button type="button" class="th" data-gi="${i}" aria-pressed="${i === gi}"><img src="${esc(s)}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}
     <h1 style="margin-top:16px">${esc(tr(p.name))}</h1>
-    ${d ? `<h2>${esc(t("desc"))}</h2><p class="desc">${esc(d)}</p>` : ""}
-    <h2>${esc(t("models"))}</h2>
-    <p class="desc">${(p.models || []).length ? esc(p.models.join(", ")) : esc(t("allPhones"))}</p>
     ${cs.length ? `<h2>${esc(t("color"))}</h2><div class="colors">${cs.map(c => {
       const u = cuz(c), h = hexOf(u);
       return `<button type="button" class="pill" data-color="${esc(u)}" aria-pressed="${u === det.color}">${h ? `<i style="background:${h}"></i>` : ""}${esc(colorText(c))}</button>`;
     }).join("")}</div>` : ""}
     <div id="derr" class="err" role="alert"></div>
+    ${d ? `<h2>${esc(t("desc"))}</h2><p class="desc">${esc(d)}</p>` : ""}
+    <h2>${esc(t("models"))}</h2>
+    <p class="desc">${(p.models || []).length ? esc(p.models.join(", ")) : esc(t("allPhones"))}</p>
     <div style="height:96px"></div>
     <div class="dock"><div class="dp${pct(p) ? " dc" : ""}">${pct(p) ? `<s>${money(p.old_price)}</s>` : ""}${money(p.price)}</div>${p.sold_out ? `<button type="button" class="send" data-notify="1"${notified.includes(p.id) ? " disabled" : ""}>${esc(notified.includes(p.id) ? t("notified") : t("notify"))}</button>` : inCart ? stepper(key) : `<button type="button" class="send" data-addd="1">${esc(t("toCart"))}</button>`}</div>`;
 }
