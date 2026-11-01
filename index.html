@@ -137,6 +137,12 @@ button:active{transform:scale(.96)}
 .send[disabled]{opacity:.45;cursor:not-allowed}
 .nbtn{position:absolute;left:6px;right:6px;bottom:6px;z-index:5;border:0;border-radius:999px;padding:8px 6px;background:#fff;color:#111;font-size:12px;font-weight:700;line-height:1.15;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.28)}
 .nbtn[disabled]{background:rgba(255,255,255,.6);color:#111;cursor:default}
+.prow{display:flex;gap:8px;align-items:stretch}.prow .field{flex:1;min-width:0;text-transform:uppercase}
+.prow .pbtn{flex:0 0 auto;border:0;border-radius:14px;padding:0 16px;background:var(--ac);color:#fff;font-weight:700;cursor:pointer}
+.thumbs{display:flex;gap:8px;overflow-x:auto;margin:10px 0 0;scrollbar-width:none}.thumbs::-webkit-scrollbar{display:none}
+.th{flex:0 0 58px;height:58px;border-radius:12px;overflow:hidden;border:2px solid var(--line);padding:0;background:var(--sf);cursor:pointer}
+.th[aria-pressed="true"]{border-color:var(--ac)}.th img{width:100%;height:100%;object-fit:cover;display:block}
+.gcnt{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
 .ynote{margin:8px 0 12px;padding:10px 12px;border-radius:12px;background:var(--sf);color:var(--ac);font-size:13px;font-weight:600;line-height:1.35}
 #gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:28px;text-align:center}
 .fav{position:absolute;top:8px;right:8px;z-index:4;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
@@ -181,12 +187,14 @@ button:active{transform:scale(.96)}
   <div id="lines"></div>
   <div id="cartBox">
     <div class="total"><span data-i="total"></span><span id="cartTotal"></span></div>
+    <p id="promoLine" class="ynote hidden"></p>
     <p id="yNote" class="ynote hidden" data-i="yandexFee"></p>
     <form id="form" novalidate>
       <div id="opts">
         <h2 data-i="dlvT"></h2>
         <div id="dlvOpts" class="colors"></div>
         <div id="payBox" class="hidden"><h2 data-i="payT"></h2><div id="payOpts" class="colors"></div><p id="payNote" class="hint"></p></div>
+      <div id="promoBox"><h2 data-i="promoT"></h2><div class="prow"><input id="cpromo" class="field" type="text" autocomplete="off" autocapitalize="characters" maxlength="20" data-ip="promoPh"><button type="button" id="promoBtn" class="pbtn" data-i="promoApply"></button></div><p id="promoSt" class="hint"></p></div>
       </div>
       <label for="cname" data-i="yname"></label>
       <input id="cname" class="field" autocomplete="name">
@@ -237,21 +245,21 @@ if (tg) { tg.ready(); tg.expand(); }
 
 const ALL = "*";
 const T = {
-  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
+  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
     allPhones:"Barcha telefonlar uchun", choose:"Rangni tanlash", back:"Orqaga", navHome:"Asosiy", navCats:"Kategoriya", navCart:"Savat", navProf:"Profil",
     newest:"Yangi mahsulotlar", allProd:"Barcha mahsulotlar", cart:"Savat", total:"Jami", yname:"Ismingiz", yphone:"Telefon raqamingiz",
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
     items:"{n} ta", added:"Savatga qoʻshildi ✓", e5:"Savatda mahsulot juda koʻp. Ikki qismga boʻlib buyurtma bering.", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
-  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
+  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
     items:"{n} шт.", added:"Добавлено в корзину ✓", e5:"В корзине слишком много товаров. Оформите заказ в два приёма.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
-  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
+  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
@@ -325,10 +333,33 @@ const ICON = {
 const NAV = [["shop","navHome"],["catsv","navCats"],["favs","favT"],["cart","navCart"],["profile","navProf"]];
 const VIEWS = ["shop", "catsv", "favs", "detail", "cart", "profile"];
 
+const normCode = s => String(s || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 20);
+async function sha256hex(s) {
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+}
+async function applyPromo() {
+  const code = normCode($("cpromo").value), st = $("promoSt");
+  $("cpromo").value = code;
+  promo = { code: "", pct: 0 };
+  st.textContent = ""; st.className = "hint";
+  if (code) {
+    try {
+      const r = await fetch("promos.json?t=" + Date.now(), { cache: "no-store" });
+      const d = r.ok ? await r.json() : { codes: [] };
+      const h = await sha256hex("mobitech:" + code);
+      const hit = (d.codes || []).find(c => c.h === h);
+      if (hit) { promo = { code, pct: hit.p }; st.textContent = t("promoOk").replace("{pct}", hit.p); st.className = "hint ok"; }
+      else { st.textContent = t("promoBad"); st.className = "hint err"; }
+    } catch (e) { st.textContent = t("promoBad"); st.className = "hint err"; }
+  }
+  renderCart();
+}
 function loadCart() {
   try { const c = JSON.parse(localStorage.getItem("cart") || "{}"); return c && typeof c === "object" && !Array.isArray(c) ? c : {}; } catch (e) { return {}; }
 }
 function saveCart() { try { localStorage.setItem("cart", JSON.stringify(cart)); } catch (e) {} }
+let promo = { code: "", pct: 0 };
 let products = [], byId = {}, cart = loadCart(), view = "shop", loc = null;
 let st = { q: "", model: ALL, cat: ALL }, det = { id: 0, color: "" };
 let prev = "shop";
@@ -402,6 +433,7 @@ const priceHtml = p => pct(p)
 const badges = p => (pct(p) ? `<span class="badge">-${pct(p)}%</span>` : "")
   + (p.sold_out ? `<div class="sold">${esc(t("soldOut"))}</div>` : "");
 const favBtn = p => { const on = favs.includes(p.id); return `<button type="button" class="fav${on ? " on" : ""}" data-fav="${p.id}" aria-label="${esc(t("favT"))}" aria-pressed="${on}">${on ? "♥" : "♡"}</button>`; };
+const imgsOf = p => (p.imgs && p.imgs.length) ? p.imgs : (p.img ? [p.img] : []);
 const nBtn = p => { const done = notified.includes(p.id); return `<button type="button" class="nbtn" data-ncard="${p.id}"${done ? " disabled" : ""}>${esc(done ? t("notified") : t("notifyShort"))}</button>`; };
 function card(p) {
   const hasC = (p.colors || []).length, key = p.id + "|";
@@ -462,7 +494,10 @@ function renderCart() {
       if (["cname", "cphone", "locBtn", "locSt"].includes(el.id) || ["cname", "cphone"].includes(el.htmlFor)) el.classList.add("hidden");
     });
   }
-  $("cartTotal").textContent = money(totals().sum);
+  const sum = totals().sum, disc = promo.pct ? Math.floor(sum * promo.pct / 100) : 0;
+  $("cartTotal").textContent = money(sum - disc);
+  $("promoLine").classList.toggle("hidden", !disc);
+  if (disc) $("promoLine").textContent = `${t("promoT")} ${promo.code}: −${promo.pct}% (−${money(disc)})`;
   $("locSt").className = "ok"; $("locSt").textContent = loc ? t("locOk") : "";
   fixImgs();
   if (!$("cname").value) $("cname").value = prof.name;
@@ -480,12 +515,15 @@ function renderDetail() {
   const cs = p.colors || [], key = p.id + "|" + det.color;
   const inCart = (!cs.length || det.color) && cart[key];
   const d = tr(p.desc);
+  const imgs = imgsOf(p), gi = Math.min(det.i || 0, Math.max(imgs.length - 1, 0)), cur = imgs[gi];
   $("detail").innerHTML = `
     <div class="backbar"><button type="button" class="back" id="dback">${esc(t("back"))}</button></div>
-    <div class="hero ${p.img ? "zoomable" : ""}" ${p.img ? `data-zoom="${esc(p.img)}"` : ""}>
-      ${p.img ? `<img src="${esc(p.img)}" alt="${esc(tr(p.name))}"><b aria-hidden="true">⤢</b>` : esc(p.emoji || "📱")}
+    <div class="hero ${cur ? "zoomable" : ""}" ${cur ? `data-zoom="${esc(cur)}"` : ""}>
+      ${cur ? `<img src="${esc(cur)}" alt="${esc(tr(p.name))}"><b aria-hidden="true">⤢</b>` : esc(p.emoji || "📱")}
+      ${imgs.length > 1 ? `<span class="gcnt">${gi + 1}/${imgs.length}</span>` : ""}
       ${badges(p)}${favBtn(p)}
     </div>
+    ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((s, i) => `<button type="button" class="th" data-gi="${i}" aria-pressed="${i === gi}"><img src="${esc(s)}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}
     <h1 style="margin-top:16px">${esc(tr(p.name))}</h1>
     ${d ? `<h2>${esc(t("desc"))}</h2><p class="desc">${esc(d)}</p>` : ""}
     <h2>${esc(t("models"))}</h2>
@@ -562,6 +600,7 @@ document.addEventListener("visibilitychange", () => { if (document.visibilitySta
 window.addEventListener("pagehide", syncFlush);
 function clearCart() {
   cart = {};
+  promo = { code: "", pct: 0 };
   saveCart();
   pend = null;
   clearTimeout(syncT);
@@ -603,7 +642,7 @@ function sendViaBot() {
     return `${x.id}-${x.qty}-${ci < 0 ? "x" : ci}`;
   });
   if (!parts.length) return $("err").textContent = t("e3");
-  const param = parts.join("_") + "_o" + (dlv === "yandex" ? "y" : "p") + (pay === "card" ? "k" : "c");
+  const param = parts.join("_") + "_o" + (dlv === "yandex" ? "y" : "p") + (pay === "card" ? "k" : "c") + (promo.code ? "_p" + promo.code : "");
   if (param.length > 64) return $("err").textContent = t("e5");
   $("err").textContent = "";
   clearCart();
@@ -646,6 +685,8 @@ document.addEventListener("click", e => {
   if ((m = g("[data-inc]"))) change(m.dataset.inc, 1);
   else if ((m = g("[data-dec]"))) change(m.dataset.dec, -1);
   else if ((m = g("[data-open]"))) { det = { id: Number(m.dataset.open), color: "" }; showView("detail"); }
+  else if ((m = g("[data-gi]"))) { det.i = Number(m.dataset.gi); renderDetail(); }
+  else if (g("#promoBtn")) applyPromo();
   else if ((m = g("[data-zoom]"))) openLb(m.dataset.zoom);
   else if ((m = g("[data-dlv]"))) { dlv = m.dataset.dlv; renderOpts(); }
   else if ((m = g("[data-pay]"))) { pay = m.dataset.pay; renderOpts(); }
@@ -701,7 +742,7 @@ $("form").addEventListener("submit", e => {
   if (!REG && !loc && !$("ccomment").value.trim()) return $("err").textContent = t("e4");
   $("err").textContent = "";
   const order = {
-    name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum, delivery: dlv, pay,
+    name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum, delivery: dlv, pay, promo: promo.code,
     items: Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => ({ id: x.id, color: x.color, qty: x.qty }))
   };
   if (tg) { clearCart(); tg.sendData(JSON.stringify(order)); }
@@ -714,6 +755,17 @@ if (tg && tg.BackButton) tg.BackButton.onClick(() => {
 applyStatic();
 renderLangs();
 renderNav();
+$("cpromo").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); applyPromo(); } });
+let tx = null;
+document.addEventListener("touchstart", e => { tx = (view === "detail" && e.target.closest(".hero")) ? e.touches[0].clientX : null; }, { passive: true });
+document.addEventListener("touchend", e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].clientX - tx; tx = null;
+  const p = byId[det.id], n = p ? imgsOf(p).length : 0;
+  if (n < 2 || Math.abs(dx) < 45) return;
+  det.i = ((det.i || 0) + (dx < 0 ? 1 : -1) + n) % n;
+  renderDetail();
+}, { passive: true });
 if (favs.length) syncNow(true);
 // Telefon raqami botda saqlanmagan boʻlsa, doʻkon ochilmaydi
 if (!REG) {
