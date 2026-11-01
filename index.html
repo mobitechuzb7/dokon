@@ -139,7 +139,13 @@ button:active{transform:scale(.96)}
 .nbtn[disabled]{background:rgba(255,255,255,.6);color:#111;cursor:default}
 .prow{display:flex;gap:8px;align-items:stretch}.prow .field{flex:1;min-width:0;text-transform:uppercase}
 .prow .pbtn{flex:0 0 auto;border:0;border-radius:14px;padding:0 16px;background:var(--ac);color:#fff;font-weight:700;cursor:pointer}
-.thumbs{display:flex;gap:8px;overflow-x:auto;margin:10px 0 0;scrollbar-width:none}.thumbs::-webkit-scrollbar{display:none}
+.hero.gal{touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.gtrack{display:flex;width:100%;height:100%;transition:transform .4s cubic-bezier(.22,.8,.3,1);will-change:transform}
+.gs{flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center}
+.gs img{-webkit-user-drag:none;pointer-events:none}
+.garrow{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:40px;height:40px;padding:0 0 3px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#111;font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer;transition:opacity .2s}
+.garrow.gl{left:8px}.garrow.gr{right:8px}.garrow.off{opacity:0;pointer-events:none}
+.thumbs{position:relative;display:flex;gap:8px;overflow-x:auto;margin:10px 0 0;scrollbar-width:none}.thumbs::-webkit-scrollbar{display:none}
 .th{flex:0 0 58px;height:58px;border-radius:12px;overflow:hidden;border:2px solid var(--line);padding:0;background:var(--sf);cursor:pointer}
 .th[aria-pressed="true"]{border-color:var(--ac)}.th img{width:100%;height:100%;object-fit:cover;display:block}
 .gcnt{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
@@ -509,6 +515,25 @@ function renderProfile() {
   $("pName").textContent = prof.name || t("navProf");
   $("pn").value = prof.name; $("pp").value = prof.phone; $("pa").value = prof.address; $("pmsg").textContent = "";
 }
+function gotoImg(i) {
+  const p = byId[det.id];
+  if (!p) return;
+  const imgs = imgsOf(p);
+  i = Math.max(0, Math.min(imgs.length - 1, i));
+  det.i = i;
+  const trk = $("gtrack");
+  if (trk) { trk.style.transition = ""; trk.style.transform = `translateX(${-i * 100}%)`; }
+  const hero = document.querySelector("#detail .hero");
+  if (hero) hero.dataset.zoom = imgs[i];
+  const c = document.querySelector("#detail .gcnt");
+  if (c) c.textContent = `${i + 1}/${imgs.length}`;
+  document.querySelectorAll("#detail .th").forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
+  const gl = document.querySelector("#detail .gl"), gr = document.querySelector("#detail .gr");
+  if (gl) gl.classList.toggle("off", i === 0);
+  if (gr) gr.classList.toggle("off", i === imgs.length - 1);
+  const th = document.querySelector("#detail .th[aria-pressed='true']");
+  if (th && th.parentElement.scrollTo) th.parentElement.scrollTo({ left: th.offsetLeft - th.parentElement.clientWidth / 2 + th.clientWidth / 2, behavior: "smooth" });
+}
 function renderDetail() {
   const p = byId[det.id];
   if (!p) return showView("shop");
@@ -518,9 +543,12 @@ function renderDetail() {
   const imgs = imgsOf(p), gi = Math.min(det.i || 0, Math.max(imgs.length - 1, 0)), cur = imgs[gi];
   $("detail").innerHTML = `
     <div class="backbar"><button type="button" class="back" id="dback">${esc(t("back"))}</button></div>
-    <div class="hero ${cur ? "zoomable" : ""}" ${cur ? `data-zoom="${esc(cur)}"` : ""}>
-      ${cur ? `<img src="${esc(cur)}" alt="${esc(tr(p.name))}"><b aria-hidden="true">⤢</b>` : esc(p.emoji || "📱")}
-      ${imgs.length > 1 ? `<span class="gcnt">${gi + 1}/${imgs.length}</span>` : ""}
+    <div class="hero${cur ? " zoomable" : ""}${imgs.length > 1 ? " gal" : ""}" ${cur ? `data-zoom="${esc(cur)}"` : ""}>
+      ${imgs.length > 1
+        ? `<div class="gtrack" id="gtrack" style="transform:translateX(${-gi * 100}%)">${imgs.map(s => `<div class="gs"><img src="${esc(s)}" alt="${esc(tr(p.name))}" draggable="false"></div>`).join("")}</div>`
+        : cur ? `<img src="${esc(cur)}" alt="${esc(tr(p.name))}">` : esc(p.emoji || "📱")}
+      ${cur ? `<b aria-hidden="true">⤢</b>` : ""}
+      ${imgs.length > 1 ? `<span class="gcnt">${gi + 1}/${imgs.length}</span><button type="button" class="garrow gl${gi === 0 ? " off" : ""}" data-gnav="-1" aria-label="‹">‹</button><button type="button" class="garrow gr${gi === imgs.length - 1 ? " off" : ""}" data-gnav="1" aria-label="›">›</button>` : ""}
       ${badges(p)}${favBtn(p)}
     </div>
     ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((s, i) => `<button type="button" class="th" data-gi="${i}" aria-pressed="${i === gi}"><img src="${esc(s)}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}
@@ -685,9 +713,10 @@ document.addEventListener("click", e => {
   if ((m = g("[data-inc]"))) change(m.dataset.inc, 1);
   else if ((m = g("[data-dec]"))) change(m.dataset.dec, -1);
   else if ((m = g("[data-open]"))) { det = { id: Number(m.dataset.open), color: "" }; showView("detail"); }
-  else if ((m = g("[data-gi]"))) { det.i = Number(m.dataset.gi); renderDetail(); }
+  else if ((m = g("[data-gnav]"))) gotoImg((det.i || 0) + Number(m.dataset.gnav));
+  else if ((m = g("[data-gi]"))) gotoImg(Number(m.dataset.gi));
   else if (g("#promoBtn")) applyPromo();
-  else if ((m = g("[data-zoom]"))) openLb(m.dataset.zoom);
+  else if ((m = g("[data-zoom]"))) { if (Date.now() - lastDrag > 400) openLb(m.dataset.zoom); }
   else if ((m = g("[data-dlv]"))) { dlv = m.dataset.dlv; renderOpts(); }
   else if ((m = g("[data-pay]"))) { pay = m.dataset.pay; renderOpts(); }
   else if (g("[data-notify]")) notifyMe(det.id);
@@ -756,16 +785,32 @@ applyStatic();
 renderLangs();
 renderNav();
 $("cpromo").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); applyPromo(); } });
-let tx = null;
-document.addEventListener("touchstart", e => { tx = (view === "detail" && e.target.closest(".hero")) ? e.touches[0].clientX : null; }, { passive: true });
-document.addEventListener("touchend", e => {
-  if (tx === null) return;
-  const dx = e.changedTouches[0].clientX - tx; tx = null;
-  const p = byId[det.id], n = p ? imgsOf(p).length : 0;
-  if (n < 2 || Math.abs(dx) < 45) return;
-  det.i = ((det.i || 0) + (dx < 0 ? 1 : -1) + n) % n;
-  renderDetail();
+let drag = null, lastDrag = 0;
+document.addEventListener("touchstart", e => {
+  const hh = e.target.closest("#detail .hero.gal");
+  drag = (hh && view === "detail") ? { x: e.touches[0].clientX, y: e.touches[0].clientY, dx: 0, on: false, w: hh.clientWidth } : null;
 }, { passive: true });
+document.addEventListener("touchmove", e => {
+  if (!drag) return;
+  const dx = e.touches[0].clientX - drag.x, dy = e.touches[0].clientY - drag.y;
+  if (!drag.on) { if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) drag.on = true; else return; }
+  drag.dx = dx;
+  const trk = $("gtrack"), p = byId[det.id];
+  if (!trk || !p) return;
+  const n = imgsOf(p).length, i = det.i || 0;
+  const off = ((i === 0 && dx > 0) || (i === n - 1 && dx < 0)) ? dx / 3 : dx;
+  trk.style.transition = "none";
+  trk.style.transform = `translateX(calc(${-i * 100}% + ${off}px))`;
+}, { passive: true });
+document.addEventListener("touchend", () => {
+  if (!drag) return;
+  const d = drag; drag = null;
+  if (!d.on) return;
+  lastDrag = Date.now();
+  const thr = Math.min(60, d.w * 0.2);
+  gotoImg((det.i || 0) + (d.dx < -thr ? 1 : d.dx > thr ? -1 : 0));
+}, { passive: true });
+document.addEventListener("touchcancel", () => { if (drag && drag.on) gotoImg(det.i || 0); drag = null; }, { passive: true });
 if (favs.length) syncNow(true);
 // Telefon raqami botda saqlanmagan boʻlsa, doʻkon ochilmaydi
 if (!REG) {
