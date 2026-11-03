@@ -149,6 +149,33 @@ button:active{transform:scale(.96)}
 .th{flex:0 0 58px;height:58px;border-radius:12px;overflow:hidden;border:2px solid var(--line);padding:0;background:var(--sf);cursor:pointer}
 .th[aria-pressed="true"]{border-color:var(--ac)}.th img{width:100%;height:100%;object-fit:cover;display:block}
 .gcnt{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:12px;margin-top:10px;border-radius:14px;background:var(--sf);font-size:14px;font-weight:600;line-height:1.35}
+.chk input{flex:0 0 auto;margin-top:2px;width:18px;height:18px;accent-color:var(--ac)}
+.xs{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px;scrollbar-width:none}.xs::-webkit-scrollbar{display:none}
+.xc{position:relative;flex:0 0 120px;background:var(--sf);border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:4px;cursor:pointer}
+.xc .xi{height:86px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--bg)}
+.xc .xi img{width:100%;height:100%;object-fit:cover}
+.xn{font-size:12px;font-weight:600;line-height:1.2;max-height:2.4em;overflow:hidden}
+.xp{font-size:13px;font-weight:700}
+.xc .xa{position:absolute;right:8px;bottom:8px}
+.kcard{position:relative;aspect-ratio:1.586;max-width:380px;margin:0 auto 12px;border-radius:22px;padding:18px;color:#fff;background:linear-gradient(135deg,#1e293b 0%,#0f172a 50%,#6d28d9 100%);box-shadow:0 10px 28px rgba(15,23,42,.35);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.kcard::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+.kcard.lock{filter:grayscale(.9) brightness(.85)}
+.kt{display:flex;justify-content:space-between;align-items:center;font-size:15px;letter-spacing:2px;font-weight:800}
+.kpct{font-size:13px;font-weight:800;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:999px;letter-spacing:0}
+.kchip{width:42px;height:31px;border-radius:7px;background:linear-gradient(135deg,#f6dc84,#c9a227)}
+.kno{font-size:20px;font-weight:700;letter-spacing:2.5px;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px rgba(0,0,0,.4);white-space:nowrap}
+.kfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.kfoot small{display:block;font-size:9px;letter-spacing:1px;opacity:.7;margin-bottom:2px}
+.kfoot b{display:block;font-size:14px;letter-spacing:.5px;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kfoot .kr{text-align:right}
+.ksince{position:absolute;right:18px;top:62px;font-size:11px;opacity:.75}
+.klock{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.4);font-weight:700;font-size:15px}
+.kbar{height:8px;border-radius:999px;background:var(--sf);overflow:hidden;margin:6px 0}
+.kbar i{display:block;height:100%;background:var(--ac);border-radius:999px}
+.kh{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--sf);border-radius:14px;padding:11px 13px;margin-bottom:8px;font-size:14px}
+.kh small{color:var(--mute);font-size:12px}
+.kplus{color:#16a34a}.kminus{color:#dc2626}
 .ynote{margin:8px 0 12px;padding:10px 12px;border-radius:12px;background:var(--sf);color:var(--ac);font-size:13px;font-weight:600;line-height:1.35}
 #gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:28px;text-align:center}
 .fav{position:absolute;top:8px;right:8px;z-index:4;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
@@ -191,9 +218,11 @@ button:active{transform:scale(.96)}
 <section id="cart" class="hidden">
   <h1 data-i="cart"></h1>
   <div id="lines"></div>
+  <div id="xsell"></div>
   <div id="cartBox">
     <div class="total"><span data-i="total"></span><span id="cartTotal"></span></div>
     <p id="promoLine" class="ynote hidden"></p>
+    <p id="bonusLine" class="ynote hidden"></p>
     <p id="yNote" class="ynote hidden" data-i="yandexFee"></p>
     <form id="form" novalidate>
       <div id="opts">
@@ -201,6 +230,7 @@ button:active{transform:scale(.96)}
         <div id="dlvOpts" class="colors"></div>
         <div id="payBox" class="hidden"><h2 data-i="payT"></h2><div id="payOpts" class="colors"></div><p id="payNote" class="hint"></p></div>
       <div id="promoBox"><h2 data-i="promoT"></h2><div class="prow"><input id="cpromo" class="field" type="text" autocomplete="off" autocapitalize="characters" maxlength="20" data-ip="promoPh"><button type="button" id="promoBtn" class="pbtn" data-i="promoApply"></button></div><p id="promoSt" class="hint"></p></div>
+      <div id="bonusBox" class="hidden"><label class="chk"><input type="checkbox" id="useBonus"><span id="bonusTxt"></span></label></div>
       </div>
       <label for="cname" data-i="yname"></label>
       <input id="cname" class="field" autocomplete="name">
@@ -219,6 +249,8 @@ button:active{transform:scale(.96)}
 <section id="profile" class="hidden">
   <h1 data-i="profT"></h1>
   <div class="pcard"><div id="pAva" class="ava"></div><div id="pName" class="pname"></div></div>
+  <div id="kcard"></div>
+  <div id="khist"></div>
   <form id="pform" novalidate>
     <label for="pn" data-i="yname"></label>
     <input id="pn" class="field" autocomplete="name">
@@ -251,21 +283,21 @@ if (tg) { tg.ready(); tg.expand(); }
 
 const ALL = "*";
 const T = {
-  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
+  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", bonusUse:"🎁 Keshbekdan foydalanish (balans: {bal}, hozir ishlatish mumkin: {max})", bonusLine:"Keshbek", kOwner:"KARTA EGASI", kBal:"BALANS", kLocked:"Karta hali ochilmagan", kInfo:"Har yetkazilgan buyurtmadan {pct}% keshbek qaytadi. Keshbek bilan buyurtma summasining {max}% igacha toʻlash mumkin.", kProg:"Karta {need} soʻmlik xariddan keyin ochiladi. Hozirgacha: {cur}", kTitle:"Keshbek tarixi", kEmpty:"Hozircha operatsiyalar yoʻq", kEarn:"Buyurtma №{o} uchun keshbek", kUse:"Buyurtma №{o} da ishlatildi", kRefund:"Buyurtma №{o} bekor qilindi: qaytarildi", kClaw:"Buyurtma №{o} bekor qilindi: keshbek ayirildi", kRef:"Doʻstni taklif qilish bonusi", xsell:"Buni ham qoʻshing", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
     allPhones:"Barcha telefonlar uchun", choose:"Rangni tanlash", back:"Orqaga", navHome:"Asosiy", navCats:"Kategoriya", navCart:"Savat", navProf:"Profil",
     newest:"Yangi mahsulotlar", allProd:"Barcha mahsulotlar", cart:"Savat", total:"Jami", yname:"Ismingiz", yphone:"Telefon raqamingiz",
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
     items:"{n} ta", added:"Savatga qoʻshildi ✓", e5:"Savatda mahsulot juda koʻp. Ikki qismga boʻlib buyurtma bering.", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
-  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
+  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", bonusUse:"🎁 Использовать кэшбэк (баланс: {bal}, можно списать: {max})", bonusLine:"Кэшбэк", kOwner:"ВЛАДЕЛЕЦ", kBal:"БАЛАНС", kLocked:"Карта ещё не открыта", kInfo:"С каждого доставленного заказа возвращается {pct}% кэшбэка. Им можно оплатить до {max}% суммы заказа.", kProg:"Карта откроется после покупок на {need}. Сейчас: {cur}", kTitle:"История кэшбэка", kEmpty:"Пока нет операций", kEarn:"Кэшбэк за заказ №{o}", kUse:"Списано в заказе №{o}", kRefund:"Заказ №{o} отменён: возвращено", kClaw:"Заказ №{o} отменён: кэшбэк списан", kRef:"Бонус за приглашение друга", xsell:"Добавьте к заказу", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
     items:"{n} шт.", added:"Добавлено в корзину ✓", e5:"В корзине слишком много товаров. Оформите заказ в два приёма.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
-  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
+  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", bonusUse:"🎁 Use cashback (balance: {bal}, usable now: {max})", bonusLine:"Cashback", kOwner:"CARD HOLDER", kBal:"BALANCE", kLocked:"Card not opened yet", kInfo:"{pct}% of every delivered order comes back as cashback. It can pay up to {max}% of an order.", kProg:"The card opens after {need} of purchases. So far: {cur}", kTitle:"Cashback history", kEmpty:"No operations yet", kEarn:"Cashback for order №{o}", kUse:"Used on order №{o}", kRefund:"Order №{o} cancelled: returned", kClaw:"Order №{o} cancelled: cashback removed", kRef:"Invite a friend bonus", xsell:"Add to your order", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
@@ -280,7 +312,11 @@ if (!T[lang]) { const lc = ((tgu && tgu.language_code) || "").slice(0, 2); lang 
 // Bot mijoz tanlagan tilni va "maʼlumotlar saqlangan" belgisini manzil orqali yuboradi
 const QS = new URLSearchParams(location.search);
 if (T[QS.get("lang")]) { lang = QS.get("lang"); try { localStorage.setItem("lang", lang); } catch (e) {} }
-const REG = QS.get("reg") === "1";
+let REG = QS.get("reg") === "1";
+try { if (localStorage.getItem("reg") === "1") REG = true; } catch (e) {}
+let bonus = 0, useBonus = false, meOk = false;
+let me = { card: null, prog: 0, hist: [], raw: 0 };
+const BONUS_PCT = 2, BONUS_MAX_PCT = 35, CARD_NEED = 100000;  // app.py dagi BONUS_PCT, BONUS_MAX_PCT, CARD_AFTER bilan bir xil boʻlsin
 let prof = { name: "", phone: "", address: "" };
 try { Object.assign(prof, JSON.parse(localStorage.getItem("prof") || "{}")); } catch (e) {}
 if (!prof.name && tgu) prof.name = [tgu.first_name, tgu.last_name].filter(Boolean).join(" ");
@@ -339,6 +375,26 @@ const ICON = {
 const NAV = [["shop","navHome"],["catsv","navCats"],["favs","favT"],["cart","navCart"],["profile","navProf"]];
 const VIEWS = ["shop", "catsv", "favs", "detail", "cart", "profile"];
 
+function calc() {
+  const sum = totals().sum;
+  const disc = promo.pct ? Math.floor(sum * promo.pct / 100) : 0;
+  const after = sum - disc;
+  const cap = Math.min(bonus, Math.floor(after * BONUS_MAX_PCT / 100));
+  const bUse = useBonus ? cap : 0;
+  return { sum, disc, after, cap, bUse, total: after - bUse };
+}
+function xsellHtml() {
+  const inCart = Object.values(cart).map(x => byId[x.id]).filter(Boolean);
+  if (!inCart.length) return "";
+  const ids = new Set(inCart.map(p => p.id)), cats = new Set(inCart.map(p => ck(p)));
+  const models = new Set(inCart.flatMap(p => p.models || []));
+  const list = products
+    .filter(p => !ids.has(p.id) && !p.sold_out && !cats.has(ck(p)) && (!(p.models || []).length || !models.size || p.models.some(m => models.has(m))))
+    .sort((a, b) => (pct(b) > 0) - (pct(a) > 0) || a.price - b.price)
+    .slice(0, 6);
+  if (!list.length) return "";
+  return `<h2>${esc(t("xsell"))}</h2><div class="xs">${list.map(p => `<div class="xc" data-open="${p.id}"><div class="xi">${thumb(p)}</div><div class="xn">${esc(tr(p.name))}</div><div class="xp">${money(p.price)}</div>${(p.colors || []).length ? "" : `<button type="button" class="plus xa" data-inc="${p.id}|" aria-label="+">+</button>`}</div>`).join("")}</div>`;
+}
 const normCode = s => String(s || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 20);
 async function sha256hex(s) {
   const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
@@ -500,17 +556,48 @@ function renderCart() {
       if (["cname", "cphone", "locBtn", "locSt"].includes(el.id) || ["cname", "cphone"].includes(el.htmlFor)) el.classList.add("hidden");
     });
   }
-  const sum = totals().sum, disc = promo.pct ? Math.floor(sum * promo.pct / 100) : 0;
-  $("cartTotal").textContent = money(sum - disc);
-  $("promoLine").classList.toggle("hidden", !disc);
-  if (disc) $("promoLine").textContent = `${t("promoT")} ${promo.code}: −${promo.pct}% (−${money(disc)})`;
+  const c = calc();
+  $("cartTotal").textContent = money(c.total);
+  $("promoLine").classList.toggle("hidden", !c.disc);
+  if (c.disc) $("promoLine").textContent = `${t("promoT")} ${promo.code}: −${promo.pct}% (−${money(c.disc)})`;
+  $("bonusBox").classList.toggle("hidden", !(bonus > 0 && c.cap > 0));
+  $("bonusTxt").textContent = t("bonusUse").replace("{bal}", money(bonus)).replace("{max}", money(c.cap));
+  $("useBonus").checked = useBonus;
+  $("bonusLine").classList.toggle("hidden", !c.bUse);
+  if (c.bUse) $("bonusLine").textContent = `${t("bonusLine")}: −${money(c.bUse)}`;
+  $("xsell").innerHTML = xsellHtml();
   $("locSt").className = "ok"; $("locSt").textContent = loc ? t("locOk") : "";
   fixImgs();
   if (!$("cname").value) $("cname").value = prof.name;
   if (!$("cphone").value) $("cphone").value = prof.phone;
   if (!$("ccomment").value) $("ccomment").value = prof.address;
 }
+function renderCard() {
+  if (!meOk) { $("kcard").innerHTML = ""; $("khist").innerHTML = ""; return; }
+  const c = me.card;
+  const name = ((prof.name || "").trim() || "—").toUpperCase();
+  const no = c ? c.no.replace(/-/g, " ") : "•••• •••• ••••";
+  const since = c && c.since ? new Date(c.since * 1000).toLocaleDateString("en-GB", { timeZone: "Asia/Tashkent", month: "2-digit", year: "2-digit" }) : "";
+  const prog = Math.min(me.prog || 0, CARD_NEED), pc = Math.round(prog * 100 / CARD_NEED);
+  $("kcard").innerHTML = `<div class="kcard${c ? "" : " lock"}">
+    <div class="kt"><span>MOBITECH</span><span class="kpct">${BONUS_PCT}%</span></div>
+    <div class="kchip"></div>
+    ${c && since ? `<div class="ksince">${esc(since)}</div>` : ""}
+    <div class="kno">${esc(no)}</div>
+    <div class="kfoot"><div><small>${esc(t("kOwner"))}</small><b>${esc(name)}</b></div><div class="kr"><small>${esc(t("kBal"))}</small><b>${money(me.raw || 0)}</b></div></div>
+    ${c ? "" : `<div class="klock">🔒 ${esc(t("kLocked"))}</div>`}
+  </div>` + (c
+    ? `<p class="hint">${esc(t("kInfo").replace("{pct}", BONUS_PCT).replace("{max}", BONUS_MAX_PCT))}</p>`
+    : `<div class="kbar"><i style="width:${pc}%"></i></div><p class="hint">${esc(t("kProg").replace("{need}", money(CARD_NEED)).replace("{cur}", money(prog)))}</p>`);
+  const labels = { earn: "kEarn", use: "kUse", refund: "kRefund", claw: "kClaw", ref: "kRef" };
+  const hist = [...(me.hist || [])].reverse().slice(0, 30);
+  $("khist").innerHTML = `<h2>${esc(t("kTitle"))}</h2>` + (hist.length ? hist.map(([ts, a, k, o]) =>
+    `<div class="kh"><div><div>${esc(labels[k] ? t(labels[k]).replace("{o}", o) : "")}</div><small>${esc(new Date(ts * 1000).toLocaleString("ru-RU", { timeZone: "Asia/Tashkent", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }))}</small></div><b class="${a > 0 ? "kplus" : "kminus"}">${a > 0 ? "+" : "−"}${money(Math.abs(a))}</b></div>`).join("")
+    : `<p class="empty">${esc(t("kEmpty"))}</p>`);
+}
 function renderProfile() {
+  renderCard();
+  loadMe().then(() => { if (view === "profile") renderCard(); });
   $("pAva").textContent = ((prof.name || "?").trim()[0] || "?").toUpperCase();
   $("pName").textContent = prof.name || t("navProf");
   $("pn").value = prof.name; $("pp").value = prof.phone; $("pa").value = prof.address; $("pmsg").textContent = "";
@@ -629,6 +716,7 @@ window.addEventListener("pagehide", syncFlush);
 function clearCart() {
   cart = {};
   promo = { code: "", pct: 0 };
+  useBonus = false;
   saveCart();
   pend = null;
   clearTimeout(syncT);
@@ -670,7 +758,7 @@ function sendViaBot() {
     return `${x.id}-${x.qty}-${ci < 0 ? "x" : ci}`;
   });
   if (!parts.length) return $("err").textContent = t("e3");
-  const param = parts.join("_") + "_o" + (dlv === "yandex" ? "y" : "p") + (pay === "card" ? "k" : "c") + (promo.code ? "_p" + promo.code : "");
+  const param = parts.join("_") + "_o" + (dlv === "yandex" ? "y" : "p") + (pay === "card" ? "k" : "c") + (promo.code ? "_p" + promo.code : "") + (calc().bUse > 0 ? "_b" : "");
   if (param.length > 64) return $("err").textContent = t("e5");
   $("err").textContent = "";
   clearCart();
@@ -771,7 +859,7 @@ $("form").addEventListener("submit", e => {
   if (!REG && !loc && !$("ccomment").value.trim()) return $("err").textContent = t("e4");
   $("err").textContent = "";
   const order = {
-    name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum, delivery: dlv, pay, promo: promo.code,
+    name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum, delivery: dlv, pay, promo: promo.code, bonus: calc().bUse > 0,
     items: Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => ({ id: x.id, color: x.color, qty: x.qty }))
   };
   if (tg) { clearCart(); tg.sendData(JSON.stringify(order)); }
@@ -784,6 +872,7 @@ if (tg && tg.BackButton) tg.BackButton.onClick(() => {
 applyStatic();
 renderLangs();
 renderNav();
+$("useBonus").addEventListener("change", e => { useBonus = e.target.checked; renderCart(); });
 $("cpromo").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); applyPromo(); } });
 let drag = null, lastDrag = 0;
 document.addEventListener("touchstart", e => {
@@ -812,8 +901,22 @@ document.addEventListener("touchend", () => {
 }, { passive: true });
 document.addEventListener("touchcancel", () => { if (drag && drag.on) gotoImg(det.i || 0); drag = null; }, { passive: true });
 if (favs.length) syncNow(true);
-// Telefon raqami botda saqlanmagan boʻlsa, doʻkon ochilmaydi
-if (!REG) {
+// Mijoz botda telefon raqamini bergan boʻlsa, qaysi tugmadan kirmasin doʻkon ochiladi
+async function loadMe() {
+  if (!SYNC_URL || !tg || !tg.initData) return;
+  const ac = new AbortController();
+  const to = setTimeout(() => ac.abort(), 5000);
+  try {
+    const r = await fetch(SYNC_URL.replace(/\/$/, "") + "/me", { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ initData: tg.initData }), signal: ac.signal });
+    if (!r.ok) return;
+    const d = await r.json();
+    me = { card: d.card || null, prog: Number(d.prog) || 0, hist: Array.isArray(d.hist) ? d.hist : [], raw: Number(d.bonus) || 0 };
+    bonus = me.card ? me.raw : 0;  // keshbekni faqat karta ochilgandan keyin ishlatish mumkin
+    meOk = true;
+    if (d.reg) { REG = true; try { localStorage.setItem("reg", "1"); } catch (e) {} }
+  } catch (e) {} finally { clearTimeout(to); }
+}
+function showGate() {
   $("gateTxt").textContent = t("gate"); $("gateBtn").textContent = t("gateBtn");
   $("gateBtn").onclick = () => {
     const u = "https://t.me/" + BOT;
@@ -821,6 +924,11 @@ if (!REG) {
   };
   $("gate").classList.remove("hidden");
 }
+(async () => {
+  if (REG) { try { localStorage.setItem("reg", "1"); } catch (e) {} }
+  await loadMe();
+  if (!REG) showGate(); else refresh();
+})();
 </script>
 </body>
 </html>
