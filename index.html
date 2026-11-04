@@ -176,6 +176,10 @@ button:active{transform:scale(.96)}
 .kh{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--sf);border-radius:14px;padding:11px 13px;margin-bottom:8px;font-size:14px}
 .kh small{color:var(--mute);font-size:12px}
 .kplus{color:#16a34a}.kminus{color:#dc2626}
+@keyframes shk{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.shake{animation:shk .45s}
+.flash{outline:2px solid var(--ac);outline-offset:4px;border-radius:12px}
+.send[disabled]{opacity:.6}
 .ynote{margin:8px 0 12px;padding:10px 12px;border-radius:12px;background:var(--sf);color:var(--ac);font-size:13px;font-weight:600;line-height:1.35}
 #gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:28px;text-align:center}
 .fav{position:absolute;top:8px;right:8px;z-index:4;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
@@ -241,7 +245,7 @@ button:active{transform:scale(.96)}
       <label for="ccomment" data-i="comment"></label>
       <textarea id="ccomment" class="field" rows="2"></textarea>
       <div id="err" class="err" role="alert"></div>
-      <button type="submit" class="send" data-i="order"></button>
+      <button type="submit" id="sendBtn" class="send" data-i="order"></button>
     </form>
   </div>
 </section>
@@ -283,21 +287,21 @@ if (tg) { tg.ready(); tg.expand(); }
 
 const ALL = "*";
 const T = {
-  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", bonusUse:"🎁 Keshbekdan foydalanish (balans: {bal}, hozir ishlatish mumkin: {max})", bonusLine:"Keshbek", kOwner:"KARTA EGASI", kBal:"BALANS", kLocked:"Karta hali ochilmagan", kInfo:"Har yetkazilgan buyurtmadan {pct}% keshbek qaytadi. Keshbek bilan buyurtma summasining {max}% igacha toʻlash mumkin.", kProg:"Karta {need} soʻmlik xariddan keyin ochiladi. Hozirgacha: {cur}", kTitle:"Keshbek tarixi", kEmpty:"Hozircha operatsiyalar yoʻq", kEarn:"Buyurtma №{o} uchun keshbek", kUse:"Buyurtma №{o} da ishlatildi", kRefund:"Buyurtma №{o} bekor qilindi: qaytarildi", kClaw:"Buyurtma №{o} bekor qilindi: keshbek ayirildi", kRef:"Doʻstni taklif qilish bonusi", xsell:"Buni ham qoʻshing", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
+  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", bonusUse:"🎁 Keshbekdan foydalanish (balans: {bal}, hozir ishlatish mumkin: {max})", bonusLine:"Keshbek", sending:"Yuborilmoqda…", retry:"Telegram ochilmadi. Savat tiklandi, yana bir bor bosing.", kOwner:"KARTA EGASI", kBal:"BALANS", kLocked:"Karta hali ochilmagan", kInfo:"Har yetkazilgan buyurtmadan {pct}% keshbek qaytadi. Keshbek bilan buyurtma summasining {max}% igacha toʻlash mumkin.", kProg:"Karta {need} soʻmlik xariddan keyin ochiladi. Hozirgacha: {cur}", kTitle:"Keshbek tarixi", kEmpty:"Hozircha operatsiyalar yoʻq", kEarn:"Buyurtma №{o} uchun keshbek", kUse:"Buyurtma №{o} da ishlatildi", kRefund:"Buyurtma №{o} bekor qilindi: qaytarildi", kClaw:"Buyurtma №{o} bekor qilindi: keshbek ayirildi", kRef:"Doʻstni taklif qilish bonusi", xsell:"Buni ham qoʻshing", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
     allPhones:"Barcha telefonlar uchun", choose:"Rangni tanlash", back:"Orqaga", navHome:"Asosiy", navCats:"Kategoriya", navCart:"Savat", navProf:"Profil",
     newest:"Yangi mahsulotlar", allProd:"Barcha mahsulotlar", cart:"Savat", total:"Jami", yname:"Ismingiz", yphone:"Telefon raqamingiz",
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
     items:"{n} ta", added:"Savatga qoʻshildi ✓", e5:"Savatda mahsulot juda koʻp. Ikki qismga boʻlib buyurtma bering.", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
-  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", bonusUse:"🎁 Использовать кэшбэк (баланс: {bal}, можно списать: {max})", bonusLine:"Кэшбэк", kOwner:"ВЛАДЕЛЕЦ", kBal:"БАЛАНС", kLocked:"Карта ещё не открыта", kInfo:"С каждого доставленного заказа возвращается {pct}% кэшбэка. Им можно оплатить до {max}% суммы заказа.", kProg:"Карта откроется после покупок на {need}. Сейчас: {cur}", kTitle:"История кэшбэка", kEmpty:"Пока нет операций", kEarn:"Кэшбэк за заказ №{o}", kUse:"Списано в заказе №{o}", kRefund:"Заказ №{o} отменён: возвращено", kClaw:"Заказ №{o} отменён: кэшбэк списан", kRef:"Бонус за приглашение друга", xsell:"Добавьте к заказу", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
+  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", bonusUse:"🎁 Использовать кэшбэк (баланс: {bal}, можно списать: {max})", bonusLine:"Кэшбэк", sending:"Отправляем…", retry:"Telegram не открылся. Корзина восстановлена, нажмите ещё раз.", kOwner:"ВЛАДЕЛЕЦ", kBal:"БАЛАНС", kLocked:"Карта ещё не открыта", kInfo:"С каждого доставленного заказа возвращается {pct}% кэшбэка. Им можно оплатить до {max}% суммы заказа.", kProg:"Карта откроется после покупок на {need}. Сейчас: {cur}", kTitle:"История кэшбэка", kEmpty:"Пока нет операций", kEarn:"Кэшбэк за заказ №{o}", kUse:"Списано в заказе №{o}", kRefund:"Заказ №{o} отменён: возвращено", kClaw:"Заказ №{o} отменён: кэшбэк списан", kRef:"Бонус за приглашение друга", xsell:"Добавьте к заказу", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
     items:"{n} шт.", added:"Добавлено в корзину ✓", e5:"В корзине слишком много товаров. Оформите заказ в два приёма.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
-  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", bonusUse:"🎁 Use cashback (balance: {bal}, usable now: {max})", bonusLine:"Cashback", kOwner:"CARD HOLDER", kBal:"BALANCE", kLocked:"Card not opened yet", kInfo:"{pct}% of every delivered order comes back as cashback. It can pay up to {max}% of an order.", kProg:"The card opens after {need} of purchases. So far: {cur}", kTitle:"Cashback history", kEmpty:"No operations yet", kEarn:"Cashback for order №{o}", kUse:"Used on order №{o}", kRefund:"Order №{o} cancelled: returned", kClaw:"Order №{o} cancelled: cashback removed", kRef:"Invite a friend bonus", xsell:"Add to your order", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
+  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", bonusUse:"🎁 Use cashback (balance: {bal}, usable now: {max})", bonusLine:"Cashback", sending:"Sending…", retry:"Telegram did not open. Cart restored, please tap again.", kOwner:"CARD HOLDER", kBal:"BALANCE", kLocked:"Card not opened yet", kInfo:"{pct}% of every delivered order comes back as cashback. It can pay up to {max}% of an order.", kProg:"The card opens after {need} of purchases. So far: {cur}", kTitle:"Cashback history", kEmpty:"No operations yet", kEarn:"Cashback for order №{o}", kUse:"Used on order №{o}", kRefund:"Order №{o} cancelled: returned", kClaw:"Order №{o} cancelled: cashback removed", kRef:"Invite a friend bonus", xsell:"Add to your order", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
@@ -752,18 +756,47 @@ function renderOpts() {
   $("payNote").textContent = dlv === "yandex" ? t("payYandexNote") : "";
   $("yNote").classList.toggle("hidden", dlv !== "yandex");
 }
+let sending = false;
+function setSending(on) {
+  sending = on;
+  const b = $("sendBtn");
+  b.disabled = on;
+  b.textContent = on ? t("sending") : t("order");
+}
+function fail(msg, targetId) {
+  $("err").textContent = msg;
+  try { if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred("error"); } catch (x) {}
+  const el = targetId ? $(targetId) : null;
+  if (el) {
+    if (el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.remove("shake", "flash"); void el.offsetWidth; el.classList.add("shake", "flash");
+    setTimeout(() => el.classList.remove("shake", "flash"), 1600);
+  }
+}
 function sendViaBot() {
   const parts = Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => {
     const p = byId[x.id], ci = x.color ? (p.colors || []).findIndex(c => cuz(c) === x.color) : -1;
     return `${x.id}-${x.qty}-${ci < 0 ? "x" : ci}`;
   });
-  if (!parts.length) return $("err").textContent = t("e3");
+  if (!parts.length) return fail(t("e3"), "lines");
   const param = parts.join("_") + "_o" + (dlv === "yandex" ? "y" : "p") + (pay === "card" ? "k" : "c") + (promo.code ? "_p" + promo.code : "") + (calc().bUse > 0 ? "_b" : "");
-  if (param.length > 64) return $("err").textContent = t("e5");
+  if (param.length > 64) return fail(t("e5"), "lines");
   $("err").textContent = "";
+  setSending(true);
+  const snap = JSON.stringify(cart), promoSnap = { ...promo }, bonusSnap = useBonus;
+  tg.openTelegramLink("https://t.me/" + BOT + "?start=" + param);  // avval Telegram'ga topshiramiz, keyin tozalaymiz
   clearCart();
-  tg.openTelegramLink("https://t.me/" + BOT + "?start=" + param);
   setTimeout(() => tg.close(), 400);
+  // Telegram ochilmasa (ilova yopilmasa): savat tiklanadi, mijoz qayta bosadi
+  setTimeout(() => {
+    if (!sending) return;
+    try { cart = JSON.parse(snap); } catch (x) { cart = {}; }
+    promo = promoSnap; useBonus = bonusSnap;
+    saveCart(); syncNow();
+    setSending(false);
+    refresh();
+    $("err").textContent = t("retry");
+  }, 3500);
 }
 function askLoc() {
   const ok = v => { $("locSt").className = v ? "ok" : "err"; $("locSt").textContent = v ? t("locOk") : t("locErr"); };
@@ -848,21 +881,22 @@ $("pform").addEventListener("submit", e => {
 
 $("form").addEventListener("submit", e => {
   e.preventDefault();
+  if (sending) return;
   const name = $("cname").value.trim(), phone = $("cphone").value.trim();
-  if (!dlv) return $("err").textContent = t("e6");
-  if (!pay) return $("err").textContent = t("e7");
+  if (!dlv) return fail(t("e6"), "dlvOpts");
+  if (!pay) return fail(t("e7"), "payBox");
   if (tg && !viaKeyboard()) return sendViaBot();
-  if (!REG && !name) return $("err").textContent = t("e1");
-  if (!REG && phone.replace(/\D/g, "").length < 9) return $("err").textContent = t("e2");
+  if (!REG && !name) return fail(t("e1"), "cname");
+  if (!REG && phone.replace(/\D/g, "").length < 9) return fail(t("e2"), "cphone");
   const { count, sum } = totals();
-  if (!count) return $("err").textContent = t("e3");
-  if (!REG && !loc && !$("ccomment").value.trim()) return $("err").textContent = t("e4");
+  if (!count) return fail(t("e3"), "lines");
+  if (!REG && !loc && !$("ccomment").value.trim()) return fail(t("e4"), "locBtn");
   $("err").textContent = "";
   const order = {
     name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum, delivery: dlv, pay, promo: promo.code, bonus: calc().bUse > 0,
     items: Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => ({ id: x.id, color: x.color, qty: x.qty }))
   };
-  if (tg) { clearCart(); tg.sendData(JSON.stringify(order)); }
+  if (tg) { setSending(true); clearCart(); tg.sendData(JSON.stringify(order)); }
   else alert(t("outside") + "\n" + JSON.stringify(order, null, 2));
 });
 
