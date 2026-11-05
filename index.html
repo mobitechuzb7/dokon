@@ -7,14 +7,14 @@
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--bg:#f5f5f6;--sf:#fff;--tile:#ebebed;--ink:#16171a;--mute:#74767d;--line:#e3e3e6;--btn:#16171a;--bt:#fff;--ac:#9a7436;--bad:#b3261e;--ok:#17794a;--glass:rgba(255,255,255,.86);--veil:rgba(245,245,246,.76);--xbg:#eeeae2;--xbd:#d9d2c3;--gold:#d9b97a}
-@media(prefers-color-scheme:dark){:root{--bg:#0b0b0c;--sf:#151517;--tile:#1e1e21;--ink:#f3f3f4;--mute:#8c8e95;--line:#27272b;--btn:#f3f3f4;--bt:#0b0b0c;--ac:#c9a45c;--bad:#f0716a;--ok:#4cc38a;--glass:rgba(11,11,12,.86);--veil:rgba(11,11,12,.72);--xbg:#1c1812;--xbd:#3a3224}}
+:root{--bg:#f3f3f5;--sf:#fff;--tile:#ececef;--spot:#fff;--ink:#121214;--mute:#6f7178;--line:#e1e1e5;--btn:#121214;--bt:#fff;--ac:#a9823f;--gold:#dcbd7e;--bad:#b3261e;--ok:#17794a;--glass:rgba(255,255,255,.86);--veil:rgba(243,243,245,.78);--xbg:#ece7dc;--xbd:#d6cdb9;--obs:#101012;--serif:"Cormorant Garamond","Playfair Display",Georgia,"Times New Roman",serif;--gold-grad:linear-gradient(135deg,#f0dfae 0%,#d1ac62 52%,#a8812f 100%)}
+@media(prefers-color-scheme:dark){:root{--bg:#09090a;--sf:#131315;--tile:#1b1b1e;--spot:#2b2b30;--ink:#f4f1ea;--mute:#8e9097;--line:#26262a;--btn:#f4f1ea;--bt:#0b0b0c;--ac:#cfaa63;--gold:#e0c387;--bad:#f0716a;--ok:#4cc38a;--glass:rgba(9,9,10,.84);--veil:rgba(9,9,10,.74);--xbg:#1b1710;--xbd:#392f1f;--obs:#1a1a1d}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:15px/1.45 "Manrope",-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;letter-spacing:-.005em;-webkit-font-smoothing:antialiased;padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px))}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 "Manrope",-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;letter-spacing:-.005em;-webkit-font-smoothing:antialiased;padding:16px 16px calc(112px + env(safe-area-inset-bottom,0px))}
 button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--ac);outline-offset:2px}
@@ -22,92 +22,103 @@ button{cursor:pointer}
 img{display:block}
 
 #head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.logo{font-size:20px;font-weight:700;letter-spacing:-.035em}
-.logo span{color:var(--mute);font-weight:500}
-.seg{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px}
+.logo{font-family:var(--serif);font-size:31px;font-weight:700;letter-spacing:.005em;line-height:1}
+.logo span{color:var(--ac);font-weight:600;font-style:italic}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--sf)}
 .seg button{border:0;background:none;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:600;color:var(--mute)}
-.seg button[aria-pressed="true"]{background:var(--btn);color:var(--bt)}
+.seg button[aria-pressed="true"]{background:var(--obs);color:var(--gold)}
+
+.hero2{position:relative;z-index:6;margin:0 0 16px;padding:18px 18px 16px;border-radius:24px;color:#f3ecdc;overflow:hidden;background:radial-gradient(110% 130% at 100% 0%,rgba(207,170,99,.32),transparent 56%),repeating-linear-gradient(115deg,rgba(255,255,255,.03) 0 1px,transparent 1px 9px),linear-gradient(155deg,#28282d,#09090b);border:1px solid rgba(220,189,126,.3);box-shadow:0 16px 30px -18px rgba(8,8,12,.6)}
+.hero2::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.1) 50%,transparent 62%);transform:translateX(-130%);animation:sheen 1.8s .5s ease-out 1 forwards;pointer-events:none}
+.h2t{font-family:var(--serif);font-size:27px;line-height:1.06;font-weight:600;max-width:20ch}
+.h2s{margin:8px 0 14px;font-size:13px;line-height:1.5;color:rgba(243,236,220,.72);max-width:34ch}
+.h2b{border:1px solid rgba(220,189,126,.6);background:rgba(220,189,126,.1);color:var(--gold);border-radius:999px;padding:8px 16px;font-size:12.5px;font-weight:600}
+@keyframes sheen{to{transform:translateX(130%)}}
 
 .top{position:sticky;top:0;z-index:5;background:var(--bg);padding:2px 0 12px}
-.field{width:100%;background:var(--sf);border:1px solid var(--line);border-radius:12px;padding:13px 14px;transition:border-color .15s}
-.field:focus{outline:none;border-color:var(--ink)}
-select.field{-webkit-appearance:none;appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2374767d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.field{width:100%;background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:14px 15px;transition:border-color .15s,box-shadow .15s}
+.field:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(169,130,63,.16)}
+select.field{-webkit-appearance:none;appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23a9823f' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center}
 .row{margin-top:8px}
 .chips{display:flex;gap:8px;overflow-x:auto;margin-top:12px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1px solid var(--line);background:none;border-radius:999px;padding:8px 15px;font-size:13.5px;font-weight:500;color:var(--mute)}
-.chip[aria-pressed="true"]{background:var(--btn);color:var(--bt);border-color:var(--btn)}
+.chip{flex:none;border:1px solid var(--line);background:var(--sf);border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:500;color:var(--mute)}
+.chip[aria-pressed="true"]{background:var(--obs);color:var(--gold);border-color:var(--obs);font-weight:600}
 
-h1{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin:4px 0 16px}
+h1{font-family:var(--serif);font-size:36px;font-weight:600;letter-spacing:-.01em;line-height:1.02;margin:6px 0 18px}
+h1.pn{font-family:inherit;font-size:25px;font-weight:700;letter-spacing:-.025em;line-height:1.2;margin:18px 0 6px}
 h2{font-size:13px;color:var(--mute);font-weight:600;margin:20px 0 8px}
-.st{font-size:17px;font-weight:650;letter-spacing:-.02em;margin:26px 0 14px;color:var(--ink)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px 12px}
+.st{font-family:var(--serif);font-size:29px;font-weight:600;letter-spacing:-.005em;line-height:1.05;margin:30px 0 16px;color:var(--ink);display:flex;align-items:center;gap:14px}
+.st::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--ac),transparent)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px 14px}
 @media(min-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}}
-.hrow{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 16px;scrollbar-width:none;margin:0 -16px;padding:0 16px}
+.hrow{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 16px;scrollbar-width:none;margin:0 -16px;padding:0 16px}
 .hrow::-webkit-scrollbar{display:none}
-.hrow .card{flex:0 0 150px;scroll-snap-align:start}
+.hrow .card{flex:0 0 158px;scroll-snap-align:start}
 .card{background:none;padding:0;display:flex;flex-direction:column}
-.pic{aspect-ratio:1;border-radius:16px;overflow:hidden;background:var(--tile);display:flex;align-items:center;justify-content:center;font-size:48px;cursor:pointer}
+.pic,.tp,.lp,.hero{background:radial-gradient(90% 80% at 50% 26%,var(--spot) 0,var(--tile) 76%)}
+.pic{aspect-ratio:1;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:48px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(120,120,130,.12)}
 .pic img{width:100%;height:100%;object-fit:cover}
-.cn{font-weight:500;font-size:14px;line-height:1.3;margin:10px 2px 0;cursor:pointer;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
-.cr{display:flex;align-items:center;justify-content:space-between;margin:6px 2px 0}
-.cr b{font-size:15px;font-weight:700;letter-spacing:-.015em;font-variant-numeric:tabular-nums}
-.plus{width:32px;height:32px;border-radius:50%;border:0;background:var(--btn);color:var(--bt);font-size:18px;font-weight:500;line-height:1}
+.cn{font-weight:500;font-size:14px;line-height:1.3;margin:11px 3px 0;cursor:pointer;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+.cr{display:flex;align-items:center;justify-content:space-between;margin:7px 3px 0}
+.cr b{font-size:15.5px;font-weight:700;letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.plus{width:34px;height:34px;border-radius:50%;border:0;background:var(--obs);color:var(--gold);font-size:19px;font-weight:500;line-height:1;box-shadow:0 0 0 1px rgba(220,189,126,.5)}
 .empty{color:var(--mute);text-align:center;padding:40px 12px}
 
 .tile{border:0;text-align:left;background:none;color:inherit;padding:0;display:flex;flex-direction:column}
-.tp{aspect-ratio:1.3;border-radius:16px;overflow:hidden;background:var(--tile);display:flex;align-items:center;justify-content:center;font-size:44px}
+.tp{aspect-ratio:1.3;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:inset 0 0 0 1px rgba(120,120,130,.12)}
 .tp img{width:100%;height:100%;object-fit:cover}
-.tile b{margin:10px 2px 0;font-size:15px;font-weight:600;letter-spacing:-.015em}
-.tile small{margin:2px 2px 0;color:var(--mute)}
+.tile b{margin:11px 3px 0;font-size:15px;font-weight:600;letter-spacing:-.015em}
+.tile small{margin:2px 3px 0;color:var(--mute)}
 
-.step{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:12px}
+.step{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:13px;background:var(--sf)}
 .step button{border:0;background:none;width:44px;height:40px;font-size:19px}
-.line{display:flex;align-items:center;gap:14px;background:none;border-bottom:1px solid var(--line);padding:14px 0}
-.lp{flex:none;width:60px;height:60px;border-radius:12px;overflow:hidden;background:var(--tile);display:flex;align-items:center;justify-content:center;font-size:28px}
+.line{display:flex;align-items:center;gap:14px;background:none;border-bottom:1px solid var(--line);padding:16px 0}
+.lp{flex:none;width:64px;height:64px;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px}
 .lp img{width:100%;height:100%;object-fit:cover}
 .line .nm{flex:1;font-weight:500;line-height:1.3}
 .meta{color:var(--mute);font-size:13px;font-weight:400;font-variant-numeric:tabular-nums}
 .line .step{flex:0 0 112px}
-.total{display:flex;justify-content:space-between;font-weight:700;font-size:20px;letter-spacing:-.025em;padding:16px 0 12px;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:22px;letter-spacing:-.025em;padding:18px 0 12px;font-variant-numeric:tabular-nums}
+.total span:first-child{font-family:var(--serif);font-size:28px;font-weight:600;letter-spacing:0}
 form{display:flex;flex-direction:column;gap:8px}
 label{font-size:13px;font-weight:500;color:var(--mute);margin-top:6px}
 .err{color:var(--bad);font-size:14px;min-height:20px}
 .err:empty{display:none}
 .ok{color:var(--ok);font-size:14px;min-height:20px}
 .hint{color:var(--mute);font-size:13px;margin:4px 0}
-.send{border:0;border-radius:14px;background:var(--btn);color:var(--bt);padding:16px;font-weight:600;font-size:15px;width:100%}
-.pcard{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:16px}
-.ava{width:52px;height:52px;border-radius:50%;background:var(--tile);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600}
+.send{border:0;border-radius:15px;background:var(--gold-grad);color:#1b1406;padding:17px;font-weight:700;font-size:15px;letter-spacing:.005em;width:100%;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 24px -8px rgba(169,130,63,.55)}
+.pcard{display:flex;align-items:center;gap:14px;background:var(--sf);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:16px}
+.ava{width:54px;height:54px;border-radius:50%;background:var(--obs);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:28px;font-weight:700;box-shadow:0 0 0 2px var(--sf),0 0 0 3px var(--ac)}
 .pname{font-size:18px;font-weight:650;letter-spacing:-.02em}
 
 .backbar{position:sticky;top:0;z-index:6;background:var(--bg);padding:2px 0 10px}
 .back{display:flex;align-items:center;gap:10px;border:0;background:none;color:var(--ink);padding:10px 0;font-weight:600;font-size:15px}
-.back::before{content:"←";font-size:22px;line-height:1}
-.hero{position:relative;aspect-ratio:1;max-height:62vh;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:96px;border-radius:22px;overflow:hidden;background:var(--tile)}
+.back::before{content:"←";font-size:22px;line-height:1;color:var(--ac)}
+.hero{position:relative;aspect-ratio:1;max-height:62vh;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:96px;border-radius:26px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(120,120,130,.14)}
 .hero img{width:100%;height:100%;object-fit:contain}
 .hero.zoomable{cursor:zoom-in}
 .hero b{position:absolute;right:12px;bottom:12px;width:36px;height:36px;border-radius:50%;background:var(--glass);color:var(--ink);border:1px solid var(--line);font-size:16px;display:flex;align-items:center;justify-content:center}
 .desc{white-space:pre-line;margin:0;color:var(--ink)}
 .colors{display:flex;flex-wrap:wrap;gap:8px}
-.pill{border:1px solid var(--line);background:none;border-radius:999px;padding:9px 15px;display:flex;align-items:center;gap:8px;font-weight:500}
-.pill[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.pill{border:1px solid var(--line);background:var(--sf);border-radius:999px;padding:9px 16px;display:flex;align-items:center;gap:8px;font-weight:500}
+.pill[aria-pressed="true"]{border-color:var(--ac);box-shadow:inset 0 0 0 1px var(--ac)}
 .pill i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(128,128,128,.5)}
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--glass);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:14px}
-.dp{font-size:19px;font-weight:700;letter-spacing:-.025em;white-space:nowrap;font-variant-numeric:tabular-nums}
-.dock .send{flex:1;width:auto;padding:15px 12px}
-.dock .step{flex:1}
+.dock{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:20;background:rgba(14,14,16,.92);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);border:1px solid rgba(220,189,126,.22);border-radius:26px;padding:9px 9px 9px 22px;display:flex;align-items:center;gap:14px;box-shadow:0 18px 44px rgba(0,0,0,.34);color:#f4efe3}
+.dp{font-size:20px;font-weight:700;letter-spacing:-.025em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.dock .send{flex:1;width:auto;padding:15px 12px;border-radius:18px}
+.dock .step{flex:1;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:#f4efe3}
 .dock .step button{height:48px}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 #detail{animation-name:fade}
 
-#nav{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--glass);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
-.nb{position:relative;border:0;background:none;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 6px;font-size:11px;font-weight:600}
-.nb::before{content:"";position:absolute;top:-7px;left:34%;right:34%;height:2px;border-radius:2px;background:var(--ink);opacity:0;transition:opacity .2s}
+#nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:15;background:rgba(14,14,16,.92);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);border:1px solid rgba(220,189,126,.22);border-radius:26px;box-shadow:0 18px 44px rgba(0,0,0,.34);display:grid;grid-template-columns:repeat(5,1fr);padding:6px}
+.nb{position:relative;border:0;background:none;color:rgba(244,239,227,.5);display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 8px;font-size:10px;font-weight:600}
+.nb::after{content:"";position:absolute;bottom:1px;width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0;transform:scale(.4);transition:.2s}
 .nb svg{width:23px;height:23px}
-.nb[aria-pressed="true"]{color:var(--ink)}
-.nb[aria-pressed="true"]::before{opacity:1}
-.nb em{position:absolute;top:2px;left:calc(50% + 6px);min-width:17px;height:17px;border-radius:9px;background:var(--ink);color:var(--bg);font-size:10.5px;font-weight:700;font-style:normal;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.nb[aria-pressed="true"]{color:var(--gold)}
+.nb[aria-pressed="true"]::after{opacity:1;transform:none}
+.nb em{position:absolute;top:3px;left:calc(50% + 6px);min-width:17px;height:17px;border-radius:9px;background:var(--gold-grad);color:#1b1406;font-size:10.5px;font-weight:800;font-style:normal;display:flex;align-items:center;justify-content:center;padding:0 5px}
 
 #lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92)}
 #lbbox{position:absolute;inset:0;overflow:auto;display:flex}
@@ -123,84 +134,85 @@ button:active{transform:scale(.97)}
 .pic img,.tp img,.lp img{opacity:0;transition:opacity .3s ease}
 .pic img.ld,.tp img.ld,.lp img.ld{opacity:1}
 .sk .pic{animation:sh 1.2s ease infinite}
-.alt{border:1px solid var(--line);background:none;color:var(--ink);border-radius:12px;padding:13px;font-weight:600;margin-top:4px}
+.alt{border:1px solid var(--line);background:var(--sf);color:var(--ink);border-radius:13px;padding:13px;font-weight:600;margin-top:4px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--btn);color:var(--bt);padding:10px 18px;border-radius:12px;font-weight:600;z-index:30;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap}
+#toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--obs);color:var(--gold);border:1px solid rgba(220,189,126,.35);padding:10px 18px;border-radius:14px;font-weight:600;z-index:30;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap}
 #toast.on{opacity:1}
 #banners{margin:2px -16px 6px;padding:0 16px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 #banners::-webkit-scrollbar{display:none}
-.bn{flex:0 0 88%;scroll-snap-align:center;border:0;padding:0;border-radius:20px;overflow:hidden;aspect-ratio:2/1;background:var(--tile)}
+.bn{flex:0 0 88%;scroll-snap-align:center;border:0;padding:0;border-radius:22px;overflow:hidden;aspect-ratio:2/1;background:var(--tile)}
 .bn img{width:100%;height:100%;object-fit:cover}
 .pic{position:relative}
-.badge{position:absolute;top:10px;left:10px;z-index:3;background:var(--ink);color:var(--bg);font-weight:600;font-size:11px;line-height:1;padding:5px 8px;border-radius:8px;pointer-events:none}
+.badge{position:absolute;top:10px;left:10px;z-index:3;background:var(--gold-grad);color:#1b1406;font-weight:800;font-size:11px;line-height:1;padding:5px 9px;border-radius:999px;pointer-events:none;box-shadow:0 4px 10px -4px rgba(120,90,30,.6)}
 .sold{position:absolute;inset:0;z-index:2;background:var(--veil);color:var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-size:14px;font-weight:600;pointer-events:none}
 .hero .sold{font-size:20px}
-.hero .badge{top:12px;left:12px;font-size:13px;padding:6px 10px}
+.hero .badge{top:12px;left:12px;font-size:13px;padding:6px 11px}
 .pr{display:flex;flex-direction:column;line-height:1.2}
 .pr s{color:var(--mute);font-size:12px;font-weight:500}
 .pr b{color:var(--bad)}
 .plus.off{opacity:.35}
-.dp s{display:block;color:var(--mute);font-size:12px;font-weight:500;letter-spacing:0}
-.dp.dc{color:var(--bad)}
+.dp s{display:block;color:rgba(244,239,227,.55);font-size:12px;font-weight:500;letter-spacing:0}
+.dp.dc{color:var(--gold)}
 .send[disabled]{opacity:.5;cursor:not-allowed}
-.nbtn{position:absolute;left:8px;right:8px;bottom:8px;z-index:5;border:0;border-radius:10px;padding:9px 6px;background:var(--btn);color:var(--bt);font-size:12px;font-weight:600;line-height:1.15;cursor:pointer}
-.nbtn[disabled]{background:var(--glass);color:var(--ink);cursor:default}
+.nbtn{position:absolute;left:8px;right:8px;bottom:8px;z-index:5;border:1px solid rgba(220,189,126,.5);border-radius:12px;padding:9px 6px;background:var(--obs);color:var(--gold);font-size:12px;font-weight:600;line-height:1.15;cursor:pointer}
+.nbtn[disabled]{background:var(--glass);color:var(--ink);border-color:var(--line);cursor:default}
 .prow{display:flex;gap:8px;align-items:stretch}.prow .field{flex:1;min-width:0;text-transform:uppercase}
-.prow .pbtn{flex:0 0 auto;border:0;border-radius:12px;padding:0 18px;background:var(--btn);color:var(--bt);font-weight:600;cursor:pointer}
+.prow .pbtn{flex:0 0 auto;border:0;border-radius:14px;padding:0 18px;background:var(--obs);color:var(--gold);font-weight:700;cursor:pointer}
 .hero.gal{touch-action:pan-y;-webkit-user-select:none;user-select:none}
 .gtrack{display:flex;width:100%;height:100%;transition:transform .4s cubic-bezier(.22,.8,.3,1);will-change:transform}
 .gs{flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center}
 .gs img{-webkit-user-drag:none;pointer-events:none}
-.garrow{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:38px;height:38px;padding:0 0 3px;border-radius:50%;border:1px solid var(--line);background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ink);font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .2s}
+.garrow{position:absolute;top:50%;transform:translateY(-50%);z-index:6;width:40px;height:40px;padding:0 0 3px;border-radius:50%;border:1px solid rgba(220,189,126,.45);background:rgba(14,14,16,.78);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--gold);font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .2s}
 .garrow.gl{left:10px}.garrow.gr{right:10px}.garrow.off{opacity:0;pointer-events:none}
-.thumbs{position:relative;display:flex;gap:8px;overflow-x:auto;margin:10px 0 0;scrollbar-width:none}.thumbs::-webkit-scrollbar{display:none}
-.th{flex:0 0 56px;height:56px;border-radius:10px;overflow:hidden;border:1px solid var(--line);padding:0;background:var(--tile);cursor:pointer}
-.th[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}.th img{width:100%;height:100%;object-fit:cover;display:block}
-.gcnt{position:absolute;left:12px;bottom:12px;background:var(--glass);color:var(--ink);border:1px solid var(--line);font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px}
-.chk{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;margin-top:10px;border-radius:12px;background:var(--sf);border:1px solid var(--line);font-size:14px;font-weight:500;line-height:1.4;color:var(--ink)}
-.chk input{flex:0 0 auto;margin-top:2px;width:18px;height:18px;accent-color:var(--ink)}
+.thumbs{position:relative;display:flex;gap:8px;overflow-x:auto;margin:12px 0 0;scrollbar-width:none}.thumbs::-webkit-scrollbar{display:none}
+.th{flex:0 0 58px;height:58px;border-radius:12px;overflow:hidden;border:1px solid var(--line);padding:0;background:var(--tile);cursor:pointer}
+.th[aria-pressed="true"]{border-color:var(--ac);box-shadow:inset 0 0 0 1px var(--ac)}.th img{width:100%;height:100%;object-fit:cover;display:block}
+.gcnt{position:absolute;left:12px;bottom:12px;background:rgba(14,14,16,.78);color:var(--gold);border:1px solid rgba(220,189,126,.35);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;margin-top:10px;border-radius:13px;background:var(--sf);border:1px solid var(--line);font-size:14px;font-weight:500;line-height:1.4;color:var(--ink)}
+.chk input{flex:0 0 auto;margin-top:2px;width:18px;height:18px;accent-color:var(--ac)}
 .xs{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px;scrollbar-width:none}.xs::-webkit-scrollbar{display:none}
-.xc{position:relative;flex:0 0 120px;background:var(--sf);border:1px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:4px;cursor:pointer}
-.xc .xi{height:86px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--tile)}
+.xc{position:relative;flex:0 0 122px;background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:4px;cursor:pointer}
+.xc .xi{height:88px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:40px;background:radial-gradient(90% 80% at 50% 26%,var(--spot) 0,var(--tile) 76%)}
 .xc .xi img{width:100%;height:100%;object-fit:cover}
 .xn{font-size:12px;font-weight:500;line-height:1.25;max-height:2.5em;overflow:hidden}
 .xp{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
-.xc .xa{position:absolute;right:14px;top:62px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.xc .xa{position:absolute;right:14px;top:64px;box-shadow:0 3px 10px rgba(0,0,0,.3),0 0 0 1px rgba(220,189,126,.5)}
 
-.kcard{position:relative;aspect-ratio:1.586;max-width:380px;margin:0 auto 14px;border-radius:20px;padding:20px;color:#f2ece0;background:radial-gradient(120% 90% at 100% 0%,rgba(201,164,92,.24),transparent 55%),linear-gradient(150deg,#232327,#0c0c0e);border:1px solid rgba(255,255,255,.09);box-shadow:0 18px 40px rgba(10,10,12,.26);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.kcard{position:relative;aspect-ratio:1.586;max-width:380px;margin:0 auto 14px;border-radius:22px;padding:20px;color:#f3ecdc;background:radial-gradient(120% 90% at 100% 0%,rgba(207,170,99,.3),transparent 55%),repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 1px,transparent 1px 8px),linear-gradient(150deg,#2a2a2f,#09090b);border:1px solid rgba(220,189,126,.32);box-shadow:0 22px 46px -16px rgba(8,8,12,.55);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.kcard::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.13) 50%,transparent 62%);transform:translateX(-130%);animation:sheen 1.8s .4s ease-out 1 forwards;pointer-events:none}
 .kcard.lock{filter:grayscale(1) brightness(.85)}
-.kt{display:flex;justify-content:space-between;align-items:center;font-size:13px;letter-spacing:.2em;font-weight:600}
-.kpct{font-size:12px;font-weight:600;color:var(--gold);border:1px solid rgba(217,185,122,.55);padding:3px 10px;border-radius:999px;letter-spacing:.02em}
-.kchip{width:40px;height:30px;border-radius:6px;background:linear-gradient(135deg,#e2c98f,#a8812f)}
-.kno{font-size:19px;font-weight:600;letter-spacing:.14em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kt{display:flex;justify-content:space-between;align-items:center;font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:.12em}
+.kpct{font-family:"Manrope",sans-serif;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--gold);border:1px solid rgba(220,189,126,.6);padding:3px 11px;border-radius:999px}
+.kchip{width:42px;height:31px;border-radius:7px;background:linear-gradient(135deg,#f0dfae,#a8812f);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.kno{font-size:19px;font-weight:600;letter-spacing:.15em;font-variant-numeric:tabular-nums;white-space:nowrap}
 .kfoot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
 .kfoot small{display:block;font-size:9px;letter-spacing:.14em;opacity:.6;margin-bottom:3px}
 .kfoot b{display:block;font-size:14px;font-weight:600;letter-spacing:.04em;max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .kfoot .kr{text-align:right}
 .kfoot .kr b{color:var(--gold)}
-.ksince{position:absolute;right:20px;top:62px;font-size:11px;opacity:.65}
+.ksince{position:absolute;right:20px;top:66px;font-size:11px;opacity:.65}
 .klock{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:rgba(10,10,12,.5);font-weight:600;font-size:14px}
 .kbar{height:6px;border-radius:999px;background:var(--line);overflow:hidden;margin:8px 0}
-.kbar i{display:block;height:100%;background:var(--ac);border-radius:999px}
-.kh{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding:12px 0;font-size:14px;font-variant-numeric:tabular-nums}
+.kbar i{display:block;height:100%;background:var(--gold-grad);border-radius:999px}
+.kh{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding:13px 0;font-size:14px;font-variant-numeric:tabular-nums}
 .kh small{color:var(--mute);font-size:12px}
 .kh b{white-space:nowrap;font-weight:600}
 .kplus{color:var(--ok)}.kminus{color:var(--bad)}
 @keyframes shk{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 .shake{animation:shk .45s}
-.flash{outline:2px solid var(--ink);outline-offset:4px;border-radius:12px}
-.xpanel{background:var(--xbg);border:1px solid var(--xbd);border-radius:18px;padding:14px 14px 8px;margin:16px 0}
-.xpanel h2{margin:0 0 10px}
+.flash{outline:2px solid var(--ac);outline-offset:4px;border-radius:12px}
+.xpanel{background:var(--xbg);border:1px solid var(--xbd);border-radius:22px;padding:16px 14px 8px;margin:18px 0}
+.xpanel h2{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--ink);margin:0 0 12px}
 .xpanel .xs{margin-bottom:6px}
-.kbox{margin:10px 0 16px;padding:14px 16px;border-radius:16px;background:radial-gradient(120% 90% at 100% 0%,rgba(201,164,92,.2),transparent 55%),linear-gradient(150deg,#232327,#0c0c0e);border:1px solid rgba(255,255,255,.09);color:#f2ece0}
+.kbox{margin:10px 0 16px;padding:15px 16px;border-radius:18px;background:radial-gradient(120% 90% at 100% 0%,rgba(207,170,99,.24),transparent 55%),repeating-linear-gradient(115deg,rgba(255,255,255,.03) 0 1px,transparent 1px 8px),linear-gradient(150deg,#2a2a2f,#09090b);border:1px solid rgba(220,189,126,.32);color:#f3ecdc}
 .kbtop{display:flex;justify-content:space-between;align-items:center;font-size:14px}
 .kbtop>b{color:var(--gold);font-variant-numeric:tabular-nums}
-.kbox .chk{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);color:inherit}
+.kbox .chk{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:inherit}
 .kbox .chk input{accent-color:var(--gold)}
 .chk input:disabled+span{opacity:.6}
-.ynote{margin:8px 0 12px;padding:10px 14px;border-left:3px solid var(--ac);border-radius:4px 12px 12px 4px;background:var(--sf);color:var(--ink);font-size:13px;font-weight:500;line-height:1.4}
+.ynote{margin:8px 0 12px;padding:11px 14px;border-left:3px solid var(--ac);border-radius:4px 14px 14px 4px;background:var(--sf);color:var(--ink);font-size:13px;font-weight:500;line-height:1.4}
 #gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:28px;text-align:center}
-.fav{position:absolute;top:10px;right:10px;z-index:4;width:34px;height:34px;border-radius:50%;border:0;background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ink);font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.fav{position:absolute;top:10px;right:10px;z-index:4;width:36px;height:36px;border-radius:50%;border:0;background:var(--glass);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ink);font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .fav.on{color:#e0245e}
 .hero .fav{top:12px;right:12px;width:40px;height:40px;font-size:21px}
 #opts h2{margin:14px 0 8px}
@@ -219,6 +231,11 @@ button:active{transform:scale(.97)}
 <div id="gate" class="hidden" role="alert"><div class="gbox"><div class="gic">📞</div><p id="gateTxt"></p><button type="button" id="gateBtn" class="send"></button></div></div>
 
 <main id="shop">
+  <div class="hero2">
+    <div class="h2t" data-i="heroT"></div>
+    <p class="h2s" data-i="heroS"></p>
+    <button type="button" class="h2b" data-tab="profile" data-i="heroB"></button>
+  </div>
   <div class="top">
     <input id="q" class="field" type="search" data-ip="search" aria-label="search">
     <div class="row"><select id="model" class="field" aria-label="model"></select></div>
@@ -317,21 +334,21 @@ if (tg) {
 
 const ALL = "*";
 const T = {
-  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", bonusUse:"🎁 Keshbekdan foydalanish (balans: {bal}, hozir ishlatish mumkin: {max})", bonusLine:"Keshbek", sending:"Yuborilmoqda…", retry:"Telegram ochilmadi. Savat tiklandi, yana bir bor bosing.", kcTitle:"Keshbek kartasi", kcNoCard:"Keshbek bilan toʻlash: karta jami {need} xariddan keyin ochiladi (hozirgacha: {cur})", kcEmpty:"Keshbek balansi yoʻq. Har yetkazilgan buyurtmadan {pct}% qaytadi, keyingi buyurtmada {max}% gacha ishlatasiz.", kOwner:"KARTA EGASI", kBal:"BALANS", kLocked:"Karta hali ochilmagan", kInfo:"Har yetkazilgan buyurtmadan {pct}% keshbek qaytadi. Keshbek bilan buyurtma summasining {max}% igacha toʻlash mumkin.", kProg:"Karta jami {need} xariddan keyin ochiladi. Hozirgacha: {cur}", kTitle:"Keshbek tarixi", kEmpty:"Hozircha operatsiyalar yoʻq", kEarn:"Buyurtma №{o} uchun keshbek", kUse:"Buyurtma №{o} da ishlatildi", kRefund:"Buyurtma №{o} bekor qilindi: qaytarildi", kClaw:"Buyurtma №{o} bekor qilindi: keshbek ayirildi", kRef:"Doʻstni taklif qilish bonusi", xsell:"Buni ham qoʻshing", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
+  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", bonusUse:"🎁 Keshbekdan foydalanish (balans: {bal}, hozir ishlatish mumkin: {max})", bonusLine:"Keshbek", heroT:"Telefoningiz uchun premium aksessuarlar", heroS:"Tanlangan sifat, tez yetkazib berish va har xariddan keshbek.", heroB:"Keshbek kartam", sending:"Yuborilmoqda…", retry:"Telegram ochilmadi. Savat tiklandi, yana bir bor bosing.", kcTitle:"Keshbek kartasi", kcNoCard:"Keshbek bilan toʻlash: karta jami {need} xariddan keyin ochiladi (hozirgacha: {cur})", kcEmpty:"Keshbek balansi yoʻq. Har yetkazilgan buyurtmadan {pct}% qaytadi, keyingi buyurtmada {max}% gacha ishlatasiz.", kOwner:"KARTA EGASI", kBal:"BALANS", kLocked:"Karta hali ochilmagan", kInfo:"Har yetkazilgan buyurtmadan {pct}% keshbek qaytadi. Keshbek bilan buyurtma summasining {max}% igacha toʻlash mumkin.", kProg:"Karta jami {need} xariddan keyin ochiladi. Hozirgacha: {cur}", kTitle:"Keshbek tarixi", kEmpty:"Hozircha operatsiyalar yoʻq", kEarn:"Buyurtma №{o} uchun keshbek", kUse:"Buyurtma №{o} da ishlatildi", kRefund:"Buyurtma №{o} bekor qilindi: qaytarildi", kClaw:"Buyurtma №{o} bekor qilindi: keshbek ayirildi", kRef:"Doʻstni taklif qilish bonusi", xsell:"Buni ham qoʻshing", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
     allPhones:"Barcha telefonlar uchun", choose:"Rangni tanlash", back:"Orqaga", navHome:"Asosiy", navCats:"Kategoriya", navCart:"Savat", navProf:"Profil",
     newest:"Yangi mahsulotlar", allProd:"Barcha mahsulotlar", cart:"Savat", total:"Jami", yname:"Ismingiz", yphone:"Telefon raqamingiz",
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
     items:"{n} ta", added:"Savatga qoʻshildi ✓", e5:"Savatda mahsulot juda koʻp. Ikki qismga boʻlib buyurtma bering.", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
-  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", bonusUse:"🎁 Использовать кэшбэк (баланс: {bal}, можно списать: {max})", bonusLine:"Кэшбэк", sending:"Отправляем…", retry:"Telegram не открылся. Корзина восстановлена, нажмите ещё раз.", kcTitle:"Кэшбэк-карта", kcNoCard:"Оплата кэшбэком: карта откроется после покупок на {need} (сейчас: {cur})", kcEmpty:"Кэшбэка пока нет. С каждого доставленного заказа возвращается {pct}%, в следующем заказе можно списать до {max}%.", kOwner:"ВЛАДЕЛЕЦ", kBal:"БАЛАНС", kLocked:"Карта ещё не открыта", kInfo:"С каждого доставленного заказа возвращается {pct}% кэшбэка. Им можно оплатить до {max}% суммы заказа.", kProg:"Карта откроется после покупок на {need}. Сейчас: {cur}", kTitle:"История кэшбэка", kEmpty:"Пока нет операций", kEarn:"Кэшбэк за заказ №{o}", kUse:"Списано в заказе №{o}", kRefund:"Заказ №{o} отменён: возвращено", kClaw:"Заказ №{o} отменён: кэшбэк списан", kRef:"Бонус за приглашение друга", xsell:"Добавьте к заказу", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
+  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", bonusUse:"🎁 Использовать кэшбэк (баланс: {bal}, можно списать: {max})", bonusLine:"Кэшбэк", heroT:"Премиальные аксессуары для вашего телефона", heroS:"Отборное качество, быстрая доставка и кэшбэк с каждой покупки.", heroB:"Моя кэшбэк-карта", sending:"Отправляем…", retry:"Telegram не открылся. Корзина восстановлена, нажмите ещё раз.", kcTitle:"Кэшбэк-карта", kcNoCard:"Оплата кэшбэком: карта откроется после покупок на {need} (сейчас: {cur})", kcEmpty:"Кэшбэка пока нет. С каждого доставленного заказа возвращается {pct}%, в следующем заказе можно списать до {max}%.", kOwner:"ВЛАДЕЛЕЦ", kBal:"БАЛАНС", kLocked:"Карта ещё не открыта", kInfo:"С каждого доставленного заказа возвращается {pct}% кэшбэка. Им можно оплатить до {max}% суммы заказа.", kProg:"Карта откроется после покупок на {need}. Сейчас: {cur}", kTitle:"История кэшбэка", kEmpty:"Пока нет операций", kEarn:"Кэшбэк за заказ №{o}", kUse:"Списано в заказе №{o}", kRefund:"Заказ №{o} отменён: возвращено", kClaw:"Заказ №{o} отменён: кэшбэк списан", kRef:"Бонус за приглашение друга", xsell:"Добавьте к заказу", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
     items:"{n} шт.", added:"Добавлено в корзину ✓", e5:"В корзине слишком много товаров. Оформите заказ в два приёма.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
-  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", bonusUse:"🎁 Use cashback (balance: {bal}, usable now: {max})", bonusLine:"Cashback", sending:"Sending…", retry:"Telegram did not open. Cart restored, please tap again.", kcTitle:"Cashback card", kcNoCard:"Pay with cashback: the card opens after {need} of purchases (so far: {cur})", kcEmpty:"No cashback yet. {pct}% of every delivered order comes back, you can use up to {max}% on the next order.", kOwner:"CARD HOLDER", kBal:"BALANCE", kLocked:"Card not opened yet", kInfo:"{pct}% of every delivered order comes back as cashback. It can pay up to {max}% of an order.", kProg:"The card opens after {need} of purchases. So far: {cur}", kTitle:"Cashback history", kEmpty:"No operations yet", kEarn:"Cashback for order №{o}", kUse:"Used on order №{o}", kRefund:"Order №{o} cancelled: returned", kClaw:"Order №{o} cancelled: cashback removed", kRef:"Invite a friend bonus", xsell:"Add to your order", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
+  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", bonusUse:"🎁 Use cashback (balance: {bal}, usable now: {max})", bonusLine:"Cashback", heroT:"Premium accessories for your phone", heroS:"Selected quality, fast delivery and cashback on every purchase.", heroB:"My cashback card", sending:"Sending…", retry:"Telegram did not open. Cart restored, please tap again.", kcTitle:"Cashback card", kcNoCard:"Pay with cashback: the card opens after {need} of purchases (so far: {cur})", kcEmpty:"No cashback yet. {pct}% of every delivered order comes back, you can use up to {max}% on the next order.", kOwner:"CARD HOLDER", kBal:"BALANCE", kLocked:"Card not opened yet", kInfo:"{pct}% of every delivered order comes back as cashback. It can pay up to {max}% of an order.", kProg:"The card opens after {need} of purchases. So far: {cur}", kTitle:"Cashback history", kEmpty:"No operations yet", kEarn:"Cashback for order №{o}", kUse:"Used on order №{o}", kRefund:"Order №{o} cancelled: returned", kClaw:"Order №{o} cancelled: cashback removed", kRef:"Invite a friend bonus", xsell:"Add to your order", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
@@ -679,7 +696,7 @@ function renderDetail() {
       ${badges(p)}${favBtn(p)}
     </div>
     ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((s, i) => `<button type="button" class="th" data-gi="${i}" aria-pressed="${i === gi}"><img src="${esc(s)}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}
-    <h1 style="margin-top:16px">${esc(tr(p.name))}</h1>
+    <h1 class="pn">${esc(tr(p.name))}</h1>
     ${cs.length ? `<h2>${esc(t("color"))}</h2><div class="colors">${cs.map(c => {
       const u = cuz(c), h = hexOf(u);
       return `<button type="button" class="pill" data-color="${esc(u)}" aria-pressed="${u === det.color}">${h ? `<i style="background:${h}"></i>` : ""}${esc(colorText(c))}</button>`;
