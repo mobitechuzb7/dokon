@@ -14,6 +14,7 @@
 
 
 
+
 :root{--px:20px;--bg:#fff;--sf:#fff;--sf2:#f4f4f5;--tile:#f3f3f4;--spot:#fff;--ink:#111;--mute:#7a7a80;--line:#ececee;--btn:#e1251b;--bt:#fff;--ac:#e1251b;--acs:rgba(225,37,27,.10);--gold:#ff7d84;--bad:#b3261e;--ok:#17794a;--glass:rgba(255,255,255,.92);--veil:rgba(255,255,255,.78);--xbg:#fff0ef;--sh:0 1px 2px rgba(0,0,0,.04),0 14px 30px -18px rgba(0,0,0,.22);--wash:none}
 :root[data-theme="dark"]{--bg:#0a0a0a;--sf:#151515;--sf2:#1d1d1d;--tile:#dcdcde;--spot:#f4f4f5;--ink:#fff;--mute:#9a9a9f;--line:#262626;--btn:#e5222b;--bt:#fff;--ac:#ff3b44;--acs:rgba(229,34,43,.18);--glass:rgba(10,10,10,.9);--veil:rgba(10,10,10,.74);--xbg:rgba(229,34,43,.08);--sh:0 0 0 1px #242424;--wash:radial-gradient(60% 90% at 85% 0%,rgba(229,34,43,.30),transparent)}
 @media(prefers-color-scheme:dark){:root:not([data-theme]){--bg:#0a0a0a;--sf:#151515;--sf2:#1d1d1d;--tile:#dcdcde;--spot:#f4f4f5;--ink:#fff;--mute:#9a9a9f;--line:#262626;--btn:#e5222b;--bt:#fff;--ac:#ff3b44;--acs:rgba(229,34,43,.18);--glass:rgba(10,10,10,.9);--veil:rgba(10,10,10,.74);--xbg:rgba(229,34,43,.08);--sh:0 0 0 1px #242424;--wash:radial-gradient(60% 90% at 85% 0%,rgba(229,34,43,.30),transparent)}}
@@ -323,6 +324,9 @@ h1.pn{text-transform:none;font-size:24px;letter-spacing:-.03em}
 .kpct{border-color:rgba(255,125,132,.5)}
 .kchip{background:linear-gradient(135deg,#ff7d84,#c4161e)}
 .kbox .chk input{accent-color:#ff7d84}
+
+.ywarn{position:relative;margin:16px 0 6px;padding:14px 16px 14px 52px;border-radius:18px;background:#f01f2d;color:#fff;font-size:14px;font-weight:700;line-height:1.4;box-shadow:0 14px 28px -14px rgba(240,31,45,.85)}
+.ywarn::before{content:"!";position:absolute;left:14px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:#fff;color:#f01f2d;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
@@ -359,7 +363,6 @@ h1.pn{text-transform:none;font-size:24px;letter-spacing:-.03em}
     <div class="total"><span data-i="total"></span><span id="cartTotal"></span></div>
     <p id="promoLine" class="ynote hidden"></p>
     <p id="bonusLine" class="ynote hidden"></p>
-    <p id="yNote" class="ynote hidden" data-i="yandexFee"></p>
     <div id="bonusBox" class="kbox hidden">
       <div class="kbtop"><span>💳 <b data-i="kcTitle"></b></span><b id="kcBal"></b></div>
       <label class="chk"><input type="checkbox" id="useBonus"><span id="bonusTxt"></span></label>
@@ -369,6 +372,7 @@ h1.pn{text-transform:none;font-size:24px;letter-spacing:-.03em}
         <h2 data-i="dlvT"></h2>
         <div id="dlvOpts" class="colors"></div>
         <div id="payBox" class="hidden"><h2 data-i="payT"></h2><div id="payOpts" class="colors"></div><p id="payNote" class="hint"></p></div>
+      <p id="yNote" class="ywarn hidden" data-i="yandexFee"></p>
       <div id="promoBox"><h2 data-i="promoT"></h2><div class="prow"><input id="cpromo" class="field" type="text" autocomplete="off" autocapitalize="characters" maxlength="20" data-ip="promoPh"><button type="button" id="promoBtn" class="pbtn" data-i="promoApply"></button></div><p id="promoSt" class="hint"></p></div>
       </div>
       <label for="cname" data-i="yname"></label>
