@@ -48,41 +48,6 @@
     ]
   },
   {
-    "id": 12,
-    "name": {
-      "uz": "Chexol X-LEVEL Mars Collection MagSafe iPhone 18 Pro Max",
-      "ru": "Chexol X-LEVEL Mars Collection MagSafe iPhone 18 Pro Max",
-      "en": "Chexol X-LEVEL Mars Collection MagSafe iPhone 18 Pro Max"
-    },
-    "category": {
-      "uz": "Gʻiloflar",
-      "ru": "Gʻiloflar",
-      "en": "Gʻiloflar"
-    },
-    "models": [
-      "Iphone 18 Pro Max"
-    ],
-    "price": 145000,
-    "colors": [
-      {
-        "uz": "Qora",
-        "ru": "Чёрный",
-        "en": "Black"
-      },
-      {
-        "uz": "Ko'k",
-        "ru": "Синий",
-        "en": "Blue"
-      },
-      {
-        "uz": "Burgundy",
-        "ru": "Burgundy",
-        "en": "Burgundy"
-      }
-    ],
-    "img": "rasmlar/p12-1794569253.jpg"
-  },
-  {
     "id": 13,
     "name": {
       "uz": "Chexol X-LEVEL Mars Collection MagSafe iPhone 18 Pro",
