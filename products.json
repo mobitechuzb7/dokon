@@ -81,5 +81,40 @@
       }
     ],
     "img": "rasmlar/p12-1794569253.jpg"
+  },
+  {
+    "id": 13,
+    "name": {
+      "uz": "Chexol X-LEVEL Mars Collection MagSafe iPhone 18 Pro",
+      "ru": "Chexol X-LEVEL Mars Collection MagSafe iPhone 18 Pro",
+      "en": "Chexol X-LEVEL Mars Collection MagSafe iPhone 18 Pro"
+    },
+    "category": {
+      "uz": "Gʻiloflar",
+      "ru": "Gʻiloflar",
+      "en": "Gʻiloflar"
+    },
+    "models": [
+      "Iphone 18 Pro"
+    ],
+    "price": 145000,
+    "colors": [
+      {
+        "uz": "Qora",
+        "ru": "Чёрный",
+        "en": "Black"
+      },
+      {
+        "uz": "Ko'k",
+        "ru": "Синий",
+        "en": "Blue"
+      },
+      {
+        "uz": "To'q qizil",
+        "ru": "To'q qizil",
+        "en": "To'q qizil"
+      }
+    ],
+    "img": "rasmlar/p13-1794569726.jpg"
   }
 ]
