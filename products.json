@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "id": 1,
+    "name": {
+      "uz": "Chexol X-LEVEL Mars Collection",
+      "ru": "Chexol X-LEVEL Mars Collection",
+      "en": "Chexol X-LEVEL Mars Collection"
+    },
+    "category": {
+      "uz": "G'iloflar",
+      "ru": "G'iloflar",
+      "en": "G'iloflar"
+    },
+    "models": [
+      "Iphone 18 Pro Max",
+      "Iphone 18 Pro",
+      "Iphone 17 Pro Max"
+    ],
+    "price": 135000,
+    "desc": {
+      "uz": "🛡 Material: Mustahkam polikarbonat (PC + Metal), barmoq izi qolmaydigan maxsus to‘qimali yuza\n🧲 Qulayliklari: MagSafe va simsiz quvvatlashni qo‘llab-quvvatlaydi (ichki magnit halqali)\n✨ Dizayn: Juda yupqa (Ultra-thin), qo‘lda sirpanmaydi, kamera atrofi himoyalangan",
+      "ru": "🛡 Материал: Прочный поликарбонат (PC + Metal), специальная текстурированная поверхность без отпечатков пальцев\n🧲 Удобства: Поддерживает MagSafe и беспроводную зарядку (со встроенным магнитным кольцом)\n✨ Дизайн: Ультратонкий (Ultra-thin), не скользит в руке, защита вокруг камеры",
+      "en": "🛡 Material: Durable polycarbonate (PC + Metal), special textured anti-fingerprint surface\n🧲 Features: Supports MagSafe and wireless charging (built-in magnetic ring)\n✨ Design: Ultra-thin, non-slip grip, raised protection around the camera"
+    },
+    "colors": [
+      {
+        "uz": "Qora",
+        "ru": "Чёрный",
+        "en": "Black"
+      },
+      {
+        "uz": "ko'k",
+        "ru": "Синий",
+        "en": "Blue"
+      },
+      {
+        "uz": "to'q qizil",
+        "ru": "to'q qizil",
+        "en": "to'q qizil"
+      }
+    ],
+    "img": "rasmlar/p1-1795582135.jpg"
+  }
+]
