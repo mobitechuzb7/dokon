@@ -1,21 +1,5 @@
 [
   {
-    "id": 9,
-    "name": {
-      "uz": "Chexol Luxo carbon texture",
-      "ru": "Chexol Luxo carbon texture",
-      "en": "Chexol Luxo carbon texture"
-    },
-    "category": "Gʻiloflar",
-    "models": [
-      "Iphone 17 Pro Max"
-    ],
-    "price": 67500,
-    "img": "rasmlar/p9-1793194022.jpg",
-    "old_price": 75000,
-    "discount": 10
-  },
-  {
     "id": 11,
     "name": {
       "uz": "PowerBank Lenyes PX143D 10.000mAh",
