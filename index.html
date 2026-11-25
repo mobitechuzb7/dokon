@@ -8,9 +8,9 @@
 <script>try{var __t=localStorage.getItem("theme");if(__t!=="light"&&__t!=="dark")__t="dark";document.documentElement.dataset.theme=__t;document.documentElement.style.colorScheme=__t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"></noscript>
 <style>
+
 
 
 
@@ -327,11 +327,28 @@ h1.pn{text-transform:none;font-size:24px;letter-spacing:-.03em}
 
 .ywarn{position:relative;margin:16px 0 6px;padding:14px 16px 14px 52px;border-radius:18px;background:#f01f2d;color:#fff;font-size:14px;font-weight:700;line-height:1.4;box-shadow:0 14px 28px -14px rgba(240,31,45,.85)}
 .ywarn::before{content:"!";position:absolute;left:14px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:#fff;color:#f01f2d;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+.back{background:var(--btn);color:#fff;border-radius:999px;padding:9px 18px 9px 14px;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;box-shadow:0 8px 16px -8px rgba(229,34,43,.75)}
+.back::before{font-size:18px}
+.pill{border:1.5px solid var(--btn);background:transparent}
+.pill[aria-pressed="true"]{background:var(--btn);color:#fff;border-color:var(--btn);box-shadow:none}
+.logo{font-size:0;letter-spacing:0;text-transform:none;color:var(--ink);line-height:0}
+.logo::after{display:none}
+.logo svg,.logo .lgsvg{height:34px;width:auto;display:block}
+#splash{position:fixed;inset:0;z-index:300;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .4s ease,visibility .4s}
+#splash.off{opacity:0;visibility:hidden;pointer-events:none}
+#splash .spsvg{width:min(240px,62vw);height:auto;animation:spin 3s ease both}
+.sp-bar{width:120px;height:3px;border-radius:2px;background:var(--line);overflow:hidden}
+.sp-bar i{display:block;width:40%;height:100%;background:var(--btn);border-radius:2px;animation:spbar 1.1s ease-in-out infinite}
+@keyframes spbar{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+@keyframes spin{0%{opacity:0;transform:scale(.94)}20%,100%{opacity:1;transform:none}}
 </style>
 </head>
 <body>
+<div id="splash" role="status" aria-label="Yuklanmoqda"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 273.6 195.3" class="spsvg"><g transform="translate(88.81,14.00) scale(0.9600)"><rect x="4" y="4" width="92" height="92" rx="26" fill="#e5222b"/><path d="M27 70V32L50 56L73 32V70" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><rect x="40" y="15" width="20" height="4.5" rx="2.2" fill="#ffffff" opacity=".65"/></g><path d="M55.13800000000002 130.102V153.97H49.32400000000001V139.656L43.98600000000002 153.97H39.29400000000001L33.92200000000001 139.62199999999999V153.97H28.108000000000015V130.102H34.97600000000001L41.674000000000014 146.626L48.304000000000016 130.102Z M64.33400000000002 141.968Q64.33400000000002 138.466 65.98300000000002 135.678Q67.63200000000002 132.89 70.43700000000001 131.326Q73.24200000000002 129.762 76.60800000000002 129.762Q79.97400000000002 129.762 82.77900000000002 131.326Q85.58400000000002 132.89 87.19900000000001 135.678Q88.81400000000002 138.466 88.81400000000002 141.968Q88.81400000000002 145.47 87.18200000000002 148.275Q85.55000000000001 151.08 82.76200000000001 152.644Q79.97400000000002 154.208 76.60800000000002 154.208Q73.24200000000002 154.208 70.43700000000001 152.644Q67.63200000000002 151.08 65.98300000000002 148.275Q64.33400000000002 145.47 64.33400000000002 141.968ZM82.89800000000002 141.968Q82.89800000000002 138.80599999999998 81.18100000000003 136.91899999999998Q79.46400000000003 135.03199999999998 76.60800000000002 135.03199999999998Q73.71800000000002 135.03199999999998 72.00100000000002 136.902Q70.28400000000002 138.772 70.28400000000002 141.968Q70.28400000000002 145.13 72.00100000000002 147.017Q73.71800000000002 148.904 76.60800000000002 148.904Q79.46400000000003 148.904 81.18100000000003 147.0Q82.89800000000002 145.096 82.89800000000002 141.968Z M117.08400000000003 147.476Q117.08400000000003 150.468 114.99300000000002 152.219Q112.90200000000002 153.97 109.16200000000002 153.97H98.04400000000003V130.102H108.78800000000003Q112.42600000000002 130.102 114.48300000000002 131.768Q116.54000000000002 133.434 116.54000000000002 136.29Q116.54000000000002 138.398 115.43500000000003 139.792Q114.33000000000003 141.186 112.49400000000003 141.73Q114.56800000000003 142.172 115.82600000000002 143.78699999999998Q117.08400000000003 145.402 117.08400000000003 147.476ZM103.85800000000002 139.758H107.66600000000003Q109.09400000000002 139.758 109.85900000000002 139.12900000000002Q110.62400000000002 138.5 110.62400000000002 137.276Q110.62400000000002 136.052 109.85900000000002 135.406Q109.09400000000002 134.76 107.66600000000003 134.76H103.85800000000002ZM111.20200000000003 146.694Q111.20200000000003 145.436 110.36900000000003 144.722Q109.53600000000003 144.008 108.07400000000003 144.008H103.85800000000002V149.278H108.14200000000002Q109.60400000000003 149.278 110.40300000000002 148.615Q111.20200000000003 147.952 111.20200000000003 146.694Z M132.26400000000004 130.102V153.97H126.45000000000003V130.102Z M159.65 130.102V134.76H153.32600000000002V153.97H147.512V134.76H141.18800000000002V130.102Z M174.388 134.76V139.588H182.174V144.076H174.388V149.312H183.19400000000002V153.97H168.574V130.102H183.19400000000002V134.76Z M203.984 129.82999999999998Q208.234 129.82999999999998 211.26 132.07399999999998Q214.286 134.31799999999998 215.306 138.194H208.91400000000002Q208.20000000000002 136.698 206.89100000000002 135.916Q205.58200000000002 135.134 203.91600000000003 135.134Q201.23000000000002 135.134 199.56400000000002 137.004Q197.89800000000002 138.874 197.89800000000002 142.002Q197.89800000000002 145.13 199.56400000000002 147.0Q201.23000000000002 148.87 203.91600000000003 148.87Q205.58200000000002 148.87 206.89100000000002 148.08800000000002Q208.20000000000002 147.306 208.91400000000002 145.81H215.306Q214.286 149.686 211.26 151.913Q208.234 154.14 203.984 154.14Q200.51600000000002 154.14 197.779 152.593Q195.042 151.046 193.512 148.292Q191.98200000000003 145.538 191.98200000000003 142.002Q191.98200000000003 138.466 193.512 135.695Q195.042 132.924 197.779 131.377Q200.51600000000002 129.82999999999998 203.984 129.82999999999998Z M245.54800000000003 130.102V153.97H239.73400000000004V144.144H230.69000000000003V153.97H224.87600000000003V130.102H230.69000000000003V139.452H239.73400000000004V130.102Z" fill="currentColor"/><path d="M31.50200000000003 168.02249999999998V168.999H29.55950000000003V175.32H28.36250000000003V168.999H26.40950000000003V168.02249999999998Z M39.24097368421055 168.9885V171.13049999999998H41.760973684210555V172.107H39.24097368421055V174.3435H42.07597368421055V175.32H38.043973684210556V168.012H42.07597368421055V168.9885Z M50.077447368421076 174.35399999999998H52.54494736842108V175.32H48.88044736842108V168.02249999999998H50.077447368421076Z M60.073921052631604 168.9885V171.13049999999998H62.59392105263161V172.107H60.073921052631604V174.3435H62.908921052631605V175.32H58.87692105263161V168.012H62.908921052631605V168.9885Z M74.00789473684213 168.02249999999998V168.999H70.91039473684214V171.1515H73.32539473684214V172.128H70.91039473684214V175.32H69.71339473684213V168.02249999999998Z M80.05636842105267 171.6555Q80.05636842105267 170.5845 80.55511842105267 169.73399999999998Q81.05386842105267 168.8835 81.90961842105267 168.40575Q82.76536842105267 167.928 83.78386842105267 167.928Q84.81286842105267 167.928 85.66861842105267 168.40575Q86.52436842105267 168.8835 87.01786842105267 169.73399999999998Q87.51136842105268 170.5845 87.51136842105268 171.6555Q87.51136842105268 172.7265 87.01786842105267 173.58225Q86.52436842105267 174.438 85.66861842105267 174.91575Q84.81286842105267 175.3935 83.78386842105267 175.3935Q82.76536842105267 175.3935 81.90961842105267 174.91575Q81.05386842105267 174.438 80.55511842105267 173.58225Q80.05636842105267 172.7265 80.05636842105267 171.6555ZM86.28286842105267 171.6555Q86.28286842105267 170.84699999999998 85.96261842105267 170.238Q85.64236842105268 169.629 85.07536842105267 169.30349999999999Q84.50836842105268 168.97799999999998 83.78386842105267 168.97799999999998Q83.05936842105267 168.97799999999998 82.49236842105267 169.30349999999999Q81.92536842105267 169.629 81.60511842105268 170.238Q81.28486842105268 170.84699999999998 81.28486842105268 171.6555Q81.28486842105268 172.464 81.60511842105268 173.07825Q81.92536842105267 173.6925 82.49236842105267 174.02325Q83.05936842105267 174.35399999999998 83.78386842105267 174.35399999999998Q84.50836842105268 174.35399999999998 85.07536842105267 174.02325Q85.64236842105268 173.6925 85.96261842105267 173.07825Q86.28286842105267 172.464 86.28286842105267 171.6555Z M100.01734210526321 175.32H98.82034210526321L95.2188421052632 169.8705V175.32H94.0218421052632V168.012H95.2188421052632L98.82034210526321 173.451V168.012H100.01734210526321Z  M119.39078947368426 173.82899999999998H116.33528947368427L115.81028947368426 175.32H114.56078947368427L117.17528947368427 168.012H118.56128947368427L121.17578947368426 175.32H119.91578947368427ZM119.05478947368427 172.8525 117.86828947368427 169.46099999999998 116.67128947368427 172.8525Z M131.6657631578948 175.32 128.8412631578948 172.0545V175.32H127.64426315789478V168.02249999999998H128.8412631578948V171.351L131.6762631578948 168.02249999999998H133.1777631578948L130.0067631578948 171.6765L133.2302631578948 175.32Z M139.44673684210534 173.304H140.72773684210532Q140.76973684210532 173.7765 141.10048684210534 174.081Q141.43123684210533 174.38549999999998 142.02973684210534 174.38549999999998Q142.64923684210532 174.38549999999998 142.99573684210532 174.08625Q143.34223684210534 173.787 143.34223684210534 173.31449999999998Q143.34223684210534 172.947 143.12698684210534 172.716Q142.91173684210534 172.48499999999999 142.59148684210533 172.35899999999998Q142.27123684210534 172.233 141.70423684210533 172.08599999999998Q140.99023684210533 171.897 140.5439868421053 171.70274999999998Q140.09773684210532 171.5085 139.78273684210532 171.099Q139.46773684210532 170.68949999999998 139.46773684210532 170.007Q139.46773684210532 169.37699999999998 139.78273684210532 168.90449999999998Q140.09773684210532 168.432 140.66473684210533 168.18Q141.23173684210533 167.928 141.97723684210533 167.928Q143.03773684210532 167.928 143.7149868421053 168.45825Q144.39223684210532 168.9885 144.46573684210534 169.9125H143.14273684210534Q143.11123684210534 169.5135 142.76473684210532 169.23Q142.41823684210533 168.9465 141.85123684210532 168.9465Q141.33673684210532 168.9465 141.01123684210535 169.209Q140.68573684210534 169.4715 140.68573684210534 169.965Q140.68573684210534 170.301 140.89048684210533 170.51624999999999Q141.09523684210532 170.73149999999998 141.41023684210532 170.8575Q141.72523684210532 170.9835 142.27123684210534 171.13049999999998Q142.99573684210532 171.32999999999998 143.45248684210532 171.52949999999998Q143.90923684210532 171.72899999999998 144.2294868421053 172.14374999999998Q144.54973684210532 172.55849999999998 144.54973684210532 173.2515Q144.54973684210532 173.808 144.25048684210532 174.30149999999998Q143.95123684210532 174.795 143.37898684210532 175.09425Q142.80673684210532 175.3935 142.02973684210534 175.3935Q141.29473684210532 175.3935 140.70673684210533 175.13625Q140.11873684210533 174.879 139.78273684210535 174.4065Q139.44673684210534 173.934 139.44673684210534 173.304Z M152.49871052631585 168.9885V171.13049999999998H155.01871052631586V172.107H152.49871052631585V174.3435H155.33371052631585V175.32H151.30171052631584V168.012H155.33371052631585V168.9885Z M161.95968421052638 173.304H163.24068421052635Q163.28268421052636 173.7765 163.61343421052635 174.081Q163.94418421052637 174.38549999999998 164.54268421052637 174.38549999999998Q165.16218421052636 174.38549999999998 165.50868421052638 174.08625Q165.85518421052637 173.787 165.85518421052637 173.31449999999998Q165.85518421052637 172.947 165.63993421052638 172.716Q165.42468421052638 172.48499999999999 165.1044342105264 172.35899999999998Q164.78418421052638 172.233 164.21718421052637 172.08599999999998Q163.50318421052637 171.897 163.05693421052638 171.70274999999998Q162.61068421052636 171.5085 162.29568421052636 171.099Q161.98068421052636 170.68949999999998 161.98068421052636 170.007Q161.98068421052636 169.37699999999998 162.29568421052636 168.90449999999998Q162.61068421052636 168.432 163.17768421052637 168.18Q163.74468421052637 167.928 164.49018421052637 167.928Q165.55068421052636 167.928 166.22793421052637 168.45825Q166.90518421052636 168.9885 166.97868421052635 169.9125H165.65568421052637Q165.62418421052638 169.5135 165.2776842105264 169.23Q164.93118421052637 168.9465 164.36418421052636 168.9465Q163.84968421052636 168.9465 163.52418421052636 169.209Q163.19868421052638 169.4715 163.19868421052638 169.965Q163.19868421052638 170.301 163.40343421052637 170.51624999999999Q163.60818421052636 170.73149999999998 163.92318421052636 170.8575Q164.23818421052636 170.9835 164.78418421052638 171.13049999999998Q165.50868421052635 171.32999999999998 165.96543421052638 171.52949999999998Q166.42218421052638 171.72899999999998 166.74243421052637 172.14374999999998Q167.06268421052636 172.55849999999998 167.06268421052636 173.2515Q167.06268421052636 173.808 166.76343421052636 174.30149999999998Q166.46418421052635 174.795 165.89193421052636 175.09425Q165.31968421052636 175.3935 164.54268421052637 175.3935Q163.80768421052636 175.3935 163.21968421052637 175.13625Q162.63168421052637 174.879 162.29568421052636 174.4065Q161.95968421052638 173.934 161.95968421052638 173.304Z M175.00115789473688 168.02249999999998V172.674Q175.00115789473688 173.5035 175.43690789473686 173.9235Q175.87265789473688 174.3435 176.6496578947369 174.3435Q177.43715789473688 174.3435 177.8729078947369 173.9235Q178.30865789473688 173.5035 178.30865789473688 172.674V168.02249999999998H179.50565789473688V172.653Q179.50565789473688 173.5455 179.1171578947369 174.165Q178.7286578947369 174.78449999999998 178.0776578947369 175.089Q177.42665789473688 175.3935 176.63915789473688 175.3935Q175.8516578947369 175.3935 175.20590789473687 175.089Q174.56015789473688 174.78449999999998 174.18215789473686 174.165Q173.80415789473687 173.5455 173.80415789473687 172.653V168.02249999999998Z M190.79363157894744 173.82899999999998H187.73813157894742L187.21313157894744 175.32H185.96363157894743L188.57813157894742 168.012H189.96413157894742L192.57863157894744 175.32H191.31863157894742ZM190.45763157894743 172.8525 189.27113157894743 169.46099999999998 188.07413157894743 172.8525Z M202.83760526315797 175.32 201.15760526315796 172.40099999999998H200.24410526315796V175.32H199.04710526315796V168.02249999999998H201.56710526315797Q202.40710526315797 168.02249999999998 202.98985526315795 168.3165Q203.57260526315795 168.6105 203.86135526315798 169.10399999999998Q204.15010526315797 169.5975 204.15010526315797 170.2065Q204.15010526315797 170.9205 203.73535526315797 171.50324999999998Q203.32060526315797 172.08599999999998 202.45960526315795 172.296L204.26560526315797 175.32ZM200.24410526315796 171.44549999999998H201.56710526315797Q202.23910526315797 171.44549999999998 202.58035526315797 171.10949999999997Q202.92160526315797 170.77349999999998 202.92160526315797 170.2065Q202.92160526315797 169.6395 202.58560526315796 169.31925Q202.24960526315797 168.999 201.56710526315797 168.999H200.24410526315796Z M212.2145789473685 174.35399999999998H214.6820789473685V175.32H211.0175789473685V168.02249999999998H212.2145789473685Z M225.41355263157902 173.82899999999998H222.358052631579L221.83305263157902 175.32H220.583552631579L223.198052631579 168.012H224.584052631579L227.19855263157902 175.32H225.938552631579ZM225.077552631579 172.8525 223.89105263157902 169.46099999999998 222.694052631579 172.8525Z M237.45752631578955 175.32 235.77752631578954 172.40099999999998H234.86402631578954V175.32H233.66702631578954V168.02249999999998H236.18702631578955Q237.02702631578956 168.02249999999998 237.60977631578953 168.3165Q238.19252631578954 168.6105 238.48127631578956 169.10399999999998Q238.77002631578955 169.5975 238.77002631578955 170.2065Q238.77002631578955 170.9205 238.35527631578955 171.50324999999998Q237.94052631578955 172.08599999999998 237.07952631578954 172.296L238.88552631578955 175.32ZM234.86402631578954 171.44549999999998H236.18702631578955Q236.85902631578955 171.44549999999998 237.20027631578955 171.10949999999997Q237.54152631578955 170.77349999999998 237.54152631578955 170.2065Q237.54152631578955 169.6395 237.20552631578954 169.31925Q236.86952631578956 168.999 236.18702631578955 168.999H234.86402631578954Z M246.83450000000008 168.02249999999998V175.32H245.63750000000007V168.02249999999998Z" fill="#6b6b72"/></svg><div class="sp-bar"><i></i></div></div>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<header id="head"><div class="logo">Mobitech</div><div class="hright"><button type="button" id="themeBtn" class="tbtn" aria-label="theme"></button><div id="langs" class="seg" role="group" aria-label="Til / Язык / Language"></div></div></header>
+<header id="head"><div class="logo" aria-label="Mobitech"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 339.2 96.0" class="lgsvg"><g transform="translate(14.00,14.00) scale(0.6800)"><rect x="4" y="4" width="92" height="92" rx="26" fill="#e5222b"/><path d="M27 70V32L50 56L73 32V70" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><rect x="40" y="15" width="20" height="4.5" rx="2.2" fill="#ffffff" opacity=".65"/></g><path d="M130.852 35.418V60.69H124.696V45.534L119.044 60.69H114.076L108.388 45.498V60.69H102.232V35.418H109.504L116.596 52.914L123.616 35.418Z M139.236 47.982Q139.236 44.274 140.982 41.322Q142.728 38.370000000000005 145.698 36.714Q148.668 35.058 152.232 35.058Q155.796 35.058 158.766 36.714Q161.736 38.370000000000005 163.446 41.322Q165.156 44.274 165.156 47.982Q165.156 51.69 163.428 54.66Q161.7 57.629999999999995 158.748 59.286Q155.796 60.942 152.232 60.942Q148.668 60.942 145.698 59.286Q142.728 57.629999999999995 140.982 54.66Q139.236 51.69 139.236 47.982ZM158.892 47.982Q158.892 44.634 157.074 42.635999999999996Q155.256 40.638 152.232 40.638Q149.172 40.638 147.35399999999998 42.617999999999995Q145.536 44.598 145.536 47.982Q145.536 51.33 147.35399999999998 53.328Q149.172 55.326 152.232 55.326Q155.256 55.326 157.074 53.31Q158.892 51.294 158.892 47.982Z M193.736 53.814Q193.736 56.982 191.522 58.836Q189.308 60.69 185.34799999999998 60.69H173.576V35.418H184.952Q188.804 35.418 190.982 37.182Q193.16 38.946 193.16 41.97Q193.16 44.202 191.99 45.678Q190.82 47.153999999999996 188.876 47.73Q191.072 48.198 192.404 49.908Q193.736 51.617999999999995 193.736 53.814ZM179.732 45.641999999999996H183.76399999999998Q185.27599999999998 45.641999999999996 186.08599999999998 44.976Q186.896 44.31 186.896 43.013999999999996Q186.896 41.718 186.08599999999998 41.034Q185.27599999999998 40.349999999999994 183.76399999999998 40.349999999999994H179.732ZM187.50799999999998 52.986Q187.50799999999998 51.653999999999996 186.62599999999998 50.897999999999996Q185.744 50.141999999999996 184.196 50.141999999999996H179.732V55.721999999999994H184.268Q185.816 55.721999999999994 186.66199999999998 55.019999999999996Q187.50799999999998 54.318 187.50799999999998 52.986Z M208.456 35.418V60.69H202.29999999999998V35.418Z M236.1 35.418V40.349999999999994H229.404V60.69H223.248V40.349999999999994H216.552V35.418Z M250.352 40.349999999999994V45.462H258.596V50.214H250.352V55.757999999999996H259.676V60.69H244.196V35.418H259.676V40.349999999999994Z M280.336 35.129999999999995Q284.836 35.129999999999995 288.03999999999996 37.506Q291.24399999999997 39.882 292.324 43.986000000000004H285.556Q284.8 42.402 283.414 41.574Q282.028 40.745999999999995 280.264 40.745999999999995Q277.42 40.745999999999995 275.656 42.726Q273.892 44.706 273.892 48.018Q273.892 51.33 275.656 53.31Q277.42 55.29 280.264 55.29Q282.028 55.29 283.414 54.462Q284.8 53.634 285.556 52.05H292.324Q291.24399999999997 56.153999999999996 288.03999999999996 58.512Q284.836 60.87 280.336 60.87Q276.664 60.87 273.76599999999996 59.232Q270.868 57.594 269.248 54.678Q267.628 51.762 267.628 48.018Q267.628 44.274 269.248 41.34Q270.868 38.406 273.76599999999996 36.768Q276.664 35.129999999999995 280.336 35.129999999999995Z M322.992 35.418V60.69H316.836V50.286H307.26V60.69H301.10400000000004V35.418H307.26V45.318H316.836V35.418Z" fill="currentColor"/></svg></div><div class="hright"><button type="button" id="themeBtn" class="tbtn" aria-label="theme"></button><div id="langs" class="seg" role="group" aria-label="Til / Язык / Language"></div></div></header>
 
 <div id="gate" class="hidden" role="alert"><div class="gbox"><div class="gic">📞</div><p id="gateTxt"></p><button type="button" id="gateBtn" class="send"></button></div></div>
 
@@ -452,21 +469,21 @@ try {
 
 const ALL = "*";
 const T = {
-  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", bonusUse:"🎁 Keshbekdan foydalanish (balans: {bal}, hozir ishlatish mumkin: {max})", bonusLine:"Keshbek", heroT:"Telefoningiz uchun premium aksessuarlar", heroS:"Tanlangan sifat, tez yetkazib berish va har xariddan keshbek.", heroB:"Keshbek kartam", themeDark:"Qorongʻi rejim", themeLight:"Yorugʻ rejim", sending:"Yuborilmoqda…", retry:"Telegram ochilmadi. Savat tiklandi, yana bir bor bosing.", kcTitle:"Keshbek kartasi", kcNoCard:"Keshbek bilan toʻlash: karta jami {need} xariddan keyin ochiladi (hozirgacha: {cur})", kcEmpty:"Keshbek balansi yoʻq. Har yetkazilgan buyurtmadan {pct}% qaytadi, keyingi buyurtmada {max}% gacha ishlatasiz.", kOwner:"KARTA EGASI", kBal:"BALANS", kLocked:"Karta hali ochilmagan", kInfo:"Har yetkazilgan buyurtmadan {pct}% keshbek qaytadi. Keshbek bilan buyurtma summasining {max}% igacha toʻlash mumkin.", kProg:"Karta jami {need} xariddan keyin ochiladi. Hozirgacha: {cur}", kTitle:"Keshbek tarixi", kEmpty:"Hozircha operatsiyalar yoʻq", kEarn:"Buyurtma №{o} uchun keshbek", kUse:"Buyurtma №{o} da ishlatildi", kRefund:"Buyurtma №{o} bekor qilindi: qaytarildi", kClaw:"Buyurtma №{o} bekor qilindi: keshbek ayirildi", kRef:"Doʻstni taklif qilish bonusi", xsell:"Buni ham qoʻshing", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
+  uz: { dlvT:"Qanday olasiz?", dlvPick:"Oʻzim olib ketaman", dlvYandex:"Yandex Go orqali yetkazib berish", payT:"Toʻlov usuli", payCash:"Naqd", payCard:"Karta", payYandexNote:"Yandex Go orqali yetkazishda faqat karta orqali toʻlanadi.", e6:"Qanday olishingizni tanlang.", e7:"Toʻlov usulini tanlang.", notify:"🔔 Mahsulot kelganda xabar bering", notified:"✅ Xabar beramiz", notifyShort:"🔔 Xabar bering", yandexFee:"Yandex Go yetkazib berish narxi mahsulot narxiga kiritilmagan.", promoT:"Promokod", promoPh:"Promokodni kiriting", promoApply:"Qoʻllash", promoOk:"Promokod qoʻllandi: −{pct}%", promoBad:"Promokod topilmadi", bonusUse:"🎁 Keshbekdan foydalanish (balans: {bal}, hozir ishlatish mumkin: {max})", bonusLine:"Keshbek", heroT:"Telefoningiz uchun premium aksessuarlar", heroS:"Tanlangan sifat, tez yetkazib berish va har xariddan keshbek.", heroB:"Keshbek kartam", themeDark:"Qorongʻi rejim", themeLight:"Yorugʻ rejim", modelT:"Telefon modeli", pickModel:"Telefon modelini tanlang", needModelCart:"Savatda telefon modeli tanlanmagan mahsulot bor:", sending:"Yuborilmoqda…", retry:"Telegram ochilmadi. Savat tiklandi, yana bir bor bosing.", kcTitle:"Keshbek kartasi", kcNoCard:"Keshbek bilan toʻlash: karta jami {need} xariddan keyin ochiladi (hozirgacha: {cur})", kcEmpty:"Keshbek balansi yoʻq. Har yetkazilgan buyurtmadan {pct}% qaytadi, keyingi buyurtmada {max}% gacha ishlatasiz.", kOwner:"KARTA EGASI", kBal:"BALANS", kLocked:"Karta hali ochilmagan", kInfo:"Har yetkazilgan buyurtmadan {pct}% keshbek qaytadi. Keshbek bilan buyurtma summasining {max}% igacha toʻlash mumkin.", kProg:"Karta jami {need} xariddan keyin ochiladi. Hozirgacha: {cur}", kTitle:"Keshbek tarixi", kEmpty:"Hozircha operatsiyalar yoʻq", kEarn:"Buyurtma №{o} uchun keshbek", kUse:"Buyurtma №{o} da ishlatildi", kRefund:"Buyurtma №{o} bekor qilindi: qaytarildi", kClaw:"Buyurtma №{o} bekor qilindi: keshbek ayirildi", kRef:"Doʻstni taklif qilish bonusi", xsell:"Buni ham qoʻshing", favT:"Sevimlilar", favEmpty:"Hali sevimli mahsulot yoʻq. ♡ belgisini bosing.", gate:"Doʻkonni ochish uchun botga qaytib /start bosing va telefon raqamingizni yuboring.", gateBtn:"Botga oʻtish", soldOut:"Qolmadi", search:"Mahsulot qidirish", allModels:"Barcha modellar", all:"Hammasi", none:"Hech narsa topilmadi. Boshqa model yoki turkumni tanlang.",
     allPhones:"Barcha telefonlar uchun", choose:"Rangni tanlash", back:"Orqaga", navHome:"Asosiy", navCats:"Kategoriya", navCart:"Savat", navProf:"Profil",
     newest:"Yangi mahsulotlar", allProd:"Barcha mahsulotlar", cart:"Savat", total:"Jami", yname:"Ismingiz", yphone:"Telefon raqamingiz",
     comment:"Manzil yoki izoh (ixtiyoriy)", order:"Buyurtma berish", e1:"Ismingizni yozing.", e2:"Telefon raqamni toʻliq yozing.", e3:"Savat boʻsh.",
     empty:"Savat hozircha boʻsh. Asosiy sahifadan mahsulot tanlang.", cur:"soʻm", desc:"Xususiyatlari", color:"Rangi", pickColor:"Avval rangni tanlang.",
     toCart:"Savatga qoʻshish", models:"Mos telefonlar", loadErr:"Mahsulotlarni yuklab boʻlmadi. Ilovani qayta oching.", outside:"Telegram tashqarisida buyurtma yuborilmaydi.",
     items:"{n} ta", added:"Savatga qoʻshildi ✓", e5:"Savatda mahsulot juda koʻp. Ikki qismga boʻlib buyurtma bering.", locBtn:"📍 Joylashuvimni yuborish", locOk:"Joylashuv olindi ✓", locErr:"Joylashuvni aniqlab boʻlmadi. Telegram sozlamalarida ruxsat bering yoki manzilni yozing.", e4:"Joylashuvni yuboring yoki manzilni yozing.", profT:"Mening maʼlumotlarim", address:"Manzil", save:"Saqlash", saved:"Saqlandi", profHint:"Maʼlumotlar shu qurilmada saqlanadi va buyurtma berishda oʻzi toʻldiriladi." },
-  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", bonusUse:"🎁 Использовать кэшбэк (баланс: {bal}, можно списать: {max})", bonusLine:"Кэшбэк", heroT:"Премиальные аксессуары для вашего телефона", heroS:"Отборное качество, быстрая доставка и кэшбэк с каждой покупки.", heroB:"Моя кэшбэк-карта", themeDark:"Тёмная тема", themeLight:"Светлая тема", sending:"Отправляем…", retry:"Telegram не открылся. Корзина восстановлена, нажмите ещё раз.", kcTitle:"Кэшбэк-карта", kcNoCard:"Оплата кэшбэком: карта откроется после покупок на {need} (сейчас: {cur})", kcEmpty:"Кэшбэка пока нет. С каждого доставленного заказа возвращается {pct}%, в следующем заказе можно списать до {max}%.", kOwner:"ВЛАДЕЛЕЦ", kBal:"БАЛАНС", kLocked:"Карта ещё не открыта", kInfo:"С каждого доставленного заказа возвращается {pct}% кэшбэка. Им можно оплатить до {max}% суммы заказа.", kProg:"Карта откроется после покупок на {need}. Сейчас: {cur}", kTitle:"История кэшбэка", kEmpty:"Пока нет операций", kEarn:"Кэшбэк за заказ №{o}", kUse:"Списано в заказе №{o}", kRefund:"Заказ №{o} отменён: возвращено", kClaw:"Заказ №{o} отменён: кэшбэк списан", kRef:"Бонус за приглашение друга", xsell:"Добавьте к заказу", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
+  ru: { dlvT:"Как получить заказ?", dlvPick:"Заберу сам", dlvYandex:"Доставка через Yandex Go", payT:"Способ оплаты", payCash:"Наличными", payCard:"Картой", payYandexNote:"При доставке через Yandex Go оплата только картой.", e6:"Выберите способ получения.", e7:"Выберите способ оплаты.", notify:"🔔 Сообщите, когда появится", notified:"✅ Мы сообщим", notifyShort:"🔔 Сообщить", yandexFee:"Стоимость доставки Yandex Go не включена в стоимость товаров.", promoT:"Промокод", promoPh:"Введите промокод", promoApply:"Применить", promoOk:"Промокод применён: −{pct}%", promoBad:"Промокод не найден", bonusUse:"🎁 Использовать кэшбэк (баланс: {bal}, можно списать: {max})", bonusLine:"Кэшбэк", heroT:"Премиальные аксессуары для вашего телефона", heroS:"Отборное качество, быстрая доставка и кэшбэк с каждой покупки.", heroB:"Моя кэшбэк-карта", themeDark:"Тёмная тема", themeLight:"Светлая тема", modelT:"Модель телефона", pickModel:"Выберите модель телефона", needModelCart:"В корзине есть товар без выбранной модели телефона:", sending:"Отправляем…", retry:"Telegram не открылся. Корзина восстановлена, нажмите ещё раз.", kcTitle:"Кэшбэк-карта", kcNoCard:"Оплата кэшбэком: карта откроется после покупок на {need} (сейчас: {cur})", kcEmpty:"Кэшбэка пока нет. С каждого доставленного заказа возвращается {pct}%, в следующем заказе можно списать до {max}%.", kOwner:"ВЛАДЕЛЕЦ", kBal:"БАЛАНС", kLocked:"Карта ещё не открыта", kInfo:"С каждого доставленного заказа возвращается {pct}% кэшбэка. Им можно оплатить до {max}% суммы заказа.", kProg:"Карта откроется после покупок на {need}. Сейчас: {cur}", kTitle:"История кэшбэка", kEmpty:"Пока нет операций", kEarn:"Кэшбэк за заказ №{o}", kUse:"Списано в заказе №{o}", kRefund:"Заказ №{o} отменён: возвращено", kClaw:"Заказ №{o} отменён: кэшбэк списан", kRef:"Бонус за приглашение друга", xsell:"Добавьте к заказу", favT:"Избранное", favEmpty:"Пока нет избранных товаров. Нажмите ♡.", gate:"Чтобы открыть магазин, вернитесь в бота, нажмите /start и отправьте номер телефона.", gateBtn:"Перейти в бота", soldOut:"Нет в наличии", search:"Поиск товара", allModels:"Все модели", all:"Все", none:"Ничего не найдено. Выберите другую модель или категорию.",
     allPhones:"Для всех телефонов", choose:"Выбрать цвет", back:"Назад", navHome:"Главная", navCats:"Категории", navCart:"Корзина", navProf:"Профиль",
     newest:"Новинки", allProd:"Все товары", cart:"Корзина", total:"Итого", yname:"Ваше имя", yphone:"Ваш номер телефона",
     comment:"Адрес или комментарий (необязательно)", order:"Оформить заказ", e1:"Напишите ваше имя.", e2:"Введите номер телефона полностью.", e3:"Корзина пуста.",
     empty:"Корзина пока пуста. Выберите товар на главной.", cur:"сум", desc:"Характеристики", color:"Цвет", pickColor:"Сначала выберите цвет.",
     toCart:"В корзину", models:"Подходит для", loadErr:"Не удалось загрузить товары. Откройте приложение заново.", outside:"Вне Telegram заказ отправить нельзя.",
     items:"{n} шт.", added:"Добавлено в корзину ✓", e5:"В корзине слишком много товаров. Оформите заказ в два приёма.", locBtn:"📍 Отправить моё местоположение", locOk:"Местоположение получено ✓", locErr:"Не удалось определить местоположение. Разрешите доступ в настройках Telegram или напишите адрес.", e4:"Отправьте местоположение или напишите адрес.", profT:"Мои данные", address:"Адрес", save:"Сохранить", saved:"Сохранено", profHint:"Данные хранятся на этом устройстве и подставляются при оформлении заказа." },
-  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", bonusUse:"🎁 Use cashback (balance: {bal}, usable now: {max})", bonusLine:"Cashback", heroT:"Premium accessories for your phone", heroS:"Selected quality, fast delivery and cashback on every purchase.", heroB:"My cashback card", themeDark:"Dark mode", themeLight:"Light mode", sending:"Sending…", retry:"Telegram did not open. Cart restored, please tap again.", kcTitle:"Cashback card", kcNoCard:"Pay with cashback: the card opens after {need} of purchases (so far: {cur})", kcEmpty:"No cashback yet. {pct}% of every delivered order comes back, you can use up to {max}% on the next order.", kOwner:"CARD HOLDER", kBal:"BALANCE", kLocked:"Card not opened yet", kInfo:"{pct}% of every delivered order comes back as cashback. It can pay up to {max}% of an order.", kProg:"The card opens after {need} of purchases. So far: {cur}", kTitle:"Cashback history", kEmpty:"No operations yet", kEarn:"Cashback for order №{o}", kUse:"Used on order №{o}", kRefund:"Order №{o} cancelled: returned", kClaw:"Order №{o} cancelled: cashback removed", kRef:"Invite a friend bonus", xsell:"Add to your order", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
+  en: { dlvT:"How would you like to receive it?", dlvPick:"I will pick it up", dlvYandex:"Delivery via Yandex Go", payT:"Payment method", payCash:"Cash", payCard:"Card", payYandexNote:"Yandex Go delivery is paid by card only.", e6:"Choose how to receive your order.", e7:"Choose a payment method.", notify:"🔔 Notify me when back in stock", notified:"✅ We will notify you", notifyShort:"🔔 Notify me", yandexFee:"The Yandex Go delivery fee is not included in the product price.", promoT:"Promo code", promoPh:"Enter promo code", promoApply:"Apply", promoOk:"Promo code applied: −{pct}%", promoBad:"Promo code not found", bonusUse:"🎁 Use cashback (balance: {bal}, usable now: {max})", bonusLine:"Cashback", heroT:"Premium accessories for your phone", heroS:"Selected quality, fast delivery and cashback on every purchase.", heroB:"My cashback card", themeDark:"Dark mode", themeLight:"Light mode", modelT:"Phone model", pickModel:"Choose a phone model", needModelCart:"A cart item has no phone model selected:", sending:"Sending…", retry:"Telegram did not open. Cart restored, please tap again.", kcTitle:"Cashback card", kcNoCard:"Pay with cashback: the card opens after {need} of purchases (so far: {cur})", kcEmpty:"No cashback yet. {pct}% of every delivered order comes back, you can use up to {max}% on the next order.", kOwner:"CARD HOLDER", kBal:"BALANCE", kLocked:"Card not opened yet", kInfo:"{pct}% of every delivered order comes back as cashback. It can pay up to {max}% of an order.", kProg:"The card opens after {need} of purchases. So far: {cur}", kTitle:"Cashback history", kEmpty:"No operations yet", kEarn:"Cashback for order №{o}", kUse:"Used on order №{o}", kRefund:"Order №{o} cancelled: returned", kClaw:"Order №{o} cancelled: cashback removed", kRef:"Invite a friend bonus", xsell:"Add to your order", favT:"Favorites", favEmpty:"No favorites yet. Tap ♡.", gate:"To open the shop, go back to the bot, press /start and share your phone number.", gateBtn:"Go to the bot", soldOut:"Sold out", search:"Search products", allModels:"All models", all:"All", none:"Nothing found. Try another model or category.",
     allPhones:"For all phones", choose:"Choose color", back:"Back", navHome:"Home", navCats:"Categories", navCart:"Cart", navProf:"Profile",
     newest:"New arrivals", allProd:"All products", cart:"Cart", total:"Total", yname:"Your name", yphone:"Your phone number",
     comment:"Address or note (optional)", order:"Place order", e1:"Enter your name.", e2:"Enter the full phone number.", e3:"Your cart is empty.",
@@ -563,7 +580,7 @@ function xsellHtml() {
     .sort((a, b) => (pct(b) > 0) - (pct(a) > 0) || a.price - b.price)
     .slice(0, 6);
   if (!list.length) return "";
-  return `<div class="xpanel"><h2>${esc(t("xsell"))}</h2><div class="xs">${list.map(p => `<div class="xc" data-open="${p.id}"><div class="xi">${thumb(p)}</div><div class="xn">${esc(tr(p.name))}</div><div class="xp">${money(p.price)}</div>${(p.colors || []).length ? "" : `<button type="button" class="plus xa" data-inc="${p.id}|" aria-label="+">+</button>`}</div>`).join("")}</div></div>`;
+  return `<div class="xpanel"><h2>${esc(t("xsell"))}</h2><div class="xs">${list.map(p => `<div class="xc" data-open="${p.id}"><div class="xi">${thumb(p)}</div><div class="xn">${esc(tr(p.name))}</div><div class="xp">${money(p.price)}</div>${((p.colors || []).length || (p.models || []).length > 1) ? "" : `<button type="button" class="plus xa" data-inc="${p.id}|${(p.models || []).length === 1 ? "|" + esc(p.models[0]) : ""}" aria-label="+">+</button>`}</div>`).join("")}</div></div>`;
 }
 const normCode = s => String(s || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 20);
 async function sha256hex(s) {
@@ -593,7 +610,8 @@ function loadCart() {
 function saveCart() { try { localStorage.setItem("cart", JSON.stringify(cart)); } catch (e) {} }
 let promo = { code: "", pct: 0 };
 let products = [], byId = {}, cart = loadCart(), view = "shop", loc = null;
-let st = { q: "", model: ALL, cat: ALL }, det = { id: 0, color: "" };
+let st = { q: "", model: ALL, cat: ALL }, det = { id: 0, color: "", model: "" };
+const mkDet = id => { const p = byId[id]; const ms = (p && p.models) || []; return { id: Number(id), color: "", model: ms.length === 1 ? ms[0] : "" }; };
 let prev = "shop";
 let dlv = "", pay = "", favOnly = false, favs = [], notified = [];
 try { favs = JSON.parse(localStorage.getItem("favs") || "[]"); notified = JSON.parse(localStorage.getItem("notified") || "[]"); } catch (e) {}
@@ -616,10 +634,19 @@ function renderBanners() {
 function fixImgs() {
   document.querySelectorAll(".pic img:not(.ld),.tp img:not(.ld),.lp img:not(.ld)").forEach(i => { if (i.complete) i.classList.add("ld"); });
 }
+const splashT0 = Date.now();
+let dataDone = false, meDone = false;
+function hideSplash() {
+  const s = document.getElementById("splash");
+  if (s) { s.classList.add("off"); setTimeout(() => { if (s.parentNode) s.remove(); }, 700); }
+}
+function trySplash() { if (dataDone && meDone) setTimeout(hideSplash, Math.max(0, 700 - (Date.now() - splashT0))); }
+setTimeout(hideSplash, 7000);
 fetch("products.json?t=" + Date.now(), { cache: "no-store" })
   .then(r => r.json())
   .then(d => { products = d; products.forEach(p => byId[p.id] = p); renderFilters(); refresh(); })
-  .catch(() => { $("list").innerHTML = '<p class="empty">' + esc(t("loadErr")) + "</p>"; });
+  .catch(() => { $("list").innerHTML = '<p class="empty">' + esc(t("loadErr")) + "</p>"; })
+  .finally(() => { dataDone = true; trySplash(); });
 
 function applyStatic() {
   document.documentElement.lang = lang;
@@ -668,7 +695,7 @@ const favBtn = p => { const on = favs.includes(p.id); return `<button type="butt
 const imgsOf = p => (p.imgs && p.imgs.length) ? p.imgs : (p.img ? [p.img] : []);
 const nBtn = p => { const done = notified.includes(p.id); return `<button type="button" class="nbtn" data-ncard="${p.id}"${done ? " disabled" : ""}>${esc(done ? t("notified") : t("notifyShort"))}</button>`; };
 function card(p) {
-  const hasC = (p.colors || []).length, key = p.id + "|";
+  const ms = p.models || [], hasC = (p.colors || []).length || ms.length > 1, key = p.id + (ms.length === 1 ? "||" + ms[0] : "|");
   const btn = p.sold_out ? `<button type="button" class="plus off" data-open="${p.id}" aria-label="${esc(t("soldOut"))}">+</button>`
     : hasC ? `<button type="button" class="plus" data-open="${p.id}" aria-label="${esc(t("choose"))}">+</button>`
     : `<button type="button" class="plus" data-inc="${key}" aria-label="+">${cart[key] ? cart[key].qty : "+"}</button>`;
@@ -716,7 +743,7 @@ function renderCart() {
   $("lines").innerHTML = items.length ? items.map(([key, e]) => {
     const p = byId[e.id];
     return `<div class="line"><div class="lp">${thumb(p)}</div>
-      <div class="nm">${esc(tr(p.name))}${e.color ? " · " + esc(colorLabel(p, e.color)) : ""}<div class="meta">${money(p.price)}${p.sold_out ? ` <span style="color:var(--bad)">· ${esc(t("soldOut"))}</span>` : ""}</div></div>${stepper(key)}</div>`;
+      <div class="nm">${esc(tr(p.name))}${e.color ? " · " + esc(colorLabel(p, e.color)) : ""}${e.model ? " · " + esc(e.model) : ""}<div class="meta">${money(p.price)}${p.sold_out ? ` <span style="color:var(--bad)">· ${esc(t("soldOut"))}</span>` : ""}</div></div>${stepper(key)}</div>`;
   }).join("") : '<p class="empty">' + esc(t("empty")) + "</p>";
   $("cartBox").classList.toggle("hidden", !items.length);
   const viaBot = tg && !viaKeyboard();
@@ -814,8 +841,10 @@ function gotoImg(i) {
 function renderDetail() {
   const p = byId[det.id];
   if (!p) return showView("shop");
-  const cs = p.colors || [], key = p.id + "|" + det.color;
-  const inCart = (!cs.length || det.color) && cart[key];
+  const cs = p.colors || [], ms = p.models || [];
+  if (ms.length === 1 && !det.model) det.model = ms[0];
+  const key = p.id + "|" + det.color + (det.model ? "|" + det.model : "");
+  const inCart = (!cs.length || det.color) && (ms.length < 2 || det.model) && cart[key];
   const d = tr(p.desc);
   const imgs = imgsOf(p), gi = Math.min(det.i || 0, Math.max(imgs.length - 1, 0)), cur = imgs[gi];
   $("detail").innerHTML = `
@@ -830,14 +859,14 @@ function renderDetail() {
     </div>
     ${imgs.length > 1 ? `<div class="thumbs">${imgs.map((s, i) => `<button type="button" class="th" data-gi="${i}" aria-pressed="${i === gi}"><img src="${esc(s)}" alt="" loading="lazy"></button>`).join("")}</div>` : ""}
     <h1 class="pn">${esc(tr(p.name))}</h1>
-    ${cs.length ? `<h2>${esc(t("color"))}</h2><div class="colors">${cs.map(c => {
+    ${cs.length ? `<h2>${esc(t("color"))}</h2><div class="colors" id="dcolor">${cs.map(c => {
       const u = cuz(c), h = hexOf(u);
       return `<button type="button" class="pill" data-color="${esc(u)}" aria-pressed="${u === det.color}">${h ? `<i style="background:${h}"></i>` : ""}${esc(colorText(c))}</button>`;
     }).join("")}</div>` : ""}
+    ${ms.length ? `<h2>${esc(t("modelT"))}</h2><div class="colors" id="dmodel">${ms.map(m => `<button type="button" class="pill" data-pm="${esc(m)}" aria-pressed="${m === det.model}">${esc(m)}</button>`).join("")}</div>` : ""}
     <div id="derr" class="err" role="alert"></div>
     ${d ? `<h2>${esc(t("desc"))}</h2><p class="desc">${esc(d)}</p>` : ""}
-    <h2>${esc(t("models"))}</h2>
-    <p class="desc">${(p.models || []).length ? esc(p.models.join(", ")) : esc(t("allPhones"))}</p>
+    ${ms.length ? "" : `<h2>${esc(t("models"))}</h2><p class="desc">${esc(t("allPhones"))}</p>`}
     <div style="height:96px"></div>
     <div class="dock"><div class="dp${pct(p) ? " dc" : ""}">${pct(p) ? `<s>${money(p.old_price)}</s>` : ""}${money(p.price)}</div>${p.sold_out ? `<button type="button" class="send" data-notify="1"${notified.includes(p.id) ? " disabled" : ""}>${esc(notified.includes(p.id) ? t("notified") : t("notify"))}</button>` : inCart ? stepper(key) : `<button type="button" class="send" data-addd="1">${esc(t("toCart"))}</button>`}</div>`;
 }
@@ -861,8 +890,8 @@ function refresh() {
   else renderDetail();
 }
 function change(key, d) {
-  const [id, ...c] = key.split("|");
-  const e = cart[key] || (cart[key] = { id: Number(id), color: c.join("|"), qty: 0 });
+  const [id, color = "", model = ""] = key.split("|");
+  const e = cart[key] || (cart[key] = { id: Number(id), color, model, qty: 0 });
   e.qty += d;
   if (e.qty <= 0) delete cart[key];
   saveCart();
@@ -942,6 +971,13 @@ function renderOpts() {
   $("payNote").textContent = dlv === "yandex" ? t("payYandexNote") : "";
   $("yNote").classList.toggle("hidden", dlv !== "yandex");
 }
+function missingModel() {
+  for (const e of Object.values(cart)) {
+    const p = byId[e.id];
+    if (p && !p.sold_out && (p.models || []).length > 1 && !e.model) return tr(p.name);
+  }
+  return "";
+}
 let sending = false;
 function setSending(on) {
   sending = on;
@@ -949,8 +985,8 @@ function setSending(on) {
   b.disabled = on;
   b.textContent = on ? t("sending") : t("order");
 }
-function fail(msg, targetId) {
-  $("err").textContent = msg;
+function fail(msg, targetId, errId) {
+  $(errId || "err").textContent = msg;
   try { if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred("error"); } catch (x) {}
   const el = targetId ? $(targetId) : null;
   if (el) {
@@ -962,7 +998,8 @@ function fail(msg, targetId) {
 function sendViaBot() {
   const parts = Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => {
     const p = byId[x.id], ci = x.color ? (p.colors || []).findIndex(c => cuz(c) === x.color) : -1;
-    return `${x.id}-${x.qty}-${ci < 0 ? "x" : ci}`;
+    const mi = x.model ? (p.models || []).indexOf(x.model) : -1;
+    return `${x.id}-${x.qty}-${ci < 0 ? "x" : ci}${mi < 0 ? "" : "-" + mi}`;
   });
   if (!parts.length) return fail(t("e3"), "lines");
   const param = parts.join("_") + "_o" + (dlv === "yandex" ? "y" : "p") + (pay === "card" ? "k" : "c") + (promo.code ? "_p" + promo.code : "") + (calc().bUse > 0 ? "_b" : "");
@@ -1019,7 +1056,7 @@ document.addEventListener("click", e => {
   if ((m = g("[data-ncard]"))) { notifyMe(Number(m.dataset.ncard)); return; }
   if ((m = g("[data-inc]"))) change(m.dataset.inc, 1);
   else if ((m = g("[data-dec]"))) change(m.dataset.dec, -1);
-  else if ((m = g("[data-open]"))) { det = { id: Number(m.dataset.open), color: "" }; showView("detail"); }
+  else if ((m = g("[data-open]"))) { det = mkDet(m.dataset.open); showView("detail"); }
   else if ((m = g("[data-gnav]"))) gotoImg((det.i || 0) + Number(m.dataset.gnav));
   else if ((m = g("[data-gi]"))) gotoImg(Number(m.dataset.gi));
   else if (g("#promoBtn")) applyPromo();
@@ -1030,14 +1067,16 @@ document.addEventListener("click", e => {
   else if (g("[data-notify]")) notifyMe(det.id);
   else if (g("[data-favchip]")) { favOnly = !favOnly; if (favOnly) st.cat = ALL; renderFilters(); render(); }
   else if ((m = g("[data-color]"))) { det.color = m.dataset.color; renderDetail(); }
+  else if ((m = g("[data-pm]"))) { det.model = m.dataset.pm; renderDetail(); }
   else if (g("[data-addd]")) {
-    const p = byId[det.id];
-    if ((p.colors || []).length && !det.color) $("derr").textContent = t("pickColor");
-    else { change(det.id + "|" + det.color, 1); showView("shop"); toast(t("added")); }
+    const p = byId[det.id], ms = p.models || [];
+    if ((p.colors || []).length && !det.color) fail(t("pickColor"), "dcolor", "derr");
+    else if (ms.length > 1 && !det.model) fail(t("pickModel"), "dmodel", "derr");
+    else { change(det.id + "|" + det.color + (det.model ? "|" + det.model : ""), 1); showView("shop"); toast(t("added")); }
   }
   else if ((m = g("[data-bn]"))) {
     const b = banners[Number(m.dataset.bn)] || {};
-    if (b.id && byId[b.id]) { det = { id: Number(b.id), color: "" }; showView("detail"); }
+    if (b.id && byId[b.id]) { det = mkDet(b.id); showView("detail"); }
     else if (b.cat) { st = { q: "", model: ALL, cat: b.cat }; $("q").value = ""; renderFilters(); showView("shop"); }
   }
   else if (g("#locBtn")) askLoc();
@@ -1069,6 +1108,8 @@ $("pform").addEventListener("submit", e => {
 $("form").addEventListener("submit", e => {
   e.preventDefault();
   if (sending) return;
+  const mm = missingModel();
+  if (mm) return fail(t("needModelCart") + " " + mm, "lines");
   const name = $("cname").value.trim(), phone = $("cphone").value.trim();
   if (!dlv) return fail(t("e6"), "dlvOpts");
   if (!pay) return fail(t("e7"), "payBox");
@@ -1081,7 +1122,7 @@ $("form").addEventListener("submit", e => {
   $("err").textContent = "";
   const order = {
     name: REG ? "" : name, phone: REG ? "" : phone, comment: $("ccomment").value.trim(), location: REG ? null : loc, total: sum, delivery: dlv, pay, promo: promo.code, bonus: calc().bUse > 0,
-    items: Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => ({ id: x.id, color: x.color, qty: x.qty }))
+    items: Object.values(cart).filter(x => byId[x.id] && !byId[x.id].sold_out).map(x => ({ id: x.id, color: x.color, model: x.model || "", qty: x.qty }))
   };
   if (tg) { setSending(true); clearCart(); tg.sendData(JSON.stringify(order)); }
   else alert(t("outside") + "\n" + JSON.stringify(order, null, 2));
@@ -1151,6 +1192,7 @@ function showGate() {
   if (REG) { try { localStorage.setItem("reg", "1"); } catch (e) {} }
   await loadMe();
   if (!REG) showGate(); else refresh();
+  meDone = true; trySplash();
 })();
 </script>
 </body>
